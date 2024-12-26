@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
+import { useNavigate } from "react-router-dom";
 
 export default function Signup() {
   const [email, setEmail] = useState<string>("");
@@ -8,6 +9,7 @@ export default function Signup() {
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleSignup = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -20,6 +22,8 @@ export default function Signup() {
       setSuccess("Signup successful! Please log in.");
       setEmail("");
       setPassword("");
+      setConfirmPassword("");
+      navigate("/");
     } catch (error: any) {
         if (error.code === "auth/email-already-in-use") {
             setError("Email already in use. Please try another email.");

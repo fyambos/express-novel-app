@@ -1,17 +1,22 @@
 import React, { useState } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../firebase";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
       console.log("Login successful!");
+      setEmail("");
+      setPassword("");
+      navigate("/");
     } catch (error: any) {
         console.error("Error during login:", error.code, error.message);
         if (error.code === "auth/invalid-credential") {
