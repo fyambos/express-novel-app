@@ -6,12 +6,11 @@ import { useAuth } from '../../hooks/useAuth';
 const StoryCreation = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const [genres, setGenres] = useState<string[]>([]);
   const userId = useAuth();
 
   const onSubmit = async (data: any) => {
     try {
-      const { title, summary, genres, rating, tags } = data;
+      const { title, summary, rating, tags } = data;
       console.log('data:', data);
       console.log('userId:', userId.uid);
       const response = await fetch('http://localhost:5000/api/create', {
@@ -30,15 +29,6 @@ const StoryCreation = () => {
       navigate(`/stories/${story._id}`);
     } catch (error) {
       console.error('Error creating story:', error);
-    }
-  };
-
-  const handleGenreChange = (event: any) => {
-    const { value, checked } = event.target;
-    if (checked) {
-      setGenres([...genres, value]);
-    } else {
-      setGenres(genres.filter((genre) => genre !== value));
     }
   };
 
@@ -73,34 +63,6 @@ const StoryCreation = () => {
             <span className="text-red-500 dark:text-red-400">Summary is required</span>
           )}
         </div>
-
-        <div className="mb-4">
-          <label htmlFor="genres" className="block text-sm font-medium text-gray-700 dark:text-gray-400">
-            Genres
-          </label>
-          <div className="mt-1 space-y-2">
-            <input 
-              type="checkbox" 
-              id="genre1" 
-              value="Fantasy" 
-              checked={genres.includes('Fantasy')} 
-              onChange={handleGenreChange} 
-              className="mr-2" 
-            />
-            <label htmlFor="genre1" className="text-gray-700 dark:text-gray-400">Fantasy</label>
-
-            <input 
-              type="checkbox" 
-              id="genre2" 
-              value="Science Fiction" 
-              checked={genres.includes('Science Fiction')} 
-              onChange={handleGenreChange} 
-              className="mr-2" 
-            />
-            <label htmlFor="genre2" className="text-gray-700 dark:text-gray-400">Science Fiction</label>
-          </div>
-        </div>
-
         <div className="mb-4">
           <label htmlFor="rating" className="block text-sm font-medium text-gray-700 dark:text-gray-400">
             Rating

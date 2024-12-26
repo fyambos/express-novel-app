@@ -42,21 +42,12 @@ const StoryDetails = () => {
       <h3 className="text-xl font-semibold mb-2">Summary:</h3>
       <p className="text-lg mb-4">{story.summary}</p>
 
-      <div className="flex flex-col space-y-2">
-        <h3 className="text-xl font-semibold">Genres:</h3>
-        <ul className="list-disc ml-4">
-          {story.genres.map((genre) => (
-            <li key={genre}>{genre}</li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="flex flex-col space-y-2">
+      <div className="flex flex-col space-y-2 pb-4">
         <h3 className="text-xl font-semibold">Rating:</h3>
         <p>{story.rating}</p>
       </div>
 
-      <div className="flex flex-col space-y-2">
+      <div className="flex flex-col space-y-2 pb-4">
         <h3 className="text-xl font-semibold">Tags:</h3>
         <ul className="list-disc ml-4">
           {story.tags.map((tag) => (
