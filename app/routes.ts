@@ -9,5 +9,9 @@ export default [
   {
     path: "/signup",
     file: "routes/signup.tsx"
+  },
+  {
+    path: "/create-story",
+    file: "components/storyCreation.tsx"
   }
 ] satisfies RouteConfig;
