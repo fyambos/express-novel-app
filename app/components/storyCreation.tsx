@@ -10,7 +10,7 @@ const StoryCreation = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      const response = await fetch('http://localhost:5000/api/stories', { 
+      const response = await fetch('http://localhost:5000/api/create', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

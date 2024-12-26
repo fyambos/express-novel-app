@@ -17,7 +17,7 @@ app.use(cors());
 
 app.use(express.json());
 
-app.post('/api/stories', async (req, res) => {
+app.post('/api/create', async (req, res) => {
   const { title, summary, genres, rating, tags } = req.body;
   try {
     const newStory = new Story({
@@ -33,6 +33,22 @@ app.post('/api/stories', async (req, res) => {
     console.error(err);
     res.status(500).json({ message: 'Error creating story' });
   }
+});
+
+app.get('/api/stories/:id', async (req, res) => {
+    try {
+        const storyId = req.params.id;
+        const story = await Story.findById(storyId);
+
+        if (!story) {
+            return res.status(404).json({ message: 'Story not found' });
+        }
+
+        res.json(story);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Error fetching story' });
+    }
 });
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));
