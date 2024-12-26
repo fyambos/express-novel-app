@@ -12,10 +12,6 @@ export function meta({}: Route.MetaArgs) {
 export default function Home() {
   const user = useAuth();
 
-  useEffect(() => {
-    console.log("Current user:", user);
-  }, [user]);
-
   const handleClick = () => {
     console.log("ok");
   };

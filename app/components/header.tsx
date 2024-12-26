@@ -1,15 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase';
 import { useAuth } from '../hooks/useAuth';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,57 +11,65 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
 import { User } from 'lucide-react';
+import { Moon, Sun } from 'lucide-react';
 
 const Header = () => {
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const user = useAuth();
   const navigate = useNavigate();
-  const [isModalOpen, setIsModalOpen] = React.useState(false);
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      setIsModalOpen(false);
       navigate('/');
     } catch (error) {
       console.error('Error signing out:', error);
     }
   };
 
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode);
+    document.body.classList.toggle('dark');
+  };
+
   return (
-    <header className="bg-white dark:bg-gray-900 shadow-md">
+    <header
+      className={`bg-white dark:bg-gray-900 shadow-md ${isDarkMode ? 'dark' : ''}`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0">
             <a href="/" className="text-2xl font-bold text-gray-800 dark:text-white">
-              Your Logo
+              Novel App
             </a>
           </div>
 
           <div className="flex items-center gap-4">
+            <button
+              onClick={toggleDarkMode}
+              className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white dark:focus:ring-gray-600 rounded-full p-2"
+            >
+              {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
             {user ? (
-              <Dialog open={isModalOpen} onOpenChange={setIsModalOpen} direction="end"> 
-                <DialogTrigger asChild>
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="flex items-center gap-2">
                     <User className="h-5 w-5" />
                     <span className="hidden sm:inline">Account</span>
                   </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-md p-6"> 
-                  <DialogHeader>
-                    <DialogTitle>Account Details</DialogTitle>
-                  </DialogHeader>
-                  <div className="space-y-4 py-4">
-                    <div>
-                      <p className="text-gray-600 dark:text-gray-300">
-                        Logged in as: <span className="font-medium">{user.email}</span>
-                      </p>
-                    </div>
-                    <Button variant="destructive" onClick={handleLogout} className="w-full">
-                      Log Out
-                    </Button>
-                  </div>
-                </DialogContent>
-              </Dialog>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48 bg-white dark:bg-gray-800 rounded-md shadow-sm">
+                  <DropdownMenuItem className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <p className="text-gray-600 dark:text-gray-300">
+                      Logged in as: <span className="font-medium">{user.email}</span>
+                    </p>
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleLogout} className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                    Log Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
             ) : (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -77,11 +78,11 @@ const Header = () => {
                     <span className="hidden sm:inline">Account</span>
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
-                  <DropdownMenuItem onClick={() => navigate('/login')}>
+                <DropdownMenuContent align="end" className="w-48 bg-white dark:bg-gray-800 rounded-md shadow-sm">
+                  <DropdownMenuItem onClick={() => navigate('/login')} className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
                     Login
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => navigate('/signup')}>
+                  <DropdownMenuItem onClick={() => navigate('/signup')} className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
                     Sign Up
                   </DropdownMenuItem>
                 </DropdownMenuContent>
