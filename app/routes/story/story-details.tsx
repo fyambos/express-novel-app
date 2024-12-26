@@ -16,7 +16,8 @@ const StoryDetails = () => {
         const response = await fetch(`http://localhost:5000/api/stories/${storyId}`);
         if (response.ok) {
           const data = await response.json();
-          setStory(data);
+          const author = await fetchAuthor(data.author);
+          setStory({ ...data, author: author });
         } else {
           navigate('/not-found');
         }
@@ -36,10 +37,12 @@ const StoryDetails = () => {
     );
   }
 
+  const isAuthor = user?.uid === story.author.id; 
 
   return (
     <div className="container mx-auto p-4 text-center"> 
       <h1 className="text-3xl font-bold mb-4">{story.title}</h1>
+      <h3 className="text-xl font-semibold mb-2">Author: {story.author.username }</h3> {/* Display username */}
       <h3 className="text-xl font-semibold mb-2">Summary:</h3>
       <p className="text-lg mb-4">{story.summary}</p>
 
@@ -56,8 +59,32 @@ const StoryDetails = () => {
           ))}
         </ul>
       </div>
+      {isAuthor && (
+        <button
+          className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+          onClick={() => navigate(`/stories/${story._id}/edit`)} 
+        >
+          Edit Story
+        </button>
+      )}
     </div>
   );
+};
+
+const fetchAuthor = async (authorId: string) => {
+  try {
+    const response = await fetch(`http://localhost:5000/api/users/${authorId}`);
+    if (response.ok) {
+      const data = await response.json();
+      return data;
+    } else {
+      console.error('The api did not return a valid response');
+      return '';
+    }
+  } catch (error) {
+    console.error('Error fetching username:', error);
+    return '';
+  }
 };
 
 export default StoryDetails;

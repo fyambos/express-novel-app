@@ -74,4 +74,19 @@ app.post('/api/signup', async (req, res) => {
     }
   });
 
+  app.get('/api/users/:id', async (req, res) => {
+    try {
+      const userId = req.params.id;
+      const user = await User.findOne({ id: userId });
+  
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      res.json(user);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error fetching user' });
+    }
+  });
+
 app.listen(port, () => console.log(`Server listening on port ${port}`));

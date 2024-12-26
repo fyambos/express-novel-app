@@ -7,6 +7,7 @@ const StoryCreation = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm();
   const user = useAuth();
+  
 
   const onSubmit = async (data: any) => {
     try {
