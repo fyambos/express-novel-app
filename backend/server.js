@@ -18,7 +18,7 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/api/create', async (req, res) => {
-  const { title, summary, genres, rating, tags } = req.body;
+  const { title, summary, genres, rating, tags, author } = req.body;
   try {
     const newStory = new Story({
       title,
@@ -26,6 +26,7 @@ app.post('/api/create', async (req, res) => {
       genres,
       rating,
       tags,
+      author: author,
     });
     const savedStory = await newStory.save();
     res.json(savedStory);

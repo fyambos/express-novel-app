@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import type { Story } from '../types/story';
+import type { Story } from '../../types/story';
 import { useNavigate } from 'react-router-dom';
 
 const StoryDetails = () => {
@@ -25,7 +25,7 @@ const StoryDetails = () => {
     };
 
     fetchStory();
-  }, [storyId, navigate]); // Add navigate to the dependency array
+  }, [storyId, navigate]);
 
   if (!story) {
     return (

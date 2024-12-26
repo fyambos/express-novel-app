@@ -12,10 +12,10 @@ export default [
   },
   {
     path: "/create-story",
-    file: "components/storyCreation.tsx"
+    file: "routes/story/story-creation.tsx"
   },
   {
     path: "/stories/:storyId", 
-    file: "routes/storyDetails.tsx" 
+    file: "routes/story/story-details.tsx" 
   }
 ] satisfies RouteConfig;

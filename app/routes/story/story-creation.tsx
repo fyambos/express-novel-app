@@ -1,29 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useForm } from 'react-hook-form'; 
+import { useForm } from 'react-hook-form';
+import { useAuth } from '../../hooks/useAuth';
 
 const StoryCreation = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm();
-
   const [genres, setGenres] = useState<string[]>([]);
+  const userId = useAuth();
 
   const onSubmit = async (data: any) => {
     try {
-      const response = await fetch('http://localhost:5000/api/create', { 
+      const { title, summary, genres, rating, tags } = data;
+      console.log('data:', data);
+      console.log('userId:', userId.uid);
+      const response = await fetch('http://localhost:5000/api/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, author: userId.uid }),
       });
-  
+
       if (!response.ok) {
-        throw new Error(`Error creating story: ${response.statusText}`); 
+        throw new Error(`Error creating story: ${response.statusText}`);
       }
-  
+
       const story = await response.json();
-      navigate(`/stories/${story._id}`); 
+      navigate(`/stories/${story._id}`);
     } catch (error) {
       console.error('Error creating story:', error);
     }
