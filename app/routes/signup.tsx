@@ -81,6 +81,11 @@ export default function Signup() {
               {error}
             </div>
           )}
+          {success && (
+            <div className="text-green-500 text-center mt-2">
+            {success}
+            </div>
+          )}
           <button
             type="submit"
             className="w-full py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500"

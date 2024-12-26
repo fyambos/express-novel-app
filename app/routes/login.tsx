@@ -7,13 +7,14 @@ export default function Login() {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [error, setError] = useState<string>("");
+  const [success, setSuccess] = useState<string>("");
   const navigate = useNavigate();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      console.log("Login successful!");
+      setSuccess("Login successful!");
       setEmail("");
       setPassword("");
       navigate("/");
@@ -57,6 +58,11 @@ export default function Login() {
           {error && (
             <div className="text-red-500 text-center mt-2">
               {error}
+            </div>
+          )}
+          {success && (
+            <div className="text-green-500 text-center mt-2">
+            {success}
             </div>
           )}
           <button
