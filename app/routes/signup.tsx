@@ -18,7 +18,19 @@ export default function Signup() {
         return;
     }
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const uid = userCredential.user.uid;
+      const response = await fetch("http://localhost:5000/api/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ uid, email }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Server error occurred during sign-up.");
+      }
       setSuccess("Signup successful! Please log in.");
       setEmail("");
       setPassword("");

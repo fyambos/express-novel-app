@@ -6,19 +6,17 @@ import { useAuth } from '../../hooks/useAuth';
 const StoryCreation = () => {
   const navigate = useNavigate();
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const userId = useAuth();
+  const user = useAuth();
 
   const onSubmit = async (data: any) => {
     try {
       const { title, summary, rating, tags } = data;
-      console.log('data:', data);
-      console.log('userId:', userId.uid);
       const response = await fetch('http://localhost:5000/api/create', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ ...data, author: userId.uid }),
+        body: JSON.stringify({ ...data, author: user.uid }),
       });
 
       if (!response.ok) {

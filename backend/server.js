@@ -2,6 +2,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import { Story } from './models/story.js'; 
+import { User } from './models/user.js'; 
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -18,12 +19,12 @@ app.use(cors());
 app.use(express.json());
 
 app.post('/api/create', async (req, res) => {
-  const { title, summary, genres, rating, tags, author } = req.body;
+  const { title, summary, rating, author } = req.body;
+  const tags = req.body.tags.split(", ")
   try {
     const newStory = new Story({
       title,
       summary,
-      genres,
       rating,
       tags,
       author: author,
@@ -51,5 +52,26 @@ app.get('/api/stories/:id', async (req, res) => {
         res.status(500).json({ message: 'Error fetching story' });
     }
 });
+
+app.post('/api/signup', async (req, res) => {
+    try {
+      const { uid, email } = req.body;
+  
+      const username = email.split('@')[0];
+  
+      const newUser = new User({
+        id: uid, 
+        username, 
+        email, 
+      });
+  
+      await newUser.save();
+  
+      res.status(201).json({ message: 'User created successfully' });
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error creating user' });
+    }
+  });
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));

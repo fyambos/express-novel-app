@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import type { Story } from '../../types/story';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../hooks/useAuth';
 
 const StoryDetails = () => {
   const { storyId } = useParams();
   const [story, setStory] = useState<Story | null>(null);
   const navigate = useNavigate();
+  const user = useAuth();
 
   useEffect(() => {
     const fetchStory = async () => {
@@ -17,7 +19,6 @@ const StoryDetails = () => {
           setStory(data);
         } else {
           navigate('/not-found');
-          console.error('Error fetching story:', response.statusText);
         }
       } catch (error) {
         console.error('Error fetching story:', error);

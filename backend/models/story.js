@@ -9,9 +9,6 @@ const storySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  genres: {
-    type: [String],
-  },
   rating: {
     type: String,
     required: true,
@@ -24,7 +21,7 @@ const storySchema = new mongoose.Schema({
     default: Date.now,
   },
   author: {
-    type: [String],
+    type: String,
     required: true,
   },
 });
