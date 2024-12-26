@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import type { Story } from '../types/story';
+import { useNavigate } from 'react-router-dom';
 
 const StoryDetails = () => {
   const { storyId } = useParams();
-
   const [story, setStory] = useState<Story | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchStory = async () => {
@@ -15,6 +16,7 @@ const StoryDetails = () => {
           const data = await response.json();
           setStory(data);
         } else {
+          navigate('/not-found');
           console.error('Error fetching story:', response.statusText);
         }
       } catch (error) {
@@ -23,7 +25,7 @@ const StoryDetails = () => {
     };
 
     fetchStory();
-  }, [storyId]);
+  }, [storyId, navigate]); // Add navigate to the dependency array
 
   if (!story) {
     return (
@@ -32,6 +34,7 @@ const StoryDetails = () => {
       </div>
     );
   }
+
 
   return (
     <div className="container mx-auto p-4 text-center"> 
