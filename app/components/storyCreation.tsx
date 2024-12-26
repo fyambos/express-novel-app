@@ -10,19 +10,20 @@ const StoryCreation = () => {
 
   const onSubmit = async (data: any) => {
     try {
-      const response = await fetch('/api/stories', {
+      const response = await fetch('http://localhost:5000/api/stories', { 
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
       });
-
-      if (response.ok) {
-        navigate('/story:id');
-      } else {
-        console.error('Error creating story:', response.statusText);
+  
+      if (!response.ok) {
+        throw new Error(`Error creating story: ${response.statusText}`); 
       }
+  
+      const story = await response.json();
+      navigate(`/stories/${story._id}`); 
     } catch (error) {
       console.error('Error creating story:', error);
     }
