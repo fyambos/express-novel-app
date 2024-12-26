@@ -1,13 +1,22 @@
 import type { Route } from "./+types/home";
-import { Welcome } from "../welcome/welcome";
 
 export function meta({}: Route.MetaArgs) {
   return [
-    { title: "New React Router App" },
-    { name: "description", content: "Welcome to React Router!" },
+    { title: "Home" },
+    { name: "description", content: "Welcome to the Home page!" },
   ];
 }
 
 export default function Home() {
-  return <Welcome />;
+  const handleClick = () => {
+    console.log("ok");
+  };
+
+  return (
+    <div style={{ textAlign: "center", marginTop: "50px" }}>
+      <button onClick={handleClick} style={{ padding: "10px 20px", fontSize: "16px" }}>
+        Click Me
+      </button>
+    </div>
+  );
 }
