@@ -4,7 +4,6 @@ import { StoryService } from 'src/app/services/story.service';
 import { Auth, onAuthStateChanged, User } from '@angular/fire/auth';
 import { MatDialog } from '@angular/material/dialog';
 import { StoryDialogComponent } from '../../components/story-dialog/story-dialog.component';
-import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-story-details',
@@ -20,7 +19,6 @@ export class StoryDetailsComponent implements OnInit {
     private router: Router,
     private auth: Auth,
     private dialog: MatDialog,
-    private userService: UserService,
   ) {}
 
   async ngOnInit() {

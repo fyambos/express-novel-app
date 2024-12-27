@@ -48,9 +48,18 @@ export class StoryService {
 
   async getAllStories() {
     try {
-      return await lastValueFrom(this.http.get<any[]>(`${this.apiUrl}/stories`));
+      const stories = await lastValueFrom(this.http.get<any[]>(`${this.apiUrl}/stories`));
+
+      const storiesWithAuthors = await Promise.all(
+        stories.map(async (story) => {
+          const author = await this.userService.fetchUser(story.author);
+          return { ...story, author };
+        })
+      );
+
+      return storiesWithAuthors;
     } catch (error) {
-      console.error('Error fetching stories:', error);
+      console.error('Error fetching stories and authors:', error);
       throw error;
     }
   }
