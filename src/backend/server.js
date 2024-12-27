@@ -78,16 +78,23 @@ app.post('/api/signup', async (req, res) => {
     try {
       const userId = req.params.id;
       const user = await User.findOne({ id: userId });
-  
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
-      res.json(user);
+      const stories = await Story.find({ author: userId });
+      const userObj = user.toObject();
+      if (stories.length > 0) {
+        userObj.role = 'Writer';
+      } else {
+        userObj.role = 'Reader';
+      }
+      res.json(userObj);
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: 'Error fetching user' });
     }
   });
+  
 
   app.put('/api/users/:id', async (req, res) => {
     const userId = req.params.id;
