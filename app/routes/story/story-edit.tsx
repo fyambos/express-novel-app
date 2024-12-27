@@ -5,11 +5,9 @@ import { useAuth } from '../../hooks/useAuth';
 
 const StoryEdit = () => {
   const navigate = useNavigate();
-  const { storyId } = useParams(); // Get story ID from URL params
+  const { storyId } = useParams();
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
-  const user = useAuth(); // Current user info
-
-  // State to handle the story data
+  const user = useAuth();
   const [story, setStory] = useState<any>(null);
 
   useEffect(() => {
@@ -18,8 +16,6 @@ const StoryEdit = () => {
         const response = await fetch(`http://localhost:5000/api/stories/${storyId}`);
         const data = await response.json();
         setStory(data);
-
-        // Pre-fill the form fields using the fetched data
         setValue("title", data.title);
         setValue("summary", data.summary);
         setValue("rating", data.rating);
@@ -51,14 +47,24 @@ const StoryEdit = () => {
       }
 
       const updatedStory = await response.json();
-      navigate(`/stories/${updatedStory._id}`); // Redirect to the updated story's page
+      navigate(`/stories/${updatedStory._id}`);
     } catch (error) {
       console.error('Error updating story:', error);
     }
   };
 
   if (!story) {
-    return <div>Loading...</div>; // Show loading state while fetching the story
+    return (
+        
+      <div className="flex justify-center h-screen bg-gray-100 pt-4 dark:bg-gray-800">
+      <div className="flex flex-col items-center w-full max-w-lg space-y-4 animate-pulse">
+        <div className="w-full h-12 bg-gray-300 rounded dark:bg-gray-700"></div>
+        <div className="w-full h-48 bg-gray-300 rounded-lg dark:bg-gray-700"></div>
+        <div className="w-full h-4 bg-gray-300 rounded dark:bg-gray-700"></div>
+        <div className="w-full h-4 bg-gray-300 rounded dark:bg-gray-700"></div>
+      </div>
+    </div>
+    );
   }
 
   return (
