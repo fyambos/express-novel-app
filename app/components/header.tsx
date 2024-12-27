@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { signOut } from 'firebase/auth';
 import { auth } from '../../firebase';
@@ -27,9 +27,40 @@ const Header = () => {
     }
   };
 
-  const toggleDarkMode = () => {
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme) {
+      const isDark = savedTheme === 'dark';
+      setIsDarkMode(isDark);
+      document.body.classList.toggle('dark', isDark);
+    }
+
+    if (user?.theme) {
+      const isDark = user.theme === 'dark';
+      setIsDarkMode(isDark);
+      document.body.classList.toggle('dark', isDark);
+      // Save user preference to localStorage
+      localStorage.setItem('theme', user.theme);
+    }
+  }, [user]);
+
+  const toggleDarkMode = async () => {
+    const newTheme = isDarkMode ? 'light' : 'dark';
     setIsDarkMode(!isDarkMode);
     document.body.classList.toggle('dark');
+    if (user) {
+      await fetch(`http://localhost:5000/api/users/${user.uid}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ theme: newTheme }),
+      });
+    }
+    localStorage.setItem('theme', newTheme);
+    if (newTheme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
   };
 
   return (

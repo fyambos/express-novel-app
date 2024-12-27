@@ -8,16 +8,22 @@ const userSchema = new mongoose.Schema({
   }, 
   username: { 
     type: String, 
-    required: true 
+    required: true,
+    unique: true
   },
   email: { 
     type: String, 
-    required: true 
+    required: true,
+    unique: true
   },
   bio: { 
     type: String, 
     default: "This user has not provided a bio yet" 
-  }
+  },
+  theme: { 
+    type: String, 
+    default: "dark" 
+  },
 });
 
 export const User = mongoose.model('User', userSchema);

@@ -89,4 +89,27 @@ app.post('/api/signup', async (req, res) => {
     }
   });
 
+  app.put('/api/users/:id', async (req, res) => {
+    const userId = req.params.id;
+    const { username, bio, theme } = req.body;
+    
+    try {
+      const updatedUser = await User.findOneAndUpdate(
+        { id: userId },
+        { username, bio, theme },
+        { new: true }
+      );
+  
+      if (!updatedUser) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      res.json(updatedUser);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error updating user information' });
+    }
+  });
+  
+
 app.listen(port, () => console.log(`Server listening on port ${port}`));
