@@ -5,6 +5,7 @@ import { User } from 'firebase/auth';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { StoryDialogComponent } from '../story-dialog/story-dialog.component';
+import { UserService } from '../../services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -20,19 +21,42 @@ export class HeaderComponent implements OnInit {
     private auth: Auth,
     private router: Router,
     private dialog: MatDialog,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {
     this.auth.onAuthStateChanged(user => {
       this.user = user;
+      if (user) {
+        this.loadUserTheme(user.uid);
+      }
     });
   }
 
-  toggleDarkMode() {
-    this.isDarkMode = !this.isDarkMode;
-    document.body.classList.toggle('dark', this.isDarkMode);
+  loadUserTheme(userId: string) {
+    this.userService.fetchUser(userId).then(userData => {
+      this.isDarkMode = userData.theme === 'dark';
+      document.body.classList.toggle('dark', this.isDarkMode);
+    }).catch(error => {
+      console.error('Error loading user theme:', error);
+    });
   }
 
+  saveUserTheme(userId: string, theme: string) {
+    this.userService.saveUserTheme(userId, theme).then(() => {
+      console.log('User theme updated to:', theme);
+    }).catch(error => {
+      console.error('Error saving user theme:', error);
+    });
+  }
+
+toggleDarkMode() {
+  this.isDarkMode = !this.isDarkMode;
+  document.body.classList.toggle('dark', this.isDarkMode);
+  if (this.user) {
+    this.saveUserTheme(this.user.uid, this.isDarkMode ? 'dark' : 'light');
+  }
+}
   toggleDropdown() {
     this.dropdownOpen = !this.dropdownOpen;
   }

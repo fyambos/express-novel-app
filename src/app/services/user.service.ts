@@ -27,4 +27,16 @@ export class UserService {
       throw error;
     }
   }
+
+  async saveUserTheme(userId: string, theme: string) {
+    try {
+      const response = await lastValueFrom(
+        this.http.put(`${this.apiUrl}/users/${userId}`, { theme })
+      );
+      return response;
+    } catch (error) {
+      console.error('Error saving user theme:', error);
+      throw error;
+    }
+  }
 }
