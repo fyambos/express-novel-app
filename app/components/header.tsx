@@ -39,7 +39,6 @@ const Header = () => {
       const isDark = user.theme === 'dark';
       setIsDarkMode(isDark);
       document.body.classList.toggle('dark', isDark);
-      // Save user preference to localStorage
       localStorage.setItem('theme', user.theme);
     }
   }, [user]);
@@ -64,9 +63,7 @@ const Header = () => {
   };
 
   return (
-    <header
-      className={`bg-white dark:bg-gray-900 shadow-md ${isDarkMode ? 'dark' : ''}`}
-    >
+    <header className={`bg-white dark:bg-gray-900 shadow-md ${isDarkMode ? 'dark' : ''}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex-shrink-0">
@@ -76,31 +73,34 @@ const Header = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <button
-              onClick={toggleDarkMode}
-              className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white dark:focus:ring-gray-600 rounded-full p-2"
-            >
-              {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
-            </button>
+            <Button
+              variant="outline"
+              onClick={() => navigate('/create-story')}
+              className="hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white dark:focus:ring-gray-600"
+              >
+              Post
+            </Button>
             {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="flex items-center gap-2">
-                    <User className="h-5 w-5" />
-                    <span className="hidden sm:inline">Account</span>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48 bg-white dark:bg-gray-800 rounded-md shadow-sm">
-                  <DropdownMenuItem className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <p className="text-gray-600 dark:text-gray-300">
-                      Logged in as: <span className="font-medium">{user.email}</span>
-                    </p>
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={handleLogout} className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
-                    Log Out
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" className="flex items-center gap-2">
+                      <User className="h-5 w-5" />
+                      <span className="hidden sm:inline">Account</span>
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end" className="w-48 bg-white dark:bg-gray-800 rounded-md shadow-sm">
+                    <DropdownMenuItem className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                      <p className="text-gray-600 dark:text-gray-300">
+                        Logged in as: <span className="font-medium">{user.email}</span>
+                      </p>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={handleLogout} className="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700">
+                      Log Out
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </>
             ) : (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
@@ -119,6 +119,12 @@ const Header = () => {
                 </DropdownMenuContent>
               </DropdownMenu>
             )}
+            <button
+              onClick={toggleDarkMode}
+              className="flex items-center hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white dark:focus:ring-gray-600 rounded-full p-2"
+            >
+              {isDarkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+            </button>
           </div>
         </div>
       </div>
