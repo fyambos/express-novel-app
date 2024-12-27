@@ -12,6 +12,11 @@
       <textarea matInput [(ngModel)]="user.bio" name="bio"></textarea>
     </mat-form-field>
 
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Enter interests separated by commas</mat-label>
+      <input matInput [(ngModel)]="user.interestsString" name="interests" />
+    </mat-form-field>
+
     <div mat-dialog-actions>
       <button mat-button (click)="closeDialog()">Cancel</button>
       <button mat-button type="submit">Save</button>

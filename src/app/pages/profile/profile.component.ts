@@ -63,7 +63,10 @@ export class ProfileComponent implements OnInit {
     dialogRef.afterClosed().subscribe((updatedUser) => {
       if (updatedUser) {
         this.user = updatedUser;
-        this.userService.updateUser(this.user.id, this.user.username, this.user.bio).then(() => {
+        this.user.interests = updatedUser.interestsString
+        ? updatedUser.interestsString.split(',').map((s: string) => s.trim())
+        : [];
+        this.userService.updateUser(this.user.id, this.user.username, this.user.bio, this.user.interests).then(() => {
         }).catch(error => {
           console.error('Error saving user theme:', error);
         });

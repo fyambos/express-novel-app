@@ -40,10 +40,10 @@ export class UserService {
     }
   }
 
-  async updateUser(userId: string, username: string, bio: string) {
+  async updateUser(userId: string, username: string, bio: string, interests: string) {
     try {
       const response = await lastValueFrom(
-        this.http.put(`${this.apiUrl}/users/${userId}`, { username, bio })
+        this.http.put(`${this.apiUrl}/users/${userId}`, { username, bio, interests })
       );
       return response;
     } catch (error) {

@@ -23,15 +23,20 @@
         </div>
       
         <h2 class="text-xl font-semibold mb-2">Bio</h2>
-        <p class="text-gray-600">{{ user.bio }}</p>
+        <p class="text-gray-500">{{ user.bio }}</p>
       
         <h2 class="text-xl font-semibold mb-2">Interests</h2>
         <div class="flex flex-wrap gap-2">
-          <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded-md">Web Development</span>
-          <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded-md">JavaScript</span>
-          <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded-md">React</span>
-          <span class="bg-gray-200 text-gray-700 px-2 py-1 rounded-md">Angular</span>
+          <ng-container *ngIf="user.interests && user.interests.length > 0; else noInterests">
+            <span *ngFor="let interest of user.interests" class="bg-gray-200 text-gray-700 px-2 py-1 rounded-md">
+              {{ interest }}
+            </span>
+          </ng-container>
+          <ng-template #noInterests>
+            <p class="text-gray-500">No interests added yet.</p>
+          </ng-template>
         </div>
+
       </div>
   </div>
   

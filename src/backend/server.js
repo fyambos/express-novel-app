@@ -98,12 +98,12 @@ app.post('/api/signup', async (req, res) => {
 
   app.put('/api/users/:id', async (req, res) => {
     const userId = req.params.id;
-    const { username, bio, theme } = req.body;
+    const { username, bio, theme, interests } = req.body;
     
     try {
       const updatedUser = await User.findOneAndUpdate(
         { id: userId },
-        { username, bio, theme },
+        { username, bio, theme, interests },
         { new: true }
       );
   
