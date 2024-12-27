@@ -5,21 +5,27 @@
     ng new novel-app
     ```
 **Install angular material:**
-    ```
-    ng add @angular/material
-    ```
-    Make sure to include and enable animations
+
+```bash
+ng add @angular/material
+```
+> Make sure to include and enable animations
 ## Tailwind
 **Install tailwindcss with autoprefixer:**
+
     ```bash
     npm install -D tailwindcss postcss autoprefixer
     ```
 **After installation:**
+
     - Initialize tailwind:
+
     ```bash
     npx tailwind init
     ```
-    - Add the source paths to the tailwind.config.js
+
+    - Add the source paths to the tailwind.config.js:
+
     ```typescript
         /** @type {import('tailwindcss').Config} */
         module.exports = {
@@ -32,7 +38,9 @@
         plugins: [],
         }
     ```
+
     - Add tailwind styles to the src/styles.css:
+
     ```css
     /* You can add global styles to this file, and also import other style files */
     @tailwind base;
@@ -41,12 +49,14 @@
     html, body { height: 100%; }
     body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     ```
+
 ## Firebase Auth
 1. Install Firebase and AngularFire:
 
-    ```bash
-    npm install firebase @angular/fire@16
-    ```
+```bash
+npm install firebase @angular/fire@16
+```
+
 2. Configure Firebase
 
 - **Create a Firebase Project**:
@@ -103,3 +113,4 @@ import { environment } from 'src/environments/env.dev';
 })
 export class AppModule { }
 ```
+## MongoDB
