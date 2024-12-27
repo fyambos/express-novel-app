@@ -17,7 +17,7 @@ const userSchema = new mongoose.Schema({
   bio: { 
     type: String, 
     default: "This user has not provided a bio yet" 
-  },
+  }
 });
 
 export const User = mongoose.model('User', userSchema);

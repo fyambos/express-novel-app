@@ -31,9 +31,16 @@ const StoryDetails = () => {
 
   if (!story) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-lg">Loading...</p>
+      <div className="flex justify-center h-screen bg-gray-100 pt-4 dark:bg-gray-800">
+      <div className="flex flex-col items-center w-full max-w-lg space-y-4 animate-pulse">
+        <div className="w-full h-12 bg-gray-300 rounded dark:bg-gray-700"></div>
+        <div className="w-3/4 h-4 bg-gray-300 rounded dark:bg-gray-700"></div>
+        <div className="w-full h-48 bg-gray-300 rounded-lg dark:bg-gray-700"></div>
+        <div className="w-full h-4 bg-gray-300 rounded dark:bg-gray-700"></div>
+        <div className="w-full h-4 bg-gray-300 rounded dark:bg-gray-700"></div>
       </div>
+    </div>
+    
     );
   }
 
@@ -42,7 +49,7 @@ const StoryDetails = () => {
   return (
     <div className="container mx-auto p-4 text-center"> 
       <h1 className="text-3xl font-bold mb-4">{story.title}</h1>
-      <h3 className="text-xl font-semibold mb-2">Author: {story.author.username }</h3> {/* Display username */}
+      <h3 className="text-xl font-semibold mb-2">Author: {story.author.username }</h3>
       <h3 className="text-xl font-semibold mb-2">Summary:</h3>
       <p className="text-lg mb-4">{story.summary}</p>
 
