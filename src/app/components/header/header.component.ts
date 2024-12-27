@@ -25,6 +25,14 @@ export class HeaderComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    const storedTheme = localStorage.getItem('theme');
+    if (storedTheme === 'dark') {
+      this.isDarkMode = true;
+      document.body.classList.add('dark');
+    } else {
+      this.isDarkMode = false;
+      document.body.classList.remove('dark');
+    }
     this.auth.onAuthStateChanged(user => {
       this.user = user;
       if (user) {
@@ -35,8 +43,10 @@ export class HeaderComponent implements OnInit {
 
   loadUserTheme(userId: string) {
     this.userService.fetchUser(userId).then(userData => {
-      this.isDarkMode = userData.theme === 'dark';
-      document.body.classList.toggle('dark', this.isDarkMode);
+      if (!localStorage.getItem('theme')) {
+        this.isDarkMode = userData.theme === 'dark';
+        document.body.classList.toggle('dark', this.isDarkMode);
+      }
     }).catch(error => {
       console.error('Error loading user theme:', error);
     });
@@ -53,6 +63,7 @@ export class HeaderComponent implements OnInit {
 toggleDarkMode() {
   this.isDarkMode = !this.isDarkMode;
   document.body.classList.toggle('dark', this.isDarkMode);
+  localStorage.setItem('theme', this.isDarkMode ? 'dark' : 'light');
   if (this.user) {
     this.saveUserTheme(this.user.uid, this.isDarkMode ? 'dark' : 'light');
   }
