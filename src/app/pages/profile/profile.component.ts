@@ -15,6 +15,7 @@ export class ProfileComponent implements OnInit {
   isLoading: boolean = true;
   errorMessage: string = '';
   userIdFromParams: string | null = null;
+  isOwnProfile: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -30,16 +31,22 @@ export class ProfileComponent implements OnInit {
   }
   async fetchUserProfile() {
     try {
-      const currentUser = this.auth.currentUser;
-      if (currentUser) {
-        this.user = await this.userService.fetchUser(currentUser.uid);
-        this.isLoading = false;
-        if(!this.userIdFromParams) {
-          this.userIdFromParams = this.user.id;
+      this.auth.onAuthStateChanged(async (currentUser) => {
+        if (!currentUser) { //no user
+          this.isOwnProfile = false;
+        } else if (!this.userIdFromParams) {  //profile
+          this.isOwnProfile = true;
+          this.userIdFromParams = currentUser.uid; 
+        } else if (this.userIdFromParams === currentUser.uid) { //own profile
+          this.isOwnProfile = true;
+        } else { //other user profile
+          this.isOwnProfile = false;
         }
-      } else {
-        this.router.navigate(['/login']);
-      }
+        if (this.userIdFromParams) {
+          this.user = await this.userService.fetchUser(this.userIdFromParams);
+          this.isLoading = false;
+        }
+      });
     } catch (error) {
       this.errorMessage = 'Error fetching user profile. Please try again later.';
       this.isLoading = false;
@@ -48,7 +55,6 @@ export class ProfileComponent implements OnInit {
   }
 
   openEditDialog(): void {
-    // Open the dialog and pass the user data to prefill the form
     const dialogRef = this.dialog.open(EditProfileDialogComponent, {
       width: '400px',
       data: { user: this.user }
