@@ -18,28 +18,29 @@ export class AuthService {
         });
       })
       .catch((error) => {
-        this.snackBar.open(error.message, 'Close', {
+        this.snackBar.open((error as Error).message, 'Close', {
           duration: 3000,
           panelClass: ['error-snackbar'],
         });
       });
   }
 
-  signUp(email: string, password: string): Promise<any> {
-    return createUserWithEmailAndPassword(this.auth, email, password)
-      .then(async (userCredential) => {
-        const user: User = userCredential.user;
-        this.snackBar.open('Account created successfully!', 'Close', {
-          duration: 3000,
-          panelClass: ['success-snackbar'],
-        });
-      })
-      .catch((error) => {
-        this.snackBar.open(error.message, 'Close', {
-          duration: 3000,
-          panelClass: ['error-snackbar'],
-        });
+  async signUp(email: string, password: string): Promise<User | null> { 
+    try {
+      const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
+      const user: User = userCredential.user; 
+      this.snackBar.open('Account created successfully!', 'Close', {
+        duration: 3000,
+        panelClass: ['success-snackbar'],
       });
+      return user; 
+    } catch (error) {
+      this.snackBar.open((error as Error).message, 'Close', {
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+      });
+      throw error;
+    }
   }
 
   logout(): Promise<void> {

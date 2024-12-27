@@ -63,6 +63,7 @@ app.post('/api/signup', async (req, res) => {
         username, 
         email, 
       });
+      console.log(newUser);
   
       await newUser.save();
   

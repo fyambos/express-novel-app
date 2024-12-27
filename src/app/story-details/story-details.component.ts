@@ -4,6 +4,7 @@ import { StoryService } from 'src/app/services/story.service';
 import { Auth, onAuthStateChanged, User } from '@angular/fire/auth';
 import { MatDialog } from '@angular/material/dialog';
 import { StoryDialogComponent } from '../components/story-dialog/story-dialog.component';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-story-details',
@@ -19,6 +20,7 @@ export class StoryDetailsComponent implements OnInit {
     private router: Router,
     private auth: Auth,
     private dialog: MatDialog,
+    private userService: UserService,
   ) {}
 
   async ngOnInit() {
@@ -40,7 +42,7 @@ export class StoryDetailsComponent implements OnInit {
   async fetchStory(storyId: string) {
     try {
       const storyData = await this.storyService.getStoryById(storyId);
-      const authorData = await this.storyService.fetchUser(storyData.author);
+      const authorData = await this.userService.fetchUser(storyData.author);
 
       this.story = { ...storyData, author: authorData };
     } catch (error) {
