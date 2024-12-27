@@ -17,12 +17,14 @@ import { provideAuth, getAuth } from '@angular/fire/auth';
 import { environment } from 'src/environments/env.dev';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
+import { HeaderComponent } from './components/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     LoginComponent,
     SignupComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
