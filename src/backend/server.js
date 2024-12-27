@@ -133,4 +133,15 @@ app.post('/api/signup', async (req, res) => {
     }
   });
 
+  app.get('/api/stories', async (req, res) => {
+    try {
+      const stories = await Story.find();
+      res.json(stories);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error fetching stories' });
+    }
+  });
+  
+
 app.listen(port, () => console.log(`Server listening on port ${port}`));

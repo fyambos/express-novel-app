@@ -21,6 +21,7 @@ import { SignupComponent } from './components/signup/signup.component';
 import { HeaderComponent } from './components/header/header.component';
 import { StoryDialogComponent } from './components/story-dialog/story-dialog.component';
 import { StoryDetailsComponent } from './pages/story-details/story-details.component';
+import { HomeComponent } from './pages/home/home.component';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { StoryDetailsComponent } from './pages/story-details/story-details.compo
     HeaderComponent,
     StoryDialogComponent,
     StoryDetailsComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

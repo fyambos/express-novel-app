@@ -39,4 +39,13 @@ export class StoryService {
       throw error;
     }
   }
+
+  async getAllStories() {
+    try {
+      return await lastValueFrom(this.http.get<any[]>(`${this.apiUrl}/stories`));
+    } catch (error) {
+      console.error('Error fetching stories:', error);
+      throw error;
+    }
+  }
 }
