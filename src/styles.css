@@ -77,6 +77,12 @@
     border-radius: 5px;
     color: var(--accent-foreground)!important;
   }
+
+  .mat-mdc-dialog-surface {
+    background-color: var(--background)!important;
+    color: var(--background-foreground)!important;
+  }
+
   .mat-mdc-input-element {
     color: var(--accent-foreground)!important;
   }
@@ -88,4 +94,12 @@
 
   .mdc-notched-outline__notch{
     border-right: none;
+  }
+
+  .cdk-overlay-pane {
+    max-width: 100%!important;
+  }
+
+  .mat-dialog-content {
+    padding: 20px;
   }

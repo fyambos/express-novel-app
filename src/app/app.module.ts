@@ -18,6 +18,7 @@ import { environment } from 'src/environments/env.dev';
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { HeaderComponent } from './components/header/header.component';
+import { StoryDialogComponent } from './components/story-dialog/story-dialog.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { HeaderComponent } from './components/header/header.component';
     LoginComponent,
     SignupComponent,
     HeaderComponent,
+    StoryDialogComponent,
   ],
   imports: [
     BrowserModule,

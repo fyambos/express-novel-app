@@ -3,6 +3,8 @@ import { AuthService } from '../../services/auth.service';
 import { Auth } from '@angular/fire/auth';
 import { User } from 'firebase/auth';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { StoryDialogComponent } from '../story-dialog/story-dialog.component';
 
 @Component({
   selector: 'app-header',
@@ -17,6 +19,7 @@ export class HeaderComponent implements OnInit {
     private authService: AuthService,
     private auth: Auth,
     private router: Router,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -44,5 +47,19 @@ export class HeaderComponent implements OnInit {
 
   navigate(path: string) {
     this.router.navigate([path]);
+  }
+
+  openCreateModal() {
+    const dialogRef = this.dialog.open(StoryDialogComponent, {
+      width: '100vw',
+      height: '100vh',
+      data: null
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Story Created:', result);
+      }
+    });
   }
 }

@@ -1,0 +1,72 @@
+<div class="mat-dialog-content">
+  <h1 class="text-2xl font-bold mb-4 text-gray-800 dark:text-white">
+    {{ data?.id ? 'Edit Story' : 'Create New Story' }}
+  </h1>
+  <form (ngSubmit)="onSubmit()" class="space-y-6">
+    <div class="mb-4">
+      <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Title</label>
+      <input
+        type="text"
+        id="title"
+        [(ngModel)]="title"
+        name="title"
+        class="mt-1 p-2 w-full border rounded-md focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+        required
+      />
+    </div>
+
+    <div class="mb-4">
+      <label for="summary" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Summary</label>
+      <textarea
+        id="summary"
+        [(ngModel)]="summary"
+        name="summary"
+        rows="4"
+        class="mt-1 p-2 w-full border rounded-md focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+        required
+      ></textarea>
+    </div>
+
+    <div class="mb-4">
+      <label for="rating" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Rating</label>
+      <select
+        id="rating"
+        [(ngModel)]="rating"
+        name="rating"
+        class="mt-1 p-2 w-full border rounded-md focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+        required
+      >
+        <option value="">Select Rating</option>
+        <option value="General Audiences">General Audiences</option>
+        <option value="Teen">Teen</option>
+        <option value="Mature">Mature</option>
+      </select>
+    </div>
+
+    <div class="mb-4">
+      <label for="tags" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Tags</label>
+      <input
+        type="text"
+        id="tags"
+        [(ngModel)]="tags"
+        name="tags"
+        class="mt-1 p-2 w-full border rounded-md focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
+      />
+    </div>
+
+    <div class="text-center">
+      <button
+        type="submit"
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      >
+        {{ data?.id ? 'Save Story' : 'Create Story' }}
+      </button>
+    </div>
+  </form>
+</div>
+
+<div class="text-center mt-4">
+  <button (click)="closeDialog()" class="text-sm text-gray-600 dark:text-gray-400 hover:underline">
+    Cancel
+  </button>
+</div>
