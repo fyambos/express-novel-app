@@ -3,7 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { StoryService } from 'src/app/services/story.service';
 import { Auth, onAuthStateChanged, User } from '@angular/fire/auth';
 import { MatDialog } from '@angular/material/dialog';
-import { StoryDialogComponent } from '../components/story-dialog/story-dialog.component';
+import { StoryDialogComponent } from '../../components/story-dialog/story-dialog.component';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
