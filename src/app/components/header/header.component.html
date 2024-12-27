@@ -1,95 +1,66 @@
-<header
-  [ngClass]="{'bg-white dark:bg-gray-900 shadow-md': true, 'dark': isDarkMode}"
->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex justify-between items-center h-16">
-      <!-- Logo Section -->
+<mat-toolbar class="bg-white dark:bg-gray-900 shadow-md">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full flex justify-between items-center">
       <div class="flex-shrink-0">
         <a href="/" class="text-2xl font-bold text-gray-800 dark:text-white">
           Novel App
         </a>
       </div>
-
-      <!-- Action Buttons -->
       <div class="flex items-center gap-4">
-        <!-- Post Button -->
         <button
+          mat-button
           (click)="navigate('/create-story')"
-          class="hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white dark:focus:ring-gray-600 rounded px-4 py-2 border border-gray-300 dark:border-gray-600"
+          class="hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white dark:focus:ring-gray-600 rounded px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-800 dark:text-white"
         >
-          Post
+        <span class=" text-gray-800 dark:text-white">Post</span>
         </button>
-
-        <!-- User Dropdown Menu -->
         <ng-container *ngIf="user; else guestMenu">
-          <div class="relative">
-            <button
-              (click)="toggleDropdown()"
-              class="flex items-center gap-2 px-4 py-2 bg-transparent border-none focus:outline-none"
-            >
-              <i class="fas fa-user h-5 w-5"></i>
-              <span class="hidden sm:inline">Account</span>
+          <button
+            mat-button
+            [matMenuTriggerFor]="accountMenu"
+            class="flex items-center gap-2 text-gray-800 dark:text-white"
+          >
+            <i class="fas fa-user h-5 w-5 text-gray-800 dark:text-white"></i>
+            <span class="hidden sm:inline text-gray-800 dark:text-white">Account</span>
+          </button>
+          <mat-menu #accountMenu="matMenu" class="bg-white dark:bg-gray-800">
+            <button mat-menu-item disabled>
+              <div class="text-gray-600 dark:text-white">
+                <span class=" text-gray-800 dark:text-white">Logged in as:</span>
+                <span class="font-medium">{{ user.email }}</span>
+              </div>
             </button>
-            <div
-              *ngIf="dropdownOpen"
-              class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-sm"
-            >
-              <div
-                class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
-              >
-                <p class="text-gray-600 dark:text-gray-300">
-                  Logged in as: <span class="font-medium">{{ user.email }}</span>
-                </p>
-              </div>
-              <div
-                (click)="handleLogout()"
-                class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
-              >
-                <i class="fas fa-sign-out-alt mr-2"></i> Log Out
-              </div>
-            </div>
-          </div>
+            <button mat-menu-item (click)="handleLogout()">
+              <i class="fas fa-sign-out-alt mr-2 text-gray-800 dark:text-white"></i> <span class=" text-gray-800 dark:text-white">Log Out</span>
+            </button>
+          </mat-menu>
         </ng-container>
-
-        <!-- Guest Menu -->
         <ng-template #guestMenu>
-          <div class="relative">
-            <button
-              (click)="toggleDropdown()"
-              class="flex items-center gap-2 px-4 py-2 bg-transparent border-none focus:outline-none"
-            >
-              <i class="fas fa-user h-5 w-5"></i>
-              <span class="hidden sm:inline">Account</span>
+          <button
+            mat-button
+            [matMenuTriggerFor]="guestActionsMenu"
+            class="flex items-center gap-2 text-gray-800 dark:text-white"
+          >
+            <i class="fas fa-user h-5 w-5 text-gray-800 dark:text-white"></i>
+            <span class="hidden sm:inline dark:text-white">Account</span>
+          </button>
+          <mat-menu #guestActionsMenu="matMenu" class="bg-white dark:bg-gray-800">
+            <button mat-menu-item (click)="navigate('/login')">
+              <i class="fas fa-sign-in-alt mr-2 text-gray-800 dark:text-white"></i> <span class=" text-gray-800 dark:text-white">Login</span>
             </button>
-            <div
-              *ngIf="dropdownOpen"
-              class="absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-md shadow-sm"
-            >
-              <div
-                (click)="navigate('/login')"
-                class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
-              >
-                <i class="fas fa-sign-in-alt mr-2"></i> Login
-              </div>
-              <div
-                (click)="navigate('/signup')"
-                class="px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer"
-              >
-                <i class="fas fa-user-plus mr-2"></i> Sign Up
-              </div>
-            </div>
-          </div>
+            <button mat-menu-item (click)="navigate('/signup')">
+              <i class="fas fa-user-plus mr-2 text-gray-800 dark:text-white"></i> <span class=" text-gray-800 dark:text-white">Sign Up</span>
+            </button>
+          </mat-menu>
         </ng-template>
-
-        <!-- Dark Mode Toggle -->
         <button
+          mat-icon-button
           (click)="toggleDarkMode()"
-          class="flex items-center hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white dark:focus:ring-gray-600 rounded-full p-2"
+          class="hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white dark:focus:ring-gray-600 rounded-full"
         >
-          <i *ngIf="isDarkMode" class="fas fa-sun w-5 h-5"></i>
-          <i *ngIf="!isDarkMode" class="fas fa-moon w-5 h-5"></i>
+          <i *ngIf="isDarkMode" class="fas fa-sun w-5 h-5 text-gray-800 dark:text-white"></i>
+          <i *ngIf="!isDarkMode" class="fas fa-moon w-5 h-5 text-gray-800 dark:text-white"></i>
         </button>
       </div>
     </div>
-  </div>
-</header>
+  </mat-toolbar>
+  

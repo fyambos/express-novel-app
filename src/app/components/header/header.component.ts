@@ -1,16 +1,29 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+import { Auth } from '@angular/fire/auth';
+import { User } from 'firebase/auth';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
 })
-export class HeaderComponent {
+export class HeaderComponent implements OnInit {
   isDarkMode = false;
   dropdownOpen = false;
-  user = { email: 'user@example.com' }; // Replace with actual user data
+  user: User | null = null;
 
-  constructor(private router: Router) {}
+  constructor(
+    private authService: AuthService,
+    private auth: Auth,
+    private router: Router,
+  ) {}
+
+  ngOnInit(): void {
+    this.auth.onAuthStateChanged(user => {
+      this.user = user;
+    });
+  }
 
   toggleDarkMode() {
     this.isDarkMode = !this.isDarkMode;
@@ -21,9 +34,12 @@ export class HeaderComponent {
     this.dropdownOpen = !this.dropdownOpen;
   }
 
-  handleLogout() {
-    console.log('Logout triggered');
-    // Add logout logic here
+  handleLogout(): void {
+    this.authService.logout().then(() => {
+      this.router.navigate(['/login']);
+    }).catch((error) => {
+      console.error('Logout failed', error);
+    });
   }
 
   navigate(path: string) {
