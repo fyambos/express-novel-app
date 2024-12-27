@@ -9,10 +9,11 @@ import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 const routes: Routes = [
+  { path: '', pathMatch: 'full', redirectTo: '/home' },
   { path: 'login', component: LoginComponent, canActivate: [noAuthGuard] },
   { path: 'signup', component: SignupComponent, canActivate: [noAuthGuard] },
   { path: 'stories/:storyId', component: StoryDetailsComponent },
-  { path: '', component: HomeComponent },
+  { path: 'home', component: HomeComponent },
   { path: 'not-found', component: NotFoundComponent },
   { path: '**', redirectTo: '/not-found' }
 

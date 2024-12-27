@@ -1,9 +1,15 @@
 <div class="container mx-auto p-4">
     <h1 class="text-3xl font-bold mb-4">Stories</h1>
   
-    <div *ngIf="isLoading" class="text-center">
-      <p>Loading stories...</p>
-    </div>
+      <div *ngIf="isLoading" class="flex justify-center h-screen bg-gray-100 pt-4 dark:bg-gray-800">
+        <div class="flex flex-col items-center w-full max-w-lg space-y-4 animate-pulse">
+          <div class="w-full h-12 bg-gray-300 rounded dark:bg-gray-700"></div>
+          <div class="w-3/4 h-4 bg-gray-300 rounded dark:bg-gray-700"></div>
+          <div class="w-full h-48 bg-gray-300 rounded-lg dark:bg-gray-700"></div>
+          <div class="w-full h-4 bg-gray-300 rounded dark:bg-gray-700"></div>
+          <div class="w-full h-4 bg-gray-300 rounded dark:bg-gray-700"></div>
+        </div>
+      </div>
   
     <div *ngIf="errorMessage" class="text-center text-red-500">
       <p>{{ errorMessage }}</p>
