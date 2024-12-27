@@ -1,25 +1,36 @@
-<div class="p-8 flex flex-col items-center">
-    <h1 class="text-2xl font-bold mb-4">Login</h1>
-    <form (ngSubmit)="login()">
-      <mat-form-field class="w-full">
-        <input matInput [(ngModel)]="email" name="email" placeholder="Email" type="email" required>
+<div class="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-800">
+  <div class="bg-white dark:bg-gray-900 shadow-lg rounded-lg p-8 w-full max-w-md">
+    <h1 class="text-3xl font-bold text-center text-gray-800 dark:text-white mb-6">Login</h1>
+    <form (ngSubmit)="login()" class="space-y-6 dark:border-gray-700 dark:text-white">
+      <mat-form-field appearance="outline" class="w-full dark:text-white">
+        <mat-label class="placeholder">Email</mat-label>
+        <input matInput [(ngModel)]="email" name="email" type="email" required 
+          class="w-full p-3 mt-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" />
       </mat-form-field>
-      <mat-form-field class="w-full">
-        <input matInput [(ngModel)]="password" name="password" placeholder="Password" type="password" required>
+      
+      <mat-form-field appearance="outline" class="w-full">
+        <mat-label class="placeholder">Password</mat-label>
+        <input matInput [(ngModel)]="password" name="password" type="password" required 
+          class="w-full p-3 mt-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:text-white" />
       </mat-form-field>
   
-      <div *ngIf="loginError" class="text-red-500 mb-4">
+      <div *ngIf="loginError" class="text-red-500 text-center mt-2">
         {{ loginError }}
       </div>
+      <div *ngIf="loginSuccess" class="text-green-500 text-center mt-2">
+        {{ loginSuccess }}
+      </div>
   
-      <button mat-raised-button color="primary" class="w-full mt-4" type="submit">Login</button>
+      <button mat-raised-button color="primary" class="w-full py-3 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-500" type="submit">
+        Log In
+      </button>
     </form>
   
-    <div class="mt-4">
-      <p class="text-sm text-gray-600">
+    <div class="text-center mt-4">
+      <p class="text-sm text-gray-600 dark:text-gray-300">
         Don't have an account? 
         <a [routerLink]="'/signup'" class="text-blue-500 hover:underline">Sign up here</a>
       </p>
     </div>
   </div>
-  
+</div>

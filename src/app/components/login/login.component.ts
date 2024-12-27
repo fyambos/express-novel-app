@@ -10,6 +10,7 @@ export class LoginComponent {
   email: string = '';
   password: string = '';
   loginError: string = '';
+  loginSuccess: string = '';
 
   constructor(
     private authService: AuthService,
@@ -20,7 +21,10 @@ export class LoginComponent {
     this.authService
       .signIn(this.email, this.password)
       .then(() => {
-        this.router.navigate(['/home']);
+        this.loginSuccess = 'Login successful!';
+        setTimeout(() => {
+          this.router.navigate(['/home']);
+        }, 1000);
       })
       .catch((error) => {
         this.loginError = error.message;
