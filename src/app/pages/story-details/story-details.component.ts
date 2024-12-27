@@ -42,9 +42,7 @@ export class StoryDetailsComponent implements OnInit {
   async fetchStory(storyId: string) {
     try {
       const storyData = await this.storyService.getStoryById(storyId);
-      const authorData = await this.userService.fetchUser(storyData.author);
-
-      this.story = { ...storyData, author: authorData };
+      this.story = { ...storyData };
     } catch (error) {
       console.error('Error fetching story:', error);
       this.router.navigate(['/not-found']);

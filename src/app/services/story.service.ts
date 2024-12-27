@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { lastValueFrom } from 'rxjs';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -8,14 +9,19 @@ import { lastValueFrom } from 'rxjs';
 export class StoryService {
   private apiUrl = 'http://localhost:5000/api';
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private userService: UserService,
+
+  ) {}
 
   async getStoryById(storyId: string) {
     try {
       const story = await lastValueFrom(this.http.get<any>(`${this.apiUrl}/stories/${storyId}`));
-      return story;
+      const author = await this.userService.fetchUser(story.author);
+      return { ...story, author };
     } catch (error) {
-      console.error('Error fetching story:', error);
+      console.error('Error fetching story and author:', error);
       throw error;
     }
   }
