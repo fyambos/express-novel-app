@@ -17,5 +17,9 @@ export default [
   {
     path: "/stories/:storyId", 
     file: "routes/story/story-details.tsx" 
-  }
+  },
+  {
+    path: "/stories/:storyId/edit",
+    file: "routes/story/story-edit.tsx",
+  },
 ] satisfies RouteConfig;

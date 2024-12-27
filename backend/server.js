@@ -111,5 +111,26 @@ app.post('/api/signup', async (req, res) => {
     }
   });
   
+  app.put('/api/stories/:id/edit', async (req, res) => {
+    const storyId = req.params.id;
+    const { title, summary, rating, tags } = req.body;
+  
+    try {
+      const updatedStory = await Story.findOneAndUpdate(
+        { _id: storyId },
+        { title, summary, rating, tags },
+        { new: true }
+      );
+  
+      if (!updatedStory) {
+        return res.status(404).json({ message: 'Story not found' });
+      }
+  
+      res.json(updatedStory);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error updating story' });
+    }
+  });
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));
