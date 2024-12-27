@@ -20,6 +20,7 @@ import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { HeaderComponent } from './components/header/header.component';
 import { StoryDialogComponent } from './components/story-dialog/story-dialog.component';
+import { StoryDetailsComponent } from './story-details/story-details.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { StoryDialogComponent } from './components/story-dialog/story-dialog.com
     SignupComponent,
     HeaderComponent,
     StoryDialogComponent,
+    StoryDetailsComponent,
   ],
   imports: [
     BrowserModule,

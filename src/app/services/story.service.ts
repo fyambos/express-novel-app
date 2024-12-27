@@ -39,4 +39,13 @@ export class StoryService {
       throw error;
     }
   }
+
+  async fetchUser(userId: string) {
+    try {
+      return await lastValueFrom(this.http.get<any>(`${this.apiUrl}/users/${userId}`));
+    } catch (error) {
+      console.error('Error fetching author:', error);
+      throw error;
+    }
+  }
 }

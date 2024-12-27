@@ -33,9 +33,11 @@ export class StoryDialogComponent implements OnInit {
       return;
     }
 
-    if (this.data?.id) {
+    if (this.data?._id) {
       this.isEditing = true;
-      await this.loadStoryDetails(this.data.id);
+      await this.loadStoryDetails(this.data._id);
+      console.log('isEditing:', this.isEditing);
+      console.log('Editing story:', this.data);
     }
   }
 

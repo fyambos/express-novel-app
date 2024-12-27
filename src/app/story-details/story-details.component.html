@@ -1,0 +1,35 @@
+<div *ngIf="!story" class="flex justify-center h-screen bg-gray-100 pt-4 dark:bg-gray-800">
+    <div class="flex flex-col items-center w-full max-w-lg space-y-4 animate-pulse">
+      <div class="w-full h-12 bg-gray-300 rounded dark:bg-gray-700"></div>
+      <div class="w-3/4 h-4 bg-gray-300 rounded dark:bg-gray-700"></div>
+      <div class="w-full h-48 bg-gray-300 rounded-lg dark:bg-gray-700"></div>
+      <div class="w-full h-4 bg-gray-300 rounded dark:bg-gray-700"></div>
+      <div class="w-full h-4 bg-gray-300 rounded dark:bg-gray-700"></div>
+    </div>
+  </div>
+  
+  <div *ngIf="story" class="container mx-auto p-4 text-center">
+    <h1 class="text-3xl font-bold mb-4">{{ story.title }}</h1>
+    <h3 class="text-xl font-semibold mb-2">Author: {{ story.author.username }}</h3>
+    <h3 class="text-xl font-semibold mb-2">Summary:</h3>
+    <p class="text-lg mb-4">{{ story.summary }}</p>
+  
+    <div class="flex flex-col space-y-2 pb-4">
+      <h3 class="text-xl font-semibold">Rating:</h3>
+      <p>{{ story.rating }}</p>
+    </div>
+  
+    <div class="flex flex-col space-y-2 pb-4">
+      <h3 class="text-xl font-semibold">Tags:</h3>
+      <p>{{ story.tags.join(', ') }}</p>
+    </div>
+  
+    <button
+      *ngIf="isAuthor"
+      class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      (click)="openEditModal(story)"
+    >
+      Edit Story
+    </button>
+  </div>
+  
