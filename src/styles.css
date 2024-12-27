@@ -83,7 +83,7 @@
     color: var(--background-foreground)!important;
   }
 
-  .mat-mdc-input-element {
+  .mat-mdc-input-element, .mat-mdc-dialog-container .mdc-dialog__title, .mdc-button__label {
     color: var(--accent-foreground)!important;
   }
 

@@ -3,7 +3,8 @@ import { UserService } from '../../services/user.service';
 import { Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { MatDialog } from '@angular/material/dialog';
+import { EditProfileDialogComponent } from 'src/app/components/edit-profile-dialog/edit-profile-dialog.component';
 
 @Component({
   selector: 'app-profile',
@@ -20,7 +21,7 @@ export class ProfileComponent implements OnInit {
     private auth: Auth,
     private router: Router,
     private route: ActivatedRoute,
-    private authService: AuthService,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -44,5 +45,23 @@ export class ProfileComponent implements OnInit {
       this.isLoading = false;
       console.error(error);
     }
+  }
+
+  openEditDialog(): void {
+    // Open the dialog and pass the user data to prefill the form
+    const dialogRef = this.dialog.open(EditProfileDialogComponent, {
+      width: '400px',
+      data: { user: this.user }
+    });
+
+    dialogRef.afterClosed().subscribe((updatedUser) => {
+      if (updatedUser) {
+        this.user = updatedUser;
+        this.userService.updateUser(this.user.id, this.user.username, this.user.bio).then(() => {
+        }).catch(error => {
+          console.error('Error saving user theme:', error);
+        });
+      }
+    });
   }
 }

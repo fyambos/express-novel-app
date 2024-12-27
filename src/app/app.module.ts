@@ -24,6 +24,7 @@ import { StoryDetailsComponent } from './pages/story-details/story-details.compo
 import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { EditProfileDialogComponent } from './components/edit-profile-dialog/edit-profile-dialog.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
     HomeComponent,
     NotFoundComponent,
     ProfileComponent,
+    EditProfileDialogComponent,
   ],
   imports: [
     BrowserModule,

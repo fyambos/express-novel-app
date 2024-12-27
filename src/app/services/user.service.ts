@@ -39,4 +39,16 @@ export class UserService {
       throw error;
     }
   }
+
+  async updateUser(userId: string, username: string, bio: string) {
+    try {
+      const response = await lastValueFrom(
+        this.http.put(`${this.apiUrl}/users/${userId}`, { username, bio })
+      );
+      return response;
+    } catch (error) {
+      console.error('Error saving user theme:', error);
+      throw error;
+    }
+  }
 }
