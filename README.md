@@ -1,27 +1,85 @@
-# NovelApp
+# 📖 Novel App
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.16.
+## 📝 Description
 
-## Development server
+This project is a web application for creating and sharing stories. Users can create new stories, view existing stories, and interact with other users.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## 🌟 Features
 
-## Code scaffolding
+* **✨ User Authentication:** Secure user authentication using Firebase Authentication.
+* **📝 Story Creation:** Create new stories with title, summary, rating, and tags.
+* **📖 Story Viewing:** View detailed information about individual stories, including title, summary, author, rating, and tags.
+* **👤 User Profiles:** View user profiles with information like username and bio.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Getting Started
 
-## Build
+### Prerequisites
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+* Node.js and npm
+* Firebase account (for authentication)
+* Firebase project with Email/Password Authentication
+    1. Go to the Firebase Console and navigate to your project.
+    2. Select the Auth panel and then click the Sign In Method tab.
+    3. Click Email/Password and turn on the Enable switch, then click Save.
+    4. Go to your project's settings.
+    5. Select create a web app.
+    6. Paste the firebase configuration into novel-app/firebase.ts
+    7. Replace getAnalytics and analytics by getAuth and auth.
+* MongoDB
+    1. Install [MongoDB & MongoDBCompass](https://www.mongodb.com/try/download/community).
+    2. Open MongoDBCompass.
 
-## Running unit tests
+### 🚀 Installation
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+1. **Clone the repository:**
+```bash
+   git clone https://github.com/fyambos/express-novel-app.git
+```
+2. **Install front-end dependencies:**
+```bash
+    cd novel-app
+    npm install
+```
+3. **Running the front-end application**
+```bash
+    ng serve
+```
+4. **Install back-end dependencies:**
+```bash
+    cd src/backend
+    npm install
+```
+5. **Running the back-end application**
+```bash
+    node server.js
+```
+## 📂 Project Structure
+```plaintext
+novel-app/
+├── src/
+│   ├── app/
+│   │   ├── components/
+│   │   ├── guards/
+│   │   ├── pages/
+│   │   ├── services/
+│   │   └── app.module.ts
+│   ├── assets/
+│   ├── backend/
+│   │   ├── models/
+│   │   ├── server.js
+│   │   └── package.json
+│   ├── environments/
+├── package.json
+└── README.md
 
-## Running end-to-end tests
+```
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## 🛠️ Technology Stack
+- **Frontend**: Angular, Angular Material
+- **Backend**: Node.js, Express.js
+- **Database**: MongoDB
+- **Firebase**: Authentication
 
-## Further help
+## 📜 Licence
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Ce projet est sous licence [MIT](https://opensource.org/licenses/MIT).
