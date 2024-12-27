@@ -19,7 +19,7 @@
       
         <div class="flex space-x-4 mb-4">
           <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Follow</button>
-          <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded">Edit Profile</button>
+          <button *ngIf="user.id === userIdFromParams" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded">Edit Profile</button>
         </div>
       
         <h2 class="text-xl font-semibold mb-2">Bio</h2>

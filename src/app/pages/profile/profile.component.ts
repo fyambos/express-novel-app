@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { Auth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -11,23 +13,29 @@ export class ProfileComponent implements OnInit {
   user: any = null;
   isLoading: boolean = true;
   errorMessage: string = '';
+  userIdFromParams: string | null = null;
 
   constructor(
     private userService: UserService,
     private auth: Auth,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
+    this.userIdFromParams = this.route.snapshot.paramMap.get('id');
     this.fetchUserProfile();
   }
-
   async fetchUserProfile() {
     try {
       const currentUser = this.auth.currentUser;
       if (currentUser) {
         this.user = await this.userService.fetchUser(currentUser.uid);
         this.isLoading = false;
+        if(!this.userIdFromParams) {
+          this.userIdFromParams = this.user.id;
+        }
       } else {
         this.router.navigate(['/login']);
       }
