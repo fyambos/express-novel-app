@@ -23,6 +23,7 @@ import { StoryDialogComponent } from './components/story-dialog/story-dialog.com
 import { StoryDetailsComponent } from './pages/story-details/story-details.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     StoryDetailsComponent,
     HomeComponent,
     NotFoundComponent,
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,

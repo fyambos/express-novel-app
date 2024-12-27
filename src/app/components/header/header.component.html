@@ -23,11 +23,11 @@
             <span class="hidden sm:inline text-gray-800 dark:text-white">Account</span>
           </button>
           <mat-menu #accountMenu="matMenu" class="bg-white dark:bg-gray-800">
-            <button mat-menu-item disabled>
-              <div class="text-gray-600 dark:text-white">
-                <span class=" text-gray-800 dark:text-white">Logged in as:</span>
-                <span class="font-medium">{{ user.email }}</span>
-              </div>
+            <button mat-menu-item disabled *ngIf="userProfile">
+                <span class="font-medium text-gray-700 dark:text-white">{{ userProfile.username }}</span>
+            </button>
+            <button mat-menu-item (click)="navigate('/profile')">
+              <i class="fas fa-id-badge mr-2 text-gray-800 dark:text-white"></i> <span class="text-gray-800 dark:text-white">Profile</span>
             </button>
             <button mat-menu-item (click)="handleLogout()">
               <i class="fas fa-sign-out-alt mr-2 text-gray-800 dark:text-white"></i> <span class=" text-gray-800 dark:text-white">Log Out</span>

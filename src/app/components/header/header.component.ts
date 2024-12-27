@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit {
   isDarkMode = false;
   dropdownOpen = false;
   user: User | null = null;
+  userProfile: any = null;
 
   constructor(
     private authService: AuthService,
@@ -24,7 +25,7 @@ export class HeaderComponent implements OnInit {
     private userService: UserService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
     const storedTheme = localStorage.getItem('theme');
     if (storedTheme === 'dark') {
       this.isDarkMode = true;
@@ -33,10 +34,11 @@ export class HeaderComponent implements OnInit {
       this.isDarkMode = false;
       document.body.classList.remove('dark');
     }
-    this.auth.onAuthStateChanged(user => {
+    this.auth.onAuthStateChanged(async user => {
       this.user = user;
       if (user) {
         this.loadUserTheme(user.uid);
+        this.userProfile = await this.userService.fetchUser(user.uid);
       }
     });
   }

@@ -7,6 +7,7 @@ import { authGuard } from './guards/auth.guard';
 import { noAuthGuard } from './guards/no-auth.guard';
 import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
@@ -15,7 +16,8 @@ const routes: Routes = [
   { path: 'stories/:storyId', component: StoryDetailsComponent },
   { path: 'home', component: HomeComponent },
   { path: 'not-found', component: NotFoundComponent },
-  { path: '**', redirectTo: '/not-found' }
+  { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
+  { path: '**', redirectTo: '/not-found' },
 
 ];
 
