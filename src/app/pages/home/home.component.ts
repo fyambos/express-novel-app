@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StoryService } from '../../services/story.service';
+import { Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,10 @@ export class HomeComponent implements OnInit {
   isLoading: boolean = true;
   errorMessage: string = '';
 
-  constructor(private storyService: StoryService) {}
+  constructor(
+    private storyService: StoryService,
+    private router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.fetchStories();
@@ -24,5 +28,9 @@ export class HomeComponent implements OnInit {
       this.errorMessage = 'Error fetching stories. Please try again later.';
       this.isLoading = false;
     }
+  }
+
+  readMore(storyId: string) {
+    this.router.navigate([`/stories/${storyId}`]);
   }
 }
