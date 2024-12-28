@@ -12,6 +12,7 @@ import { StoryDialogComponent } from '../../components/story-dialog/story-dialog
 export class StoryDetailsComponent implements OnInit {
   story: any = null;
   isAuthor: boolean = false;
+  isLoading: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -32,8 +33,10 @@ export class StoryDetailsComponent implements OnInit {
     onAuthStateChanged(this.auth, (user: User | null) => {
       if (user) {
         this.isAuthor = user.uid === this.story?.author.id;
+        this.isLoading = false;
       } else {
         this.isAuthor = false;
+        this.isLoading = false;
       }
     });
   }
