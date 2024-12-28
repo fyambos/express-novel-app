@@ -19,6 +19,10 @@
     --accent-foreground: hsl(222.2, 47.4%, 11.2%);
     --destructive: hsl(0, 84.2%, 60.2%);
     --destructive-foreground: hsl(210, 40%, 98%);
+    --destructive-hover: hsl(0, 84.2%, 50.2%);
+    --constructive: hsl(217, 91.2%, 59.8%);
+    --constructive-foreground: hsl(210, 40%, 98%);
+    --constructive-hover: hsl(224, 76.3%, 48%);
     --border: hsl(214.3, 31.8%, 91.4%);
     --input: hsl(214.3, 31.8%, 91.4%);
     --ring: hsl(222.2, 84%, 4.9%);
@@ -47,6 +51,13 @@
     --accent-foreground: hsl(210, 40%, 98%);
     --destructive: hsl(0, 62.8%, 30.6%);
     --destructive-foreground: hsl(210, 40%, 98%);
+    --destructive-hover: hsl(0, 62.8%, 20.6%);
+    --constructive: hsl(217, 91.2%, 59.8%);
+    --constructive-foreground: hsl(210, 40%, 98%);
+    --constructive-hover: hsl(224, 76.3%, 48%);
+    --neutral: hsl(217.2, 32.6%, 17.5%);
+    --neutral-foreground: hsl(217, 19.1%, 26.7%);
+    --neutral-hover: hsl(217.2, 32.6%, 27.5%);
     --border: hsl(217.2, 32.6%, 17.5%);
     --input: hsl(217.2, 32.6%, 17.5%);
     --ring: hsl(212.7, 26.8%, 83.9%);
@@ -83,8 +94,8 @@
     color: var(--background-foreground)!important; /* add background and foreground color to mat dialogs */
   }
 
-  .mat-mdc-input-element, .mat-mdc-dialog-container .mdc-dialog__title, .mdc-button__label {
-    color: var(--accent-foreground)!important; /* make dialog buttons and input text visible in dark mode */
+  .mat-mdc-input-element, .mat-mdc-dialog-container .mdc-dialog__title {
+    color: var(--accent-foreground)!important; /* make input text visible in dark mode */
   }
 
   .mdc-floating-label {
@@ -107,4 +118,21 @@
     width: 100%; /* make inputs take up all available space in smaller dialogs */
   }
   
+  /* add custom styles for the dialog actions */
+  .mat-mdc-dialog-actions div .submit {
+    background-color: var(--constructive);
+    color: var(--constructive-foreground);
+  }
+
+  .mat-mdc-dialog-actions div .cancel {
+    background-color: var(--background);
+    color: var(--foreground);
+  }
   
+  .mat-mdc-dialog-actions div .submit:hover {
+    background-color: var(--constructive-hover);
+  }
+
+  .mat-mdc-dialog-actions div .cancel:hover {
+    background-color: var(--secondary); 
+  }

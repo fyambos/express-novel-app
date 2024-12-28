@@ -18,8 +18,10 @@
     </mat-form-field>
 
     <div mat-dialog-actions>
-      <button mat-button (click)="closeDialog()">Cancel</button>
-      <button mat-button type="submit">Save</button>
+      <div class="w-full flex justify-end">
+        <button mat-button class="cancel" (click)="closeDialog()">Cancel</button>
+        <button mat-button class="submit" type="submit">Save</button>
+      </div>
     </div>
   </form>
 </div>
