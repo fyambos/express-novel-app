@@ -17,8 +17,14 @@
       <input matInput [(ngModel)]="user.interestsString" name="interestsString" />
     </mat-form-field>
     
-    <input type="file" (change)="onFileSelected($event)" accept=".png, .jpg, .jpeg, .webp, .svg, .heif, .heic" />
+    <label for="file-upload" class="file-upload-button flex items-center justify-center w-full p-4 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-center">
+      <i class="fas fa-file-image h-5 w-5 text-gray-600 dark:text-white"></i>
+      <span class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">
+        Select an image
+      </span>
+    </label>
 
+    <input id="file-upload" type="file" class="hidden" (change)="onFileSelected($event)" accept=".png, .jpg, .jpeg, .webp, .svg, .heif, .heic" />
     <div mat-dialog-actions>
       <div class="w-full flex justify-end">
         <button mat-button class="cancel" (click)="closeDialog()">Cancel</button>
