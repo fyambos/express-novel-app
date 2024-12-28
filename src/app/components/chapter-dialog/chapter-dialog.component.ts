@@ -56,37 +56,108 @@ export class ChapterDialogComponent implements OnInit {
     }
   }
 
-  async onSubmit() {
-    if (!this.currentUser) {
-      console.error('Cannot submit chapter without an authenticated user');
-      return;
-    }
+applyFormatting(command: string) {
+  const contentEditableDiv = document.getElementById('content') as HTMLElement;
 
-    const chapter = {
-      title: this.title,
-      content: this.content,
-      storyId: this.storyId,
-      authorId: this.currentUser.uid,
-    };
-
-    try {
-      if (this.isEditing) {
-        const updatedChapter = await this.updateChapter(this.data._id, chapter);
-        this.dialogRef.close(updatedChapter);
-        if (updatedChapter && updatedChapter._id) {
-          this.router.navigate([`/chapters/${updatedChapter._id}`]);
-        }
-      } else {
-        const newChapter = await this.createChapter(chapter);
-        this.dialogRef.close(newChapter);
-        if (newChapter && newChapter._id) {
-          this.router.navigate([`/chapters/${newChapter._id}`]);
-        }
-      }
-    } catch (error) {
-      console.error('Error submitting chapter:', error);
+  if (contentEditableDiv && document.getSelection()) {
+    if (command === 'justifyLeft' || command === 'justifyCenter' || command === 'justifyRight') {
+      this.applyTextAlignment(command);
+    } else {
+      this.applyCommand(command);
     }
   }
+}
+
+applyTextAlignment(command: string) {
+  const selection = window.getSelection();
+  if (!selection || selection.rangeCount === 0) return;
+
+  const range = selection.getRangeAt(0);
+  const selectedText = range.extractContents();
+  
+  const wrapper = document.createElement('div'); 
+  wrapper.style.display = 'block';
+  
+  switch (command) {
+    case 'justifyLeft':
+      wrapper.style.textAlign = 'left';
+      break;
+    case 'justifyCenter':
+      wrapper.style.textAlign = 'center';
+      break;
+    case 'justifyRight':
+      wrapper.style.textAlign = 'right';
+      break;
+    default:
+      break;
+  }
+  // wraps selected text in new element and 
+  wrapper.appendChild(selectedText);
+  range.insertNode(wrapper);
+  const selectionRange = document.createRange();
+  selectionRange.setStartAfter(wrapper); // moves the cursor after the wrapped content
+  selectionRange.setEndAfter(wrapper);
+  selection.removeAllRanges();
+  selection.addRange(selectionRange);
+}
+
+applyCommand(command: string) {
+  const selection = window.getSelection();
+  if (!selection || selection.rangeCount === 0) return;
+  const range = selection.getRangeAt(0);
+  const span = document.createElement('span');
+  span.style.cssText = this.getCommandStyle(command);
+  range.surroundContents(span);
+}
+
+getCommandStyle(command: string): string {
+  switch (command) {
+    case 'bold':
+      return 'font-weight: bold;';
+    case 'italic':
+      return 'font-style: italic;';
+    case 'underline':
+      return 'text-decoration: underline;';
+    default:
+      return '';
+  }
+}
+
+async onSubmit() {
+  if (!this.currentUser) {
+    console.error('Cannot submit chapter without an authenticated user');
+    return;
+  }
+
+  const contentEditableDiv = document.getElementById('content') as HTMLElement;
+  const formattedContent = contentEditableDiv ? contentEditableDiv.innerHTML : '';
+
+  const chapter = {
+    title: this.title,
+    content: formattedContent,
+    storyId: this.storyId,
+    authorId: this.currentUser.uid,
+  };
+
+  try {
+    if (this.isEditing) {
+      const updatedChapter = await this.updateChapter(this.data._id, chapter);
+      this.dialogRef.close(updatedChapter);
+      if (updatedChapter && updatedChapter._id) {
+        this.router.navigate([`/chapters/${updatedChapter._id}`]);
+      }
+    } else {
+      const newChapter = await this.createChapter(chapter);
+      this.dialogRef.close(newChapter);
+      if (newChapter && newChapter._id) {
+        this.router.navigate([`/chapters/${newChapter._id}`]);
+      }
+    }
+  } catch (error) {
+    console.error('Error submitting chapter:', error);
+  }
+}
+
 
   async createChapter(chapter: any) {
     try {

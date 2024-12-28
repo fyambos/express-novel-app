@@ -28,6 +28,7 @@ import { EditProfileDialogComponent } from './components/edit-profile-dialog/edi
 import { StoryCardComponent } from './components/story-card/story-card.component';
 import { ChapterDialogComponent } from './components/chapter-dialog/chapter-dialog.component';
 import { ChapterDetailsComponent } from './pages/chapter-details/chapter-details.component';
+import { ContentEditableDirective } from './directives/content-editable.directive';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import { ChapterDetailsComponent } from './pages/chapter-details/chapter-details
     StoryCardComponent,
     ChapterDialogComponent,
     ChapterDetailsComponent,
+    ContentEditableDirective,
   ],
   imports: [
     BrowserModule,
