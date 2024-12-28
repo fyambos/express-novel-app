@@ -95,9 +95,7 @@ export class StoryDetailsComponent implements OnInit {
     });
   }
 
-  onChapterSelect(event: Event): void {
-    const selectElement = event.target as HTMLSelectElement;
-    const chapterId = selectElement.value;
+  onChapterSelect(chapterId: string): void {
     if (chapterId) {
       this.router.navigate(['/chapters', chapterId]);
     }
