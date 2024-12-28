@@ -215,42 +215,52 @@ app.post('/api/signup', async (req, res) => {
   });
 
   app.post('/api/chapters', async (req, res) => {
-  const { title, content, storyId, authorId } = req.body;
-  console.log(req.body);
-  try {
-    const storyExists = await Story.findOne({ _id: storyId });
-    if (!storyExists) {
-      return res.status(404).json({ message: 'Story not found' });
+    const { title, content, storyId, authorId } = req.body;
+    try {
+      const storyExists = await Story.findOne({ _id: storyId });
+      if (!storyExists) {
+        return res.status(404).json({ message: 'Story not found' });
+      }
+      const authorExists = await User.findOne({ id: authorId });
+      if (!authorExists) {
+        return res.status(404).json({ message: 'Author not found' });
+      }
+      const latestChapter = await Chapter.findOne({ storyId }).sort({ chapter: -1 }).limit(1);
+      let chapterNumber = 1;
+      if (latestChapter) {
+        chapterNumber = latestChapter.chapter + 1;
+      }
+      const newChapter = new Chapter({
+        title,
+        content,
+        storyId,
+        authorId,
+        chapter: chapterNumber,
+      });
+      const savedChapter = await newChapter.save();
+      res.json(savedChapter);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error creating chapter' });
     }
-    const authorExists = await User.findOne({ id: authorId });
-    if (!authorExists) {
-      return res.status(404).json({ message: 'Author not found' });
-    }
-    const newChapter = new Chapter({
-      title,
-      content,
-      storyId,
-      authorId,
-    });
-
-    const savedChapter = await newChapter.save();
-    res.json(savedChapter);
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Error creating chapter' });
-  }
-});
+  });
+  
 
 app.get('/api/chapters/:id', async (req, res) => {
   try {
     const chapterId = req.params.id;
     const chapter = await Chapter.findById(chapterId);
-
     if (!chapter) {
       return res.status(404).json({ message: 'Chapter not found' });
     }
-
-    res.json(chapter);
+    const story = await Story.findOne({ _id: chapter.storyId });
+    const author = await User.findOne({ id: chapter.authorId });
+    const chapterWithDetails = {
+      ...chapter.toObject(),
+      story: story ? story : null,
+      author: author ? author : null,
+    };
+    res.json(chapterWithDetails);
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: 'Error fetching chapter' });

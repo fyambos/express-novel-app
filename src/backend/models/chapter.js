@@ -24,7 +24,11 @@ const chapterSchema = new mongoose.Schema({
   updatedAt: { 
     type: Date,
     default: Date.now
-}
+},
+  chapter: {
+    type: Number,
+    required: true
+  }
 });
 
 const Chapter = mongoose.model('Chapter', chapterSchema);
