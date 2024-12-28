@@ -54,11 +54,20 @@ export class UserService {
 
   async fetchAuthorStories(authorId: string) {
     try {
-      const stories = await lastValueFrom(this.http.get<any[]>(`${this.apiUrl}/author/${authorId}/stories`));
-      return stories;
+      const stories = await lastValueFrom(
+        this.http.get<any[]>(`${this.apiUrl}/author/${authorId}/stories`)
+      );
+      const storiesWithAuthors = await Promise.all(
+        stories.map(async (story) => {
+          const author = await this.fetchUser(authorId);
+          return { ...story, author };
+        })
+      );
+      return storiesWithAuthors;
     } catch (error) {
       console.error('Error fetching author stories:', error);
       throw error;
     }
   }
+  
 }
