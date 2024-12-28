@@ -25,6 +25,7 @@ This project is a web application for creating and sharing stories. Users can cr
 * **🗂️ Story Filters:** Filter stories by tags or ratings for easy browsing.
 * **👥 Multi-author Stories:** Allow multiple authors to co-author a story, with clear author attributions.
 * **📍 Bookmark Chapters:** Let users bookmark chapters to continue reading later.
+* **🏆 Achievements/Badges:** Give users achievements or badges for milestones (e.g., writing a certain number of chapters, gaining followers, etc.).
 
 ## Getting Started
 
