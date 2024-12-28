@@ -7,9 +7,24 @@ This project is a web application for creating and sharing stories. Users can cr
 ## 🌟 Features
 
 * **✨ User Authentication:** Secure user authentication using Firebase Authentication.
-* **📝 Story Creation:** Create new stories with title, summary, rating, and tags.
-* **📖 Story Viewing:** View detailed information about individual stories, including title, summary, author, rating, and tags.
+* **📖 Story Creation:** Create new stories with title, summary, rating, and tags.
+* **📝 Chapter Creation:** Create new chapters for stories, using a Rich Text Format editor.
 * **👤 User Profiles:** View user profiles with information like username and bio.
+* **🌔 Dark Mode:** Toggle between light and dark mode.
+
+## 📈 Improvements
+* **💬 Add comments:** Add comments to stories, reply to comments.
+* **❤️ Likes:** Like stories and display liked stories in profile.
+* **🔃 Reorder chapters:** Mingle with the order of chapters with a drag handle.
+* **🗑️ Delete:** Ability to delete chapters, users and stories, while preserving dependant objects.
+* **🔔 Subscribe & Follow:** Follow users or stories and get notified when a new story/chapter is posted.
+* **🌐 Multi-language Support:** Add multi-language support for users to switch between languages.
+* **🔍 Search Functionality:** Implement search for users, stories, chapters, and tags to easily find content.
+* **💬 Real-Time Chat:** Add a real-time chat feature for authors and readers to communicate.
+* **⭐ Story Ratings:** Allow users to rate stories and see an average rating displayed.
+* **🗂️ Story Filters:** Filter stories by tags or ratings for easy browsing.
+* **👥 Multi-author Stories:** Allow multiple authors to co-author a story, with clear author attributions.
+* **📍 Bookmark Chapters:** Let users bookmark chapters to continue reading later.
 
 ## Getting Started
 
@@ -27,7 +42,6 @@ This project is a web application for creating and sharing stories. Users can cr
     7. Replace getAnalytics and analytics by getAuth and auth.
 * MongoDB
     1. Install [MongoDB & MongoDBCompass](https://www.mongodb.com/try/download/community).
-    2. Open MongoDBCompass.
 
 ### 🚀 Installation
 
