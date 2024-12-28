@@ -14,6 +14,9 @@ This project is a web application for creating and sharing stories. Users can cr
 
 ## 📈 Improvements
 * **💬 Add comments:** Add comments to stories, reply to comments.
+* **📊 Statistics!:** Display story statistics such as number of chapters, word count, etc.
+* **📍 Bookmark Chapters:** Let users bookmark chapters to continue reading later.
+* **✅ Mark as read:** Let users mark stories as read.
 * **❤️ Likes:** Like stories and display liked stories in profile.
 * **🔃 Reorder chapters:** Mingle with the order of chapters with a drag handle.
 * **🗑️ Delete:** Ability to delete chapters, users and stories, while preserving dependant objects.
@@ -24,8 +27,7 @@ This project is a web application for creating and sharing stories. Users can cr
 * **⭐ Story Ratings:** Allow users to rate stories and see an average rating displayed.
 * **🗂️ Story Filters:** Filter stories by tags or ratings for easy browsing.
 * **👥 Multi-author Stories:** Allow multiple authors to co-author a story, with clear author attributions.
-* **📍 Bookmark Chapters:** Let users bookmark chapters to continue reading later.
-* **🏆 Achievements/Badges:** Give users achievements or badges for milestones (e.g., writing a certain number of chapters, gaining followers, etc.).
+* **🏆 Achievements/Badges:** Give users achievements or badges for milestones (e.g., writing a certain number of chapters, gaining followers, reading x amount of words etc.).
 
 ## Getting Started
 
