@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ChapterService } from 'src/app/services/chapter.service';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-chapter-details',
@@ -9,11 +10,13 @@ import { ChapterService } from 'src/app/services/chapter.service';
 export class ChapterDetailsComponent implements OnInit {
   chapter: any = null;
   isLoading: boolean = true;
+  safeContent: SafeHtml = '';
 
   constructor(
     private route: ActivatedRoute,
     private chapterService: ChapterService,
-    private router: Router
+    private router: Router,
+    private sanitizer: DomSanitizer
   ) {}
 
   async ngOnInit() {
@@ -30,7 +33,7 @@ export class ChapterDetailsComponent implements OnInit {
       if (!chapterData) {
         throw new Error('Chapter not found');
       }
-      this.chapter = { ...chapterData };
+      this.safeContent = this.sanitizer.bypassSecurityTrustHtml(this.chapter.content);
     } catch (error) {
       console.error('Error fetching chapter:', error);
       this.router.navigate(['/not-found']);

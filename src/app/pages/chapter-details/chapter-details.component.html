@@ -11,7 +11,7 @@
     <h1 class="text-3xl font-bold mb-4 text-blue-500">{{ chapter.title }}</h1>
   
     <div class="mb-4">
-      <p class="text-gray-600">{{ chapter.content }}</p>
+      <p class="text-gray-600" [innerHTML]="safeContent"></p>
     </div>
   
     <div class="flex justify-between items-center">
