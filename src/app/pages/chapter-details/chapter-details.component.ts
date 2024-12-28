@@ -3,6 +3,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ChapterService } from 'src/app/services/chapter.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
+import { Auth, onAuthStateChanged, User } from '@angular/fire/auth';
+import { MatDialog } from '@angular/material/dialog';
+import { ChapterDialogComponent } from 'src/app/components/chapter-dialog/chapter-dialog.component';
 
 @Component({
   selector: 'app-chapter-details',
@@ -15,12 +18,15 @@ export class ChapterDetailsComponent implements OnInit {
   routeSub: Subscription | null = null;
   previousChapterId: string | null = null;
   nextChapterId: string | null = null;
+  isAuthor: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private chapterService: ChapterService,
     private router: Router,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private auth: Auth,
+    private dialog: MatDialog,
   ) {}
 
   async ngOnInit() {
@@ -28,9 +34,22 @@ export class ChapterDetailsComponent implements OnInit {
       const chapterId = paramMap.get('id');
       if (chapterId) {
         await this.fetchChapter(chapterId);
+        this.checkCurrentUser();
       }
     });
   }
+
+  checkCurrentUser() {
+      onAuthStateChanged(this.auth, (user: User | null) => {
+        if (user) {
+          this.isAuthor = user.uid === this.chapter?.authorId;
+          this.isLoading = false;
+        } else {
+          this.isAuthor = false;
+          this.isLoading = false;
+        }
+      });
+    }
 
   async fetchChapter(chapterId: string) {
     try {
@@ -45,8 +64,6 @@ export class ChapterDetailsComponent implements OnInit {
     } catch (error) {
       console.error('Error fetching chapter:', error);
       this.router.navigate(['/not-found']);
-    } finally {
-      this.isLoading = false;
     }
   }
 
@@ -85,4 +102,18 @@ export class ChapterDetailsComponent implements OnInit {
   onChapterSelect(chapterId: string): void {
     this.navigateToChapter(chapterId);
   }
+
+  openEditModal(chapter: any) {
+      const dialogRef = this.dialog.open(ChapterDialogComponent, {
+        width: '100vw',
+        height: '100vh',
+        data: chapter,
+      });
+  
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          console.log('Chapter Edited:', result);
+        }
+      });
+    }
 }
