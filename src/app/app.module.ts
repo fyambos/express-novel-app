@@ -25,6 +25,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { EditProfileDialogComponent } from './components/edit-profile-dialog/edit-profile-dialog.component';
+import { StoryCardComponent } from './components/story-card/story-card.component';
 
 @NgModule({
   declarations: [
@@ -38,6 +39,7 @@ import { EditProfileDialogComponent } from './components/edit-profile-dialog/edi
     NotFoundComponent,
     ProfileComponent,
     EditProfileDialogComponent,
+    StoryCardComponent,
   ],
   imports: [
     BrowserModule,
