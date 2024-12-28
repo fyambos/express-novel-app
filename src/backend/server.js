@@ -214,21 +214,21 @@ app.post('/api/signup', async (req, res) => {
   });
 
   app.post('/api/chapters', async (req, res) => {
-  const { title, content, story, author } = req.body;
+  const { title, content, storyId, authorId } = req.body;
   try {
-    const storyExists = await Story.findOne({ _id: story });
+    const storyExists = await Story.findOne({ _id: storyId });
     if (!storyExists) {
       return res.status(404).json({ message: 'Story not found' });
     }
-    const authorExists = await User.findOne({ id: author });
+    const authorExists = await User.findOne({ id: authorId });
     if (!authorExists) {
       return res.status(404).json({ message: 'Author not found' });
     }
     const newChapter = new Chapter({
       title,
       content,
-      story,
-      author,
+      storyId,
+      authorId,
     });
 
     const savedChapter = await newChapter.save();
@@ -257,12 +257,12 @@ app.get('/api/chapters/:id', async (req, res) => {
 
 app.put('/api/chapters/:id', async (req, res) => {
   const chapterId = req.params.id;
-  const { title, content, story, author } = req.body;
+  const { title, content, storyId, authorId } = req.body;
 
   try {
     const updatedChapter = await Chapter.findByIdAndUpdate(
       chapterId,
-      { title, content, story, author, updatedAt: Date.now() },
+      { title, content, storyId, authorId, updatedAt: Date.now() },
       { new: true }
     );
 
@@ -296,7 +296,7 @@ app.get('/api/stories/:storyId/chapters', async (req, res) => {
   const storyId = req.params.storyId;
 
   try {
-    const chapters = await Chapter.find({ story: storyId });
+    const chapters = await Chapter.find({ storyId: storyId });
 
     if (chapters.length === 0) {
       return res.status(404).json({ message: 'No chapters found for this story' });

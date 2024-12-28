@@ -9,11 +9,11 @@ const chapterSchema = new mongoose.Schema({
     type: String,
     required: true 
 },
-  story: { 
+  storyId: { 
     type: String,
     required: true
 }, 
-  author: { 
+  authorId: { 
     type: String,
     required: true
 },
