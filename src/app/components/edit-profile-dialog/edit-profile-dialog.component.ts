@@ -13,9 +13,16 @@ export class EditProfileDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.user = { ...data.user };
+    this.user.interestsString = this.user.interests 
+      ? this.user.interests.join(', ') 
+      : '';
+    console.log('User data:', this.user);
   }
 
   saveChanges(): void {
+    this.user.interests = this.user.interestsString
+      ? this.user.interestsString.split(',').map((s: string) => s.trim())
+      : [];
     this.dialogRef.close(this.user);
   }
 

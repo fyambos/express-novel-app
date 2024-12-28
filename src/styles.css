@@ -75,31 +75,36 @@
   .mat-form-field-appearance-outline .mat-mdc-text-field-wrapper {
     background-color: var(--accent);
     border-radius: 5px;
-    color: var(--accent-foreground)!important;
+    color: var(--accent-foreground)!important; /* add background and foreground color to mat inputs */
   }
 
   .mat-mdc-dialog-surface {
     background-color: var(--background)!important;
-    color: var(--background-foreground)!important;
+    color: var(--background-foreground)!important; /* add background and foreground color to mat dialogs */
   }
 
   .mat-mdc-input-element, .mat-mdc-dialog-container .mdc-dialog__title, .mdc-button__label {
-    color: var(--accent-foreground)!important;
+    color: var(--accent-foreground)!important; /* make dialog buttons and input text visible in dark mode */
   }
 
   .mdc-floating-label {
-    color: var(--accent-foreground) !important; 
-    border: none;
+    color: var(--accent-foreground) !important; /* make input labels visible in dark mode */
   }
 
   .mdc-notched-outline__notch{
-    border-right: none;
+    border-right: none; /* remove right border tailwind conflict on mat inputs outline */
   }
 
   .cdk-overlay-pane {
-    max-width: 100%!important;
+    max-width: 100%!important; /* make full-width dialogs take up all available space */
   }
 
   .mat-dialog-content {
-    padding: 20px;
+    padding: 20px;  /* add padding aroung inputs for full-width dialogs */
   }
+
+  .full-width {
+    width: 100%; /* make inputs take up all available space in smaller dialogs */
+  }
+  
+  
