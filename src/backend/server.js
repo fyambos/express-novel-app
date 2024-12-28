@@ -149,6 +149,22 @@ app.post('/api/signup', async (req, res) => {
       res.status(500).json({ message: 'Error fetching stories' });
     }
   });
+
+  app.get('/api/author/:id/stories', async (req, res) => {
+    try {
+      const authorId = req.params.id;
+      const stories = await Story.find({ author: authorId });
+  
+      if (stories.length === 0) {
+        return res.status(404).json({ message: 'No stories found for this author' });
+      }
+  
+      res.json(stories);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error fetching author stories' });
+    }
+  });
   
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));

@@ -51,4 +51,14 @@ export class UserService {
       throw error;
     }
   }
+
+  async fetchAuthorStories(authorId: string) {
+    try {
+      const stories = await lastValueFrom(this.http.get<any[]>(`${this.apiUrl}/author/${authorId}/stories`));
+      return stories;
+    } catch (error) {
+      console.error('Error fetching author stories:', error);
+      throw error;
+    }
+  }
 }
