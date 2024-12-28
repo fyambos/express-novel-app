@@ -28,10 +28,11 @@
   <div class="flex flex-col"> 
     <h2 class="text-xl font-semibold mb-2">Chapters</h2>
     <div class="relative inline-block w-full">
-      <select class="dark:text-black dark:bg-gray-300 border rounded py-2 px-3 focus:outline-none focus:ring-blue-500 focus:ring-opacity-50">
-        <option value="" class="dark: text-black">Select Chapter</option>
-        <option *ngFor="let chapter of story.chapters" [value]="chapter.id">
-          {{ chapter.title }}
+      <select (change)="onChapterSelect($event)"
+      class="dark:text-black dark:bg-gray-300 border rounded py-2 px-3 focus:outline-none focus:ring-blue-500 focus:ring-opacity-50">
+        <option disabled value="" class="dark: text-black">Select Chapter</option>
+        <option *ngFor="let chapter of story.chapters" [value]="chapter._id">
+          Chapter {{ chapter.chapter }}: {{ chapter.title }}
         </option>
       </select>
     </div>

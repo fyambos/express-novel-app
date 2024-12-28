@@ -5,6 +5,7 @@ import { Auth, onAuthStateChanged, User } from '@angular/fire/auth';
 import { MatDialog } from '@angular/material/dialog';
 import { StoryDialogComponent } from '../../components/story-dialog/story-dialog.component';
 import { ChapterDialogComponent } from '../../components/chapter-dialog/chapter-dialog.component';
+import { ChapterService } from 'src/app/services/chapter.service';
 
 @Component({
   selector: 'app-story-details',
@@ -21,12 +22,14 @@ export class StoryDetailsComponent implements OnInit {
     private router: Router,
     private auth: Auth,
     private dialog: MatDialog,
+    private chapterService: ChapterService,
   ) {}
 
   async ngOnInit() {
     const storyId = this.route.snapshot.paramMap.get('storyId');
     if (storyId) {
       await this.fetchStory(storyId);
+      await this.fetchStoryChapters(storyId);
       this.checkCurrentUser();
     }
   }
@@ -45,6 +48,16 @@ export class StoryDetailsComponent implements OnInit {
     try {
       const storyData = await this.storyService.getStoryById(storyId);
       this.story = { ...storyData };
+    } catch (error) {
+      console.error('Error fetching story:', error);
+      this.router.navigate(['/not-found']);
+    }
+  }
+
+  async fetchStoryChapters(storyId: string) {
+    try {
+      const chaptersData = await this.chapterService.getChaptersByStoryId(storyId);
+      this.story = { ...this.story, chapters: chaptersData };
     } catch (error) {
       console.error('Error fetching story:', error);
       this.router.navigate(['/not-found']);
@@ -80,5 +93,13 @@ export class StoryDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('Dialog closed', result);
     });
+  }
+
+  onChapterSelect(event: Event): void {
+    const selectElement = event.target as HTMLSelectElement;
+    const chapterId = selectElement.value;
+    if (chapterId) {
+      this.router.navigate(['/chapters', chapterId]);
+    }
   }
 }
