@@ -212,6 +212,102 @@ app.post('/api/signup', async (req, res) => {
       res.status(500).json({ message: 'Error uploading profile picture' });
     }
   });
-  
+
+  app.post('/api/chapters', async (req, res) => {
+  const { title, content, story, author } = req.body;
+  try {
+    const storyExists = await Story.findOne({ _id: story });
+    if (!storyExists) {
+      return res.status(404).json({ message: 'Story not found' });
+    }
+    const authorExists = await User.findOne({ id: author });
+    if (!authorExists) {
+      return res.status(404).json({ message: 'Author not found' });
+    }
+    const newChapter = new Chapter({
+      title,
+      content,
+      story,
+      author,
+    });
+
+    const savedChapter = await newChapter.save();
+    res.json(savedChapter);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error creating chapter' });
+  }
+});
+
+app.get('/api/chapters/:id', async (req, res) => {
+  try {
+    const chapterId = req.params.id;
+    const chapter = await Chapter.findById(chapterId);
+
+    if (!chapter) {
+      return res.status(404).json({ message: 'Chapter not found' });
+    }
+
+    res.json(chapter);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error fetching chapter' });
+  }
+});
+
+app.put('/api/chapters/:id', async (req, res) => {
+  const chapterId = req.params.id;
+  const { title, content, story, author } = req.body;
+
+  try {
+    const updatedChapter = await Chapter.findByIdAndUpdate(
+      chapterId,
+      { title, content, story, author, updatedAt: Date.now() },
+      { new: true }
+    );
+
+    if (!updatedChapter) {
+      return res.status(404).json({ message: 'Chapter not found' });
+    }
+
+    res.json(updatedChapter);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error updating chapter' });
+  }
+});
+
+app.delete('/api/chapters/:id', async (req, res) => {
+  const chapterId = req.params.id;
+
+  try {
+    const deletedChapter = await Chapter.findByIdAndDelete(chapterId);
+    if (!deletedChapter) {
+      return res.status(404).json({ message: 'Chapter not found' });
+    }
+    res.json({ message: 'Chapter deleted successfully' });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error deleting chapter' });
+  }
+});
+
+app.get('/api/stories/:storyId/chapters', async (req, res) => {
+  const storyId = req.params.storyId;
+
+  try {
+    const chapters = await Chapter.find({ story: storyId });
+
+    if (chapters.length === 0) {
+      return res.status(404).json({ message: 'No chapters found for this story' });
+    }
+
+    res.json(chapters);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: 'Error fetching chapters' });
+  }
+});
+
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));
