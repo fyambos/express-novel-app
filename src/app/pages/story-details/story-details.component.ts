@@ -100,4 +100,10 @@ export class StoryDetailsComponent implements OnInit {
       this.router.navigate(['/chapters', chapterId]);
     }
   }
+  
+  onFullStoryRedirect(storyId: string): void {
+    if (storyId) {
+      this.router.navigate(['/full-story', storyId]);
+    }
+  }
 }

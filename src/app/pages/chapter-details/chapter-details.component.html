@@ -39,11 +39,15 @@
             <mat-icon>arrow_drop_down</mat-icon>
           </button>
           <mat-menu #chapterMenu="matMenu" class="w-full">
+            <button mat-menu-item (click)="onFullStoryRedirect(chapter.storyId)" class="text-blue-500 font-semibold">
+              View Full Story
+            </button>
             <button mat-menu-item *ngFor="let chapter of chapter.story.chapters" (click)="onChapterSelect(chapter._id)">
               Chapter {{ chapter.chapter }}: {{ chapter.title }}
             </button>
           </mat-menu>
         </div>
+        
         <button 
           mat-raised-button 
           color="primary" 

@@ -29,6 +29,7 @@ import { StoryCardComponent } from './components/story-card/story-card.component
 import { ChapterDialogComponent } from './components/chapter-dialog/chapter-dialog.component';
 import { ChapterDetailsComponent } from './pages/chapter-details/chapter-details.component';
 import { ContentEditableDirective } from './directives/content-editable.directive';
+import { AllChaptersComponent } from './pages/all-chapters/all-chapters.component';
 
 @NgModule({
   declarations: [
@@ -46,6 +47,7 @@ import { ContentEditableDirective } from './directives/content-editable.directiv
     ChapterDialogComponent,
     ChapterDetailsComponent,
     ContentEditableDirective,
+    AllChaptersComponent,
   ],
   imports: [
     BrowserModule,

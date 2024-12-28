@@ -103,6 +103,12 @@ export class ChapterDetailsComponent implements OnInit {
     this.navigateToChapter(chapterId);
   }
 
+  onFullStoryRedirect(storyId: string): void {
+    if (storyId) {
+      this.router.navigate(['/full-story', storyId]);
+    }
+  }
+
   openEditModal(chapter: any) {
       const dialogRef = this.dialog.open(ChapterDialogComponent, {
         width: '100vw',

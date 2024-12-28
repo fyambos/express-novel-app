@@ -9,6 +9,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { ProfileComponent } from './pages/profile/profile.component';
 import { ChapterDetailsComponent } from './pages/chapter-details/chapter-details.component';
+import { AllChaptersComponent } from './pages/all-chapters/all-chapters.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent, canActivate: [authGuard] },
   { path: 'profile/:id', component: ProfileComponent },
   { path: 'chapters/:id', component: ChapterDetailsComponent },
+  { path: 'full-story/:id', component: AllChaptersComponent },
   { path: '**', redirectTo: '/not-found' },
 
 ];
