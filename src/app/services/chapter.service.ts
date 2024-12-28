@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,23 +10,53 @@ export class ChapterService {
 
   constructor(private http: HttpClient) {}
 
-  createChapter(chapter: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/chapters`, chapter);
+  async createChapter(chapter: any): Promise<any> {
+    try {
+      const response = await lastValueFrom(this.http.post<any>(`${this.baseUrl}/chapters`, chapter));
+      return response;
+    } catch (error) {
+      console.error('Error creating chapter:', error);
+      throw error;
+    }
   }
 
-  getChapterById(chapterId: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/chapters/${chapterId}`);
+  async getChapterById(chapterId: string): Promise<any> {
+    try {
+      const response = await lastValueFrom(this.http.get<any>(`${this.baseUrl}/chapters/${chapterId}`));
+      return response;
+    } catch (error) {
+      console.error(`Error fetching chapter with ID ${chapterId}:`, error);
+      throw error;
+    }
   }
 
-  editChapter(chapterId: string, chapter: any): Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/chapters/${chapterId}`, chapter);
+  async editChapter(chapterId: string, chapter: any): Promise<any> {
+    try {
+      const response = await lastValueFrom(this.http.put<any>(`${this.baseUrl}/chapters/${chapterId}`, chapter));
+      return response;
+    } catch (error) {
+      console.error(`Error updating chapter with ID ${chapterId}:`, error);
+      throw error;
+    }
   }
 
-  deleteChapter(chapterId: string): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/chapters/${chapterId}`);
+  async deleteChapter(chapterId: string): Promise<any> {
+    try {
+      const response = await lastValueFrom(this.http.delete<any>(`${this.baseUrl}/chapters/${chapterId}`));
+      return response;
+    } catch (error) {
+      console.error(`Error deleting chapter with ID ${chapterId}:`, error);
+      throw error;
+    }
   }
 
-  getChaptersByStoryId(storyId: string): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/stories/${storyId}/chapters`);
+  async getChaptersByStoryId(storyId: string): Promise<any> {
+    try {
+      const response = await lastValueFrom(this.http.get<any>(`${this.baseUrl}/stories/${storyId}/chapters`));
+      return response;
+    } catch (error) {
+      console.error(`Error fetching chapters for story with ID ${storyId}:`, error);
+      throw error;
+    }
   }
 }

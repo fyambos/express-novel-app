@@ -4,7 +4,6 @@ import { ChapterService } from 'src/app/services/chapter.service';
 import { Router } from '@angular/router';
 import { Auth } from '@angular/fire/auth';
 import { User } from 'firebase/auth';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-chapter-dialog',
@@ -32,24 +31,28 @@ export class ChapterDialogComponent implements OnInit {
       console.error('No authenticated user found');
       return;
     }
+
     if (this.data?.storyId) {
       this.storyId = this.data.storyId;
       console.log('Story ID:', this.storyId);
     }
+
     if (this.data?._id) {
       this.isEditing = true;
       await this.loadChapterDetails(this.data._id);
     }
   }
-  
+
   async loadChapterDetails(chapterId: string) {
     try {
-      const chapter = await firstValueFrom(this.chapterService.getChapterById(chapterId));
-      this.title = chapter.title;
-      this.content = chapter.content;
-      this.storyId = chapter.storyId;
+      const chapter = await this.chapterService.getChapterById(chapterId);
+      if (chapter) {
+        this.title = chapter.title || '';
+        this.content = chapter.content || '';
+        this.storyId = chapter.storyId || '';
+      }
     } catch (error) {
-      console.error('Error fetching chapter', error);
+      console.error('Error fetching chapter:', error);
     }
   }
 
@@ -68,37 +71,39 @@ export class ChapterDialogComponent implements OnInit {
 
     try {
       if (this.isEditing) {
-        const updatedChapter = await this.updateChapter(this.data.id, chapter);
+        const updatedChapter = await this.updateChapter(this.data._id, chapter);
         this.dialogRef.close(updatedChapter);
-        this.router.navigate([`/chapters/${updatedChapter._id}`]);
+        if (updatedChapter && updatedChapter._id) {
+          this.router.navigate([`/chapters/${updatedChapter._id}`]);
+        }
       } else {
         const newChapter = await this.createChapter(chapter);
         this.dialogRef.close(newChapter);
-        this.router.navigate([`/chapters/${newChapter._id}`]);
+        if (newChapter && newChapter._id) {
+          this.router.navigate([`/chapters/${newChapter._id}`]);
+        }
       }
     } catch (error) {
-      console.error('Error submitting chapter', error);
+      console.error('Error submitting chapter:', error);
     }
   }
 
   async createChapter(chapter: any) {
     try {
-      const newChapter = await firstValueFrom(this.chapterService.createChapter(chapter));
-      console.log('Chapter created successfully', newChapter);
+      const newChapter = await this.chapterService.createChapter(chapter);
       return newChapter;
     } catch (error) {
-      console.error('Error creating chapter', error);
+      console.error('Error creating chapter:', error);
       throw error;
     }
   }
-  
+
   async updateChapter(chapterId: string, chapter: any) {
     try {
-      const updatedChapter = await firstValueFrom(this.chapterService.editChapter(chapterId, chapter));
-      console.log('Chapter updated successfully', updatedChapter);
+      const updatedChapter = await this.chapterService.editChapter(chapterId, chapter);
       return updatedChapter;
     } catch (error) {
-      console.error('Error updating chapter', error);
+      console.error('Error updating chapter:', error);
       throw error;
     }
   }

@@ -27,6 +27,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { EditProfileDialogComponent } from './components/edit-profile-dialog/edit-profile-dialog.component';
 import { StoryCardComponent } from './components/story-card/story-card.component';
 import { ChapterDialogComponent } from './components/chapter-dialog/chapter-dialog.component';
+import { ChapterDetailsComponent } from './pages/chapter-details/chapter-details.component';
 
 @NgModule({
   declarations: [
@@ -42,6 +43,7 @@ import { ChapterDialogComponent } from './components/chapter-dialog/chapter-dial
     EditProfileDialogComponent,
     StoryCardComponent,
     ChapterDialogComponent,
+    ChapterDetailsComponent,
   ],
   imports: [
     BrowserModule,
