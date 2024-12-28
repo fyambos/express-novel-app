@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { Auth } from '@angular/fire/auth';
-import { Router } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { EditProfileDialogComponent } from 'src/app/components/edit-profile-dialog/edit-profile-dialog.component';
@@ -16,11 +15,11 @@ export class ProfileComponent implements OnInit {
   errorMessage: string = '';
   userIdFromParams: string | null = null;
   isOwnProfile: boolean = false;
+  stories: any[] = []; // Added for author stories
 
   constructor(
     private userService: UserService,
     private auth: Auth,
-    private router: Router,
     private route: ActivatedRoute,
     private dialog: MatDialog,
   ) {}
@@ -29,21 +28,28 @@ export class ProfileComponent implements OnInit {
     this.userIdFromParams = this.route.snapshot.paramMap.get('id');
     this.fetchUserProfile();
   }
+
   async fetchUserProfile() {
     try {
       this.auth.onAuthStateChanged(async (currentUser) => {
-        if (!currentUser) { //no user
+        if (!currentUser) {
+          // no user
           this.isOwnProfile = false;
-        } else if (!this.userIdFromParams) {  //profile
+        } else if (!this.userIdFromParams) {
+          // own profile
           this.isOwnProfile = true;
-          this.userIdFromParams = currentUser.uid; 
-        } else if (this.userIdFromParams === currentUser.uid) { //own profile
+          this.userIdFromParams = currentUser.uid;
+        } else if (this.userIdFromParams === currentUser.uid) {
+          // own profile w. param
           this.isOwnProfile = true;
-        } else { //other user profile
+        } else {
+          // other user profile
           this.isOwnProfile = false;
         }
+
         if (this.userIdFromParams) {
           this.user = await this.userService.fetchUser(this.userIdFromParams);
+          this.stories = await this.userService.fetchAuthorStories(this.userIdFromParams);
           this.isLoading = false;
         }
       });
@@ -57,7 +63,7 @@ export class ProfileComponent implements OnInit {
   openEditDialog(): void {
     const dialogRef = this.dialog.open(EditProfileDialogComponent, {
       width: '400px',
-      data: { user: this.user }
+      data: { user: this.user },
     });
 
     dialogRef.afterClosed().subscribe((updatedUser) => {
@@ -66,10 +72,12 @@ export class ProfileComponent implements OnInit {
         this.user.interests = updatedUser.interestsString
         ? updatedUser.interestsString.split(',').map((s: string) => s.trim())
         : [];
-        this.userService.updateUser(this.user.id, this.user.username, this.user.bio, this.user.interests).then(() => {
-        }).catch(error => {
-          console.error('Error saving user theme:', error);
-        });
+        this.userService
+          .updateUser(this.user.id, this.user.username, this.user.bio, this.user.interests)
+          .then(() => {})
+          .catch((error) => {
+            console.error('Error saving user theme:', error);
+          });
       }
     });
   }
