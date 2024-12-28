@@ -11,7 +11,11 @@
 <div *ngIf="!isLoading && user" class="profile-container max-w-4xl mx-auto p-6 bg-white dark:bg-gray-800 rounded-md shadow-md">
   <div class="container mx-auto p-4">
     <div class="flex justify-center items-center">
-      <img src="https://i.imgur.com/WxNkK7J.png" alt="Profile Picture" class="rounded-full w-24 h-24 mb-4">
+      <img 
+      [src]="user.profilePicture ? 'http://localhost:4200/assets/' + user.profilePicture : 'https://i.imgur.com/WxNkK7J.png'" 
+      alt="Profile Picture" 
+      class="rounded-full w-24 h-24 mb-4"
+      >
     </div>
 
     <h1 class="text-2xl font-bold mb-2">{{ user.username }}</h1>

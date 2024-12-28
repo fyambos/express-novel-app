@@ -70,4 +70,14 @@ export class UserService {
     }
   }
   
+  async uploadProfilePicture(userId: string, formData: FormData) {
+    try {
+      return await lastValueFrom(
+        this.http.post<any>(`${this.apiUrl}/users/${userId}/upload-profile-picture`, formData)
+      );
+    } catch (error) {
+      console.error('Error uploading profile picture:', error);
+      throw error;
+    }
+  }
 }

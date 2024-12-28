@@ -44,3 +44,12 @@ Thumbs.db
 # Environment variables
 .env
 env.dev*
+
+# Profile pictures
+src/assets/uploads/*.png
+src/assets/uploads/*.jpg
+src/assets/uploads/*.jpeg
+src/assets/uploads/*.webp
+src/assets/uploads/*.svg
+src/assets/uploads/*.heif
+src/assets/uploads/*.heic

@@ -16,6 +16,8 @@
       <mat-label>Enter commas-separated interests</mat-label>
       <input matInput [(ngModel)]="user.interestsString" name="interestsString" />
     </mat-form-field>
+    
+    <input type="file" (change)="onFileSelected($event)" accept=".png, .jpg, .jpeg, .webp, .svg, .heif, .heic" />
 
     <div mat-dialog-actions>
       <div class="w-full flex justify-end">

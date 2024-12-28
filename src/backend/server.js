@@ -3,6 +3,9 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import { Story } from './models/story.js'; 
 import { User } from './models/user.js'; 
+import multer from 'multer';
+import path from 'path';
+import fs from 'fs';
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -17,6 +20,21 @@ mongoose.connect('mongodb://localhost:27017/novel-app', {
 app.use(cors());
 
 app.use(express.json());
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, '../assets/uploads'); 
+  },
+  filename: (req, file, cb) => {
+    cb(null, `${Date.now()}-${file.originalname}`);
+  },
+});
+
+const upload = multer({ storage });
+
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
+const uploadPath = path.resolve(__dirname, '../assets/uploads');
+app.use('/uploads', express.static(uploadPath));
 
 app.post('/api/create', async (req, res) => {
   const { title, summary, tags, rating, author } = req.body;
@@ -163,6 +181,35 @@ app.post('/api/signup', async (req, res) => {
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: 'Error fetching author stories' });
+    }
+  });
+  app.post('/api/users/:id/upload-profile-picture', upload.single('profilePicture'), async (req, res) => {
+    const userId = req.params.id;
+    if (!req.file) {
+      return res.status(400).json({ message: 'No file uploaded' });
+    }
+    try {
+      const user = await User.findOne({ id: userId });
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      if (user.profilePicture!="") {
+        const oldFilePath = path.join('..', '/assets', user.profilePicture);
+        fs.unlink(oldFilePath, (err) => {
+          if (err) {
+            console.error('Error deleting old profile picture:', err);
+          }
+        });
+      }
+      const updatedUser = await User.findOneAndUpdate(
+        { id: userId },
+        { profilePicture: `/uploads/${req.file.filename}` },
+        { new: true }
+      );
+      res.json(updatedUser);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json({ message: 'Error uploading profile picture' });
     }
   });
   
