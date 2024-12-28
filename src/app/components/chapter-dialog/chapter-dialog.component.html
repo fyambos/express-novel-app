@@ -5,45 +5,55 @@
   <form (ngSubmit)="onSubmit()" class="space-y-6">
     <div class="mb-4">
       <label for="title" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Title</label>
-      <input
-        type="text"
-        id="title"
-        [(ngModel)]="title"
-        name="title"
-        class="mt-1 p-2 w-full border rounded-md focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
-        required
+      <input 
+        type="text" 
+        id="title" 
+        [(ngModel)]="title" 
+        name="title" 
+        class="mt-1 p-2 w-full border rounded-md focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200" 
+        required 
       />
     </div>
 
-    <!-- Formatting buttons -->
-    <div class="mb-4 flex space-x-4">
-      <button type="button" (click)="applyFormatting('bold')" class="text-xl">B</button>
-      <button type="button" (click)="applyFormatting('italic')" class="text-xl">I</button>
-      <button type="button" (click)="applyFormatting('underline')" class="text-xl">U</button>
-      <button type="button" (click)="applyFormatting('justifyLeft')" class="text-xl">Left</button>
-      <button type="button" (click)="applyFormatting('justifyCenter')" class="text-xl">Center</button>
-      <button type="button" (click)="applyFormatting('justifyRight')" class="text-xl">Right</button>
+    <div class="mb-4 flex space-x-2">
+      <button type="button" (click)="applyFormatting('bold')" class="bg-gray-100 hover:bg-gray-200 rounded-md p-2">
+        <i class="fas fa-bold text-gray-700"></i>
+      </button>
+      <button type="button" (click)="applyFormatting('italic')" class="bg-gray-100 hover:bg-gray-200 rounded-md p-2">
+        <i class="fas fa-italic text-gray-700"></i>
+      </button>
+      <button type="button" (click)="applyFormatting('underline')" class="bg-gray-100 hover:bg-gray-200 rounded-md p-2">
+        <i class="fas fa-underline text-gray-700"></i>
+      </button>
+      <button type="button" (click)="applyFormatting('justifyLeft')" class="bg-gray-100 hover:bg-gray-200 rounded-md p-2">
+        <i class="fas fa-align-left text-gray-700"></i>
+      </button>
+      <button type="button" (click)="applyFormatting('justifyCenter')" class="bg-gray-100 hover:bg-gray-200 rounded-md p-2">
+        <i class="fas fa-align-center text-gray-700"></i>
+      </button>
+      <button type="button" (click)="applyFormatting('justifyRight')" class="bg-gray-100 hover:bg-gray-200 rounded-md p-2">
+        <i class="fas fa-align-right text-gray-700"></i>
+      </button>
     </div>
 
     <div class="mb-4">
       <label for="content" class="block text-sm font-medium text-gray-700 dark:text-gray-400">Content</label>
-      <!-- Use contenteditable for rich text editing -->
-      <div
-        appContentEditable
-        id="content"
-        class="mt-1 p-2 w-full border rounded-md focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200"
-        contenteditable="true"
-        [(ngModel)]="content"
-        name="content"
-        rows="4"
-        required
+      <div 
+        appContentEditable 
+        id="content" 
+        class="mt-1 p-2 w-full border rounded-md focus:ring-blue-500 focus:border-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-gray-200" 
+        contenteditable="true" 
+        [(ngModel)]="content" 
+        name="content" 
+        rows="4" 
+        required 
         style="min-height: 200px; white-space: pre-wrap;"
       ></div>
     </div>
 
     <div class="text-center">
-      <button
-        type="submit"
+      <button 
+        type="submit" 
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
       >
         {{ isEditing ? 'Save Chapter' : 'Create Chapter' }}
