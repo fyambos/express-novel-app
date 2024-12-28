@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import { Story } from './models/story.js'; 
 import { User } from './models/user.js'; 
+import { Chapter } from './models/chapter.js'; 
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
@@ -215,6 +216,7 @@ app.post('/api/signup', async (req, res) => {
 
   app.post('/api/chapters', async (req, res) => {
   const { title, content, storyId, authorId } = req.body;
+  console.log(req.body);
   try {
     const storyExists = await Story.findOne({ _id: storyId });
     if (!storyExists) {

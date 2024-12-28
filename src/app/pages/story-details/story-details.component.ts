@@ -4,6 +4,7 @@ import { StoryService } from 'src/app/services/story.service';
 import { Auth, onAuthStateChanged, User } from '@angular/fire/auth';
 import { MatDialog } from '@angular/material/dialog';
 import { StoryDialogComponent } from '../../components/story-dialog/story-dialog.component';
+import { ChapterDialogComponent } from '../../components/chapter-dialog/chapter-dialog.component';
 
 @Component({
   selector: 'app-story-details',
@@ -61,6 +62,23 @@ export class StoryDetailsComponent implements OnInit {
       if (result) {
         console.log('Story Edited:', result);
       }
+    });
+  }
+
+  openChapterModal(storyId: string, chapterId?: string) {
+    let dialogData: any = { storyId };  
+    if (chapterId) {
+      dialogData._id = chapterId;
+    }
+  
+    const dialogRef = this.dialog.open(ChapterDialogComponent, {
+      width: '100vw',
+      height: '100vh',
+      data: dialogData
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('Dialog closed', result);
     });
   }
 }

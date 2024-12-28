@@ -4,6 +4,7 @@ import { ChapterService } from 'src/app/services/chapter.service';
 import { Router } from '@angular/router';
 import { Auth } from '@angular/fire/auth';
 import { User } from 'firebase/auth';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-chapter-dialog',
@@ -31,16 +32,19 @@ export class ChapterDialogComponent implements OnInit {
       console.error('No authenticated user found');
       return;
     }
-
+    if (this.data?.storyId) {
+      this.storyId = this.data.storyId;
+      console.log('Story ID:', this.storyId);
+    }
     if (this.data?._id) {
       this.isEditing = true;
       await this.loadChapterDetails(this.data._id);
     }
   }
-
+  
   async loadChapterDetails(chapterId: string) {
     try {
-      const chapter = await this.chapterService.getChapterById(chapterId).toPromise();
+      const chapter = await firstValueFrom(this.chapterService.getChapterById(chapterId));
       this.title = chapter.title;
       this.content = chapter.content;
       this.storyId = chapter.storyId;
@@ -79,7 +83,7 @@ export class ChapterDialogComponent implements OnInit {
 
   async createChapter(chapter: any) {
     try {
-      const newChapter = await this.chapterService.createChapter(chapter).toPromise();
+      const newChapter = await firstValueFrom(this.chapterService.createChapter(chapter));
       console.log('Chapter created successfully', newChapter);
       return newChapter;
     } catch (error) {
@@ -87,10 +91,10 @@ export class ChapterDialogComponent implements OnInit {
       throw error;
     }
   }
-
+  
   async updateChapter(chapterId: string, chapter: any) {
     try {
-      const updatedChapter = await this.chapterService.editChapter(chapterId, chapter).toPromise();
+      const updatedChapter = await firstValueFrom(this.chapterService.editChapter(chapterId, chapter));
       console.log('Chapter updated successfully', updatedChapter);
       return updatedChapter;
     } catch (error) {
