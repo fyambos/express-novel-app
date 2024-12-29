@@ -127,4 +127,8 @@ export class ChapterDetailsComponent implements OnInit {
         }
       });
     }
+
+    openCommentModal() {
+      console.log("openCommentModal");
+    }
 }

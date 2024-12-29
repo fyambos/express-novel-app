@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Comment } from '../models/comment.model';
 import { UserService } from './user.service';
+import { lastValueFrom } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CommentService {
-
-    constructor(
-      private userService: UserService,
-    ) {}
-  
+  private apiUrl = 'http://localhost:5000/api';
   comments: Comment[] = [
     { id: 1, authorId: 'JcMZt9kkGYcJUroyFhC68Lah6k83', chapterId: '67704455662a3261b4346c6b', text: 'This is the first comment.', replyTo: null },
     { id: 2, authorId: 'JcMZt9kkGYcJUroyFhC68Lah6k83', chapterId: '67704455662a3261b4346c6b', text: 'This is a reply to the first comment.', replyTo: 1 },
@@ -21,6 +19,31 @@ export class CommentService {
     { id: 8, authorId: 'JcMZt9kkGYcJUroyFhC68Lah6k83', chapterId: '67704455662a3261b4346c6b', text: 'This is a reply to the seventh comment.', replyTo: 7 },
     { id: 9, authorId: 'JcMZt9kkGYcJUroyFhC68Lah6k83', chapterId: '67704455662a3261b4346c6b', text: 'This is a reply to the eighth comment.', replyTo: 8 },
   ];
+
+  constructor(
+    private userService: UserService,
+    private http: HttpClient
+  ) {}
+
+  async getCommentsByChapterId(chapterId: string) {
+    try {
+      const comments = await lastValueFrom(this.http.get<any[]>(`${this.apiUrl}/comments/${chapterId}`));
+      return this.transformToNested(comments);
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+      throw error;
+    }
+  }
+
+  async addComment(comment: any) {
+    try {
+      const response = await lastValueFrom(this.http.post<any>(`${this.apiUrl}/comments`, comment));
+      return response;
+    } catch (error) {
+      console.error('Error adding comment:', error);
+      throw error;
+    }
+  }
 
   async transformToNested(comments: Comment[]): Promise<Comment[]> {
     const commentMap = new Map<number, Comment>();
@@ -47,8 +70,4 @@ export class CommentService {
     return nestedComments;
   }
 
-  async getCommentsByChapterId(chapterId: string): Promise<Comment[]> {
-    const filteredComments = this.comments.filter(comment => comment.chapterId === chapterId);
-    return this.transformToNested(filteredComments);
-  }
 }

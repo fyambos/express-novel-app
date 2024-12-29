@@ -322,7 +322,7 @@ app.get('/api/stories/:storyId/chapters', async (req, res) => {
   }
 });
 
-app.post('/add', async (req, res) => {
+app.post('/api/comments', async (req, res) => {
   try {
     const { authorId, chapterId, text, replyTo } = req.body;
     const newComment = new Comment({
@@ -338,7 +338,7 @@ app.post('/add', async (req, res) => {
   }
 });
 
-app.get('/chapter/:chapterId', async (req, res) => {
+app.get('/api/comments/:chapterId', async (req, res) => {
   try {
     const chapterId = req.params.chapterId;
     const comments = await Comment.find({ chapterId }).sort({ createdAt: 1 });
