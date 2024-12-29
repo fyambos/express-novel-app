@@ -100,6 +100,8 @@ export class ProfileComponent implements OnInit {
   }
 
   deleteBookmark(bookmarkId: string): void {
-    console.log('Delete bookmark with ID:', bookmarkId);
+    this.bookmarkService.deleteBookmarkById(bookmarkId).then(() => {
+      this.bookmarks = this.bookmarks.filter((bookmark) => bookmark._id !== bookmarkId);
+    });
   }
 }
