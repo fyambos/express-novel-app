@@ -28,6 +28,10 @@ const chapterSchema = new mongoose.Schema({
   chapter: {
     type: Number,
     required: true
+},
+  likes: {
+    type: [String],
+    default: []
   }
 });
 

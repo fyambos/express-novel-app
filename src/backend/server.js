@@ -440,4 +440,45 @@ app.delete('/api/read/:id', async (req, res) => {
   }
 });
 
+app.post('/api/chapters/:id/like', async (req, res) => {
+  const chapterId = req.params.id;
+  const { userId } = req.body;
+
+  try {
+    const chapter = await Chapter.findById(chapterId);
+    if (!chapter) {
+      return res.status(404).json({ message: 'Chapter not found' });
+    }
+
+    const userIndex = chapter.likes.indexOf(userId);
+
+    if (userIndex === -1) {
+      chapter.likes.push(userId);
+    } else {
+      chapter.likes.splice(userIndex, 1);
+    }
+
+    await chapter.save();
+    res.json({ message: 'Chapter like status updated', likes: chapter.likes });
+  } catch (err) {
+    console.error('Error updating like status:', err);
+    res.status(500).json({ message: 'Error updating like status' });
+  }
+});
+
+app.get('/api/chapters/:id/likes', async (req, res) => {
+  const chapterId = req.params.id;
+
+  try {
+    const chapter = await Chapter.findById(chapterId);
+    if (!chapter) {
+      return res.status(404).json({ message: 'Chapter not found' });
+    }
+    res.json({ likeCount: chapter.likes.length });
+  } catch (err) {
+    console.error('Error fetching like count:', err);
+    res.status(500).json({ message: 'Error fetching like count' });
+  }
+});
+
 app.listen(port, () => console.log(`Server listening on port ${port}`));
