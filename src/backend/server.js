@@ -493,4 +493,62 @@ app.get('/api/chapters/:id/like-status', async (req, res) => {
   }
 });
 
+
+app.post('/api/comments/:id/like', async (req, res) => {
+  const commentId = req.params.id;
+  const { userId } = req.body;
+
+  try {
+    const comment = await Comment.findById(commentId);
+    if (!comment) {
+      return res.status(404).json({ message: 'Comment not found' });
+    }
+
+    const userIndex = comment.likes.indexOf(userId);
+
+    if (userIndex === -1) {
+      comment.likes.push(userId);
+    } else {
+      comment.likes.splice(userIndex, 1);
+    }
+
+    await comment.save();
+    res.json({ message: 'Comment like status updated', likes: comment.likes });
+  } catch (err) {
+    console.error('Error updating like status:', err);
+    res.status(500).json({ message: 'Error updating like status' });
+  }
+});
+
+app.get('/api/comments/:id/likes', async (req, res) => {
+  const commentId = req.params.id;
+
+  try {
+    const comment = await Comment.findById(commentId);
+    if (!comment) {
+      return res.status(404).json({ message: 'Comment not found' });
+    }
+    res.json({ likes: comment.likes });
+  } catch (err) {
+    console.error('Error fetching like count:', err);
+    res.status(500).json({ message: 'Error fetching like count' });
+  }
+});
+
+app.get('/api/comments/:id/like-status', async (req, res) => {
+  const commentId = req.params.id;
+  const userId = req.query.userId;
+
+  try {
+    const comment = await Comment.findById(commentId);
+    if (!comment) {
+      return res.status(404).json({ message: 'Comment not found' });
+    }
+    const isLiked = comment.likes.includes(userId);
+    res.json({ isLiked });
+  } catch (err) {
+    console.error('Error checking like status:', err);
+    res.status(500).json({ message: 'Error checking like status' });
+  }
+});
 app.listen(port, () => console.log(`Server listening on port ${port}`));
