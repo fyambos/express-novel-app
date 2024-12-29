@@ -151,6 +151,7 @@ export class ChapterDetailsComponent implements OnInit {
   }
 
   toggleBookmark(storyId: string, chapterId: string) {
+    const userId = this.currentUserUid;
     console.log('Bookmark toggled');
   }
 }
