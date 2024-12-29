@@ -136,4 +136,10 @@ export class StoryDetailsComponent implements OnInit {
         console.error('Error fetching user profiles:', error);
       }
     }
+
+    navigateToReorderChapters(storyId: string) {
+      if (storyId) {
+        this.router.navigate(['/reorder-chapters', storyId]);
+      }
+    }
 }

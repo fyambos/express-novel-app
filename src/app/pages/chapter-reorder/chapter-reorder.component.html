@@ -1,0 +1,22 @@
+<div class="max-w-3xl mx-auto p-6 bg-white dark:bg-gray-700 rounded-lg shadow-lg">
+    <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6 dark:text-gray-300">Reorder Chapters</h2>
+    <div
+      cdkDropList
+      [cdkDropListData]="chapters"
+      (cdkDropListDropped)="onDrop($event)"
+      class="chapter-list"
+    >
+      <div
+        *ngFor="let chapter of chapters"
+        cdkDrag
+        class="chapter-item flex items-center space-x-4 bg-gray-100 dark:bg-gray-900 p-4 rounded-md shadow-sm hover:bg-gray-200 dark:hover:bg-gray-800 mb-2 cursor-pointer"
+      >
+      <i class="fas fa-grip-lines text-gray-500 dark:text-gray-400 mr-2"></i>
+        {{ chapter.title }}
+      </div>
+    </div>
+    <button
+    class="mt-6 py-2 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition duration-200 justify-center"
+    (click)="saveOrder()">Save Order</button>
+</div>
+  

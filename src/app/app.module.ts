@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -34,6 +35,7 @@ import { CommentsComponent } from './components/comments/comments.component';
 import { AddCommentDialogComponent } from './components/add-comment-dialog/add-comment-dialog.component';
 import { RelativeDatePipe } from './pipes/relative-date.pipe';
 import { UsersModalComponent } from './components/users-modal/users-modal.component';
+import { ChapterReorderComponent } from './pages/chapter-reorder/chapter-reorder.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +58,7 @@ import { UsersModalComponent } from './components/users-modal/users-modal.compon
     AddCommentDialogComponent,
     RelativeDatePipe,
     UsersModalComponent,
+    ChapterReorderComponent,
   ],
   imports: [
     BrowserModule,
@@ -72,6 +75,7 @@ import { UsersModalComponent } from './components/users-modal/users-modal.compon
     MatMenuModule,
     MatToolbarModule,
     MatDialogModule,
+    DragDropModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

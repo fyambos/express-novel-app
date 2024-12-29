@@ -52,8 +52,9 @@ export class ChapterService {
 
   async getChaptersByStoryId(storyId: string): Promise<any> {
     try {
-      const response = await lastValueFrom(this.http.get<any>(`${this.baseUrl}/stories/${storyId}/chapters`));
-      return response;
+      const chapters = await lastValueFrom(this.http.get<any>(`${this.baseUrl}/stories/${storyId}/chapters`));
+      const sortedChapters = chapters.sort((a: any, b: any) => a.chapter - b.chapter);
+      return sortedChapters;
     } catch (error) {
       console.error(`Error fetching chapters for story with ID ${storyId}:`, error);
       throw error;
@@ -93,4 +94,17 @@ export class ChapterService {
       throw error;
     }
   }
+
+  async updateChapterOrder(updatedOrder: any) {
+    try {
+      const response = await lastValueFrom(
+        this.http.post(`${this.baseUrl}/chapters/update-chapter-order`, updatedOrder)
+      );
+      return response;
+    } catch (error) {
+      console.error('Error updating chapter order:', error);
+      throw error;
+    }
+  }
+
 }

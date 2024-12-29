@@ -551,4 +551,19 @@ app.get('/api/comments/:id/like-status', async (req, res) => {
     res.status(500).json({ message: 'Error checking like status' });
   }
 });
+
+app.post('/api/chapters/update-chapter-order', async (req, res) => {
+  const updatedOrder = req.body;
+  try {
+    for (let i = 0; i < updatedOrder.length; i++) {
+      const { chapterId, order } = updatedOrder[i];
+      await Chapter.findByIdAndUpdate(chapterId, { chapter: order });
+    }
+    res.status(200).json({ message: 'Chapter order updated successfully!' });
+  } catch (error) {
+    console.error('Error updating chapter order:', error);
+    res.status(500).json({ message: 'An error occurred while updating the chapter order.' });
+  }
+});
+
 app.listen(port, () => console.log(`Server listening on port ${port}`));
