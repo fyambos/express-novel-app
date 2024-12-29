@@ -4,6 +4,7 @@ import cors from 'cors';
 import { Story } from './models/story.js'; 
 import { User } from './models/user.js'; 
 import { Chapter } from './models/chapter.js'; 
+import { Comment } from './models/comment.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
@@ -321,5 +322,29 @@ app.get('/api/stories/:storyId/chapters', async (req, res) => {
   }
 });
 
+app.post('/add', async (req, res) => {
+  try {
+    const { authorId, chapterId, text, replyTo } = req.body;
+    const newComment = new Comment({
+      authorId,
+      chapterId,
+      text,
+      replyTo: replyTo || null,
+    });
+    await newComment.save();
+    res.json({ message: 'Comment added successfully', comment: newComment });
+  } catch (err) {
+    res.status(500).json({ message: 'Error adding comment', error: err });
+  }
+});
 
+app.get('/chapter/:chapterId', async (req, res) => {
+  try {
+    const chapterId = req.params.chapterId;
+    const comments = await Comment.find({ chapterId }).sort({ createdAt: 1 });
+    res.json(comments);
+  } catch (err) {
+    res.status(500).json({ message: 'Error fetching comments', error: err });
+  }
+});
 app.listen(port, () => console.log(`Server listening on port ${port}`));
