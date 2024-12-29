@@ -466,7 +466,7 @@ app.post('/api/chapters/:id/like', async (req, res) => {
   }
 });
 
-app.get('/api/chapters/:id/likes', async (req, res) => {
+app.get('/api/chapters/:id/likeCount', async (req, res) => {
   const chapterId = req.params.id;
 
   try {
@@ -478,6 +478,23 @@ app.get('/api/chapters/:id/likes', async (req, res) => {
   } catch (err) {
     console.error('Error fetching like count:', err);
     res.status(500).json({ message: 'Error fetching like count' });
+  }
+});
+
+app.get('/api/chapters/:id/like-status', async (req, res) => {
+  const chapterId = req.params.id;
+  const userId = req.query.userId;
+
+  try {
+    const chapter = await Chapter.findById(chapterId);
+    if (!chapter) {
+      return res.status(404).json({ message: 'Chapter not found' });
+    }
+    const isLiked = chapter.likes.includes(userId);
+    res.json({ isLiked });
+  } catch (err) {
+    console.error('Error checking like status:', err);
+    res.status(500).json({ message: 'Error checking like status' });
   }
 });
 

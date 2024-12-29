@@ -59,4 +59,38 @@ export class ChapterService {
       throw error;
     }
   }
+
+  async toggleLikeChapter(chapterId: string, userId: string): Promise<any> {
+    try {
+      const response = await lastValueFrom(
+        this.http.post<any>(`${this.baseUrl}/chapters/${chapterId}/like`, { userId })
+      );
+      return response;
+    } catch (error) {
+      console.error(`Error toggling like for chapter with ID ${chapterId}:`, error);
+      throw error;
+    }
+  }
+
+  async getLikeCount(chapterId: string): Promise<number> {
+    try {
+      const response = await lastValueFrom(this.http.get<any>(`${this.baseUrl}/chapters/${chapterId}/likes`));
+      return response.likeCount;
+    } catch (error) {
+      console.error(`Error fetching like count for chapter with ID ${chapterId}:`, error);
+      throw error;
+    }
+  }
+
+  async isChapterLikedByUser(chapterId: string, userId: string): Promise<boolean> {
+    try {
+      const response = await lastValueFrom(
+        this.http.get<any>(`${this.baseUrl}/chapters/${chapterId}/like-status`, { params: { userId } })
+      );
+      return response.isLiked;
+    } catch (error) {
+      console.error(`Error checking like status for chapter with ID ${chapterId}:`, error);
+      throw error;
+    }
+  }
 }
