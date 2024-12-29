@@ -9,11 +9,19 @@
     </div>
     <p class="ml-2 text-gray-700 dark:text-gray-300">{{ comment.text }}</p>
     <p class="ml-2 text-sm text-gray-500 dark:text-gray-400">{{ comment.createdAt | relativeDate }}</p>
-    <button 
-      class="text-blue-500 mt-2 hover:underline"
-      (click)="openReplyForm()">
-      Reply
-    </button>
+    <div class="flex items-center space-x-4 mt-2">
+      <button 
+        class="text-blue-500 mt-2 hover:underline"
+        (click)="openReplyForm()">
+        Reply
+      </button>
+      <button 
+        class="flex items-center px-2 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 hover:dark:bg-gray-800 rounded-lg"
+      >
+        <i class="fas fa-heart text-red-500"></i>
+      </button>
+    </div>
+    
     <div *ngIf="isReplying" class="mt-2">
         <textarea 
           [(ngModel)]="newReplyText" 
