@@ -149,4 +149,8 @@ export class ChapterDetailsComponent implements OnInit {
       }
     });
   }
+
+  toggleBookmark(storyId: string, chapterId: string) {
+    console.log('Bookmark toggled');
+  }
 }
