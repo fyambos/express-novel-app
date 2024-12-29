@@ -36,7 +36,7 @@ export class CommentService {
   }
 
   async transformToNested(comments: Comment[]): Promise<Comment[]> {
-    const commentMap = new Map<number, Comment>();
+    const commentMap = new Map<string, Comment>();
     comments.forEach(comment => {
       comment.replies = [];
       commentMap.set(comment.id, comment);

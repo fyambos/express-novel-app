@@ -17,8 +17,9 @@
       </button>
       <button 
         class="flex items-center px-2 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 hover:dark:bg-gray-800 rounded-lg"
-      >
-        <i class="fas fa-heart text-red-500"></i>
+        (click)="likeComment(comment.id, this.currentUserUid)"
+        >
+        <i class="fas fa-heart" [ngClass]="{'text-red-500': isLiked, 'text-gray-500 dark:text-gray-200': !isLiked}"></i>
       </button>
     </div>
     
