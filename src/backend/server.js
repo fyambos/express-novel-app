@@ -339,9 +339,9 @@ app.post('/api/comments', async (req, res) => {
   }
 });
 
-app.get('/api/comments/:chapterId', async (req, res) => {
+app.get('/api/comments/:id', async (req, res) => {
   try {
-    const chapterId = req.params.chapterId;
+    const chapterId = req.params.id;
     const comments = await Comment.find({ chapterId })
       .sort({ createdAt: 1 })
       .lean();
@@ -357,7 +357,7 @@ app.get('/api/comments/:chapterId', async (req, res) => {
   }
 });
 
-app.post('/', async (req, res) => {
+app.post('/api/bookmarks', async (req, res) => {
   const { userId, chapterId, storyId } = req.body;
   
   try {
@@ -370,8 +370,8 @@ app.post('/', async (req, res) => {
   }
 });
 
-app.get('/:userId', async (req, res) => {
-  const { userId } = req.params;
+app.get('/api/bookmarks/:id', async (req, res) => {
+  const userId = req.params.id;
   
   try {
     const bookmarks = await Bookmark.find({ userId });
@@ -382,11 +382,11 @@ app.get('/:userId', async (req, res) => {
   }
 });
 
-app.delete('/:id', async (req, res) => {
-  const { id } = req.params;
+app.delete('/api/bookmarks/:id', async (req, res) => {
+  const bookmarkId = req.params.id;
 
   try {
-    const result = await Bookmark.findByIdAndDelete(id);
+    const result = await Bookmark.findByIdAndDelete(bookmarkId);
     if (!result) {
       return res.status(404).json({ message: 'Bookmark not found' });
     }
