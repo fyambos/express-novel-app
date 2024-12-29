@@ -332,7 +332,7 @@ app.post('/api/comments', async (req, res) => {
       replyTo: replyTo || null,
     });
     await newComment.save();
-    res.json({ message: 'Comment added successfully', comment: newComment });
+    res.json(newComment);
   } catch (err) {
     res.status(500).json({ message: 'Error adding comment', error: err });
   }

@@ -57,7 +57,7 @@ export class ChapterDetailsComponent implements OnInit {
           this.isLoading = false;
         }
       });
-    }
+  }
 
   async fetchChapter(chapterId: string) {
     try {

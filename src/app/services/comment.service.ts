@@ -18,7 +18,6 @@ export class CommentService {
   async getCommentsByChapterId(chapterId: string) {
     try {
       const comments = await lastValueFrom(this.http.get<any[]>(`${this.apiUrl}/comments/${chapterId}`));
-      console.log('Comments:', comments);
       return this.transformToNested(comments);
     } catch (error) {
       console.error('Error fetching comments:', error);
@@ -37,7 +36,7 @@ export class CommentService {
   }
 
   async transformToNested(comments: Comment[]): Promise<Comment[]> {
-    const commentMap = new Map<number, any>();
+    const commentMap = new Map<number, Comment>();
     comments.forEach(comment => {
       comment.replies = [];
       commentMap.set(comment.id, comment);
