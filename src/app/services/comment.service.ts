@@ -60,4 +60,38 @@ export class CommentService {
     return nestedComments;
   }
 
+  async toggleLikeComment(commentId: string, userId: string): Promise<any> {
+    try {
+      const response = await lastValueFrom(
+        this.http.post<any>(`${this.apiUrl}/comments/${commentId}/like`, { userId })
+      );
+      return response;
+    } catch (error) {
+      console.error(`Error toggling like for chapter with ID ${commentId}:`, error);
+      throw error;
+    }
+  }
+
+  async getLikesByComment(commentId: string): Promise<number> {
+    try {
+      const response = await lastValueFrom(this.http.get<any>(`${this.apiUrl}/comments/${commentId}/likes`));
+      return response.likes;
+    } catch (error) {
+      console.error(`Error fetching like count for comment with ID ${commentId}:`, error);
+      throw error;
+    }
+  }
+
+  async checkIfLiked(commentId: string, userId: string): Promise<boolean> {
+    try {
+      const response = await lastValueFrom(
+        this.http.get<any>(`${this.apiUrl}/comments/${commentId}/like-status`, { params: { userId } })
+      );
+      return response.isLiked;
+    } catch (error) {
+      console.error(`Error checking like status for comment with ID ${commentId}:`, error);
+      throw error;
+    }
+  }
+
 }
