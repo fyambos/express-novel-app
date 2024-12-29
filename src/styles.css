@@ -136,3 +136,17 @@
   .mat-mdc-dialog-actions div .cancel:hover {
     background-color: var(--secondary); 
   }
+
+  /* truncate text in summary */
+  .truncate-summary {
+    display: -webkit-box;
+    -webkit-line-clamp: 4; 
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .bookmark-title {
+    margin-bottom: 0px!important; /* make bookmark more compact */
+  }

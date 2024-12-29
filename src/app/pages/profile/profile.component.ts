@@ -4,6 +4,9 @@ import { Auth } from '@angular/fire/auth';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { EditProfileDialogComponent } from 'src/app/components/edit-profile-dialog/edit-profile-dialog.component';
+import { BookmarkService } from 'src/app/services/bookmark.service';
+import { StoryService } from 'src/app/services/story.service';
+import { ChapterService } from 'src/app/services/chapter.service';
 
 @Component({
   selector: 'app-profile',
@@ -15,13 +18,17 @@ export class ProfileComponent implements OnInit {
   errorMessage: string = '';
   userIdFromParams: string | null = null;
   isOwnProfile: boolean = false;
-  stories: any[] = []; // Added for author stories
+  stories: any[] = [];
+  bookmarks: any[] = [];
 
   constructor(
     private userService: UserService,
     private auth: Auth,
     private route: ActivatedRoute,
     private dialog: MatDialog,
+    private bookmarkService: BookmarkService,
+    private storyService: StoryService,
+    private chapterService: ChapterService,
   ) {}
 
   ngOnInit(): void {
@@ -50,7 +57,16 @@ export class ProfileComponent implements OnInit {
         if (this.userIdFromParams) {
           this.user = await this.userService.fetchUser(this.userIdFromParams);
           this.stories = await this.userService.fetchAuthorStories(this.userIdFromParams);
+          const bookmarks = await this.bookmarkService.getBookmarksByUserId(this.userIdFromParams);
+          for (const bookmark of bookmarks) {
+            const story = await this.storyService.getStoryById(bookmark.storyId);
+            const chapter = await this.chapterService.getChapterById(bookmark.chapterId); 
+            bookmark.story = story;
+            bookmark.chapter = chapter;
+          }
+          this.bookmarks = bookmarks;
           this.isLoading = false;
+          console.log("this.bookmarks",this.bookmarks);
         }
       });
     } catch (error) {
@@ -80,5 +96,9 @@ export class ProfileComponent implements OnInit {
           });
       }
     });
+  }
+
+  deleteBookmark(bookmarkId: string): void {
+    console.log('Delete bookmark with ID:', bookmarkId);
   }
 }

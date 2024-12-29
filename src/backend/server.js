@@ -186,6 +186,7 @@ app.post('/api/signup', async (req, res) => {
       res.status(500).json({ message: 'Error fetching author stories' });
     }
   });
+
   app.post('/api/users/:id/upload-profile-picture', upload.single('profilePicture'), async (req, res) => {
     const userId = req.params.id;
     if (!req.file) {
