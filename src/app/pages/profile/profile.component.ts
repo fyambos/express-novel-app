@@ -20,6 +20,7 @@ export class ProfileComponent implements OnInit {
   isOwnProfile: boolean = false;
   stories: any[] = [];
   bookmarks: any[] = [];
+  viewBookmarks: boolean = false;
 
   constructor(
     private userService: UserService,
