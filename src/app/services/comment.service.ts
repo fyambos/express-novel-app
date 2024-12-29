@@ -46,4 +46,9 @@ export class CommentService {
 
     return nestedComments;
   }
+
+  async getCommentsByChapterId(chapterId: string): Promise<Comment[]> {
+    const filteredComments = this.comments.filter(comment => comment.chapterId === chapterId);
+    return this.transformToNested(filteredComments);
+  }
 }
