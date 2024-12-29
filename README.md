@@ -12,7 +12,7 @@ This project is a web application for creating and sharing stories. Users can cr
 * **👤 User Profiles:** View user profiles with information like username and bio.
 * **🌔 Dark Mode:** Toggle between light and dark mode.
 * **💬 Add comments:** Add comments to stories, reply to comments.
-* **📊 Statistics:** Display story statistics such as number of chapters, word count, etc.
+* **📊 Statistics:** Display story statistics such as number of chapters, word count, likes etc.
 * **📍 Bookmark Chapters:** Let users bookmark chapters to continue reading later.
 * **✅ Mark as read:** Let users mark stories as read.
 

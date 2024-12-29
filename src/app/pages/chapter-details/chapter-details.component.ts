@@ -12,6 +12,7 @@ import { AddCommentDialogComponent } from 'src/app/components/add-comment-dialog
 import { UserService } from 'src/app/services/user.service';
 import { StoryService } from 'src/app/services/story.service';
 import { BookmarkService } from 'src/app/services/bookmark.service';
+import { UsersModalComponent } from 'src/app/components/users-modal/users-modal.component';
 
 @Component({
   selector: 'app-chapter-details',
@@ -272,6 +273,27 @@ export class ChapterDetailsComponent implements OnInit {
       this.isLiked = await this.chapterService.checkIfLiked(chapterId, userId);
     } catch (error) {
       console.error('Error checking like status:', error);
+    }
+  }
+  
+
+  async openLikesModal(userIds: string[]): Promise<void> {
+    try {
+      const userProfiles = await Promise.all(
+        userIds.map(async (userId) => {
+          return await this.userService.fetchUser(userId);
+        })
+      );
+      console.log(userProfiles)
+      this.dialog.open(UsersModalComponent, {
+        width: '400px',
+        data: {
+          users: userProfiles,
+          title: 'Users who liked this chapter',
+        },
+      });
+    } catch (error) {
+      console.error('Error fetching user profiles:', error);
     }
   }
 }

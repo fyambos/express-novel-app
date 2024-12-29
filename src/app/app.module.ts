@@ -33,6 +33,7 @@ import { AllChaptersComponent } from './pages/all-chapters/all-chapters.componen
 import { CommentsComponent } from './components/comments/comments.component';
 import { AddCommentDialogComponent } from './components/add-comment-dialog/add-comment-dialog.component';
 import { RelativeDatePipe } from './pipes/relative-date.pipe';
+import { UsersModalComponent } from './components/users-modal/users-modal.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { RelativeDatePipe } from './pipes/relative-date.pipe';
     CommentsComponent,
     AddCommentDialogComponent,
     RelativeDatePipe,
+    UsersModalComponent,
   ],
   imports: [
     BrowserModule,
