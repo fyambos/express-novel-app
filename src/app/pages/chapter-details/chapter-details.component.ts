@@ -9,6 +9,7 @@ import { ChapterDialogComponent } from 'src/app/components/chapter-dialog/chapte
 import { Comment } from 'src/app/models/comment.model';
 import { CommentService } from 'src/app/services/comment.service';
 import { AddCommentDialogComponent } from 'src/app/components/add-comment-dialog/add-comment-dialog.component';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-chapter-details',
@@ -33,6 +34,7 @@ export class ChapterDetailsComponent implements OnInit {
     private auth: Auth,
     private dialog: MatDialog,
     private commentService: CommentService,
+    private userService: UserService,
   ) {}
 
   async ngOnInit() {
@@ -131,15 +133,16 @@ export class ChapterDetailsComponent implements OnInit {
       });
     }
 
-    openCommentModal() {
+    async openCommentModal() {
     const dialogRef = this.dialog.open(AddCommentDialogComponent, {
       width: '400px',
       data: { chapterId: this.chapter._id, authorId: this.currentUserUid },
     });
 
-    dialogRef.afterClosed().subscribe((newComment) => {
+    dialogRef.afterClosed().subscribe(async (newComment) => {
       if (newComment) {
-        console.log('New comment added:', newComment);
+        newComment.author = await this.userService.fetchUser(newComment.authorId);
+        this.comments.push(newComment);
       }
     });
   }
