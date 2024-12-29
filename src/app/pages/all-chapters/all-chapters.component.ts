@@ -47,4 +47,8 @@ export class AllChaptersComponent implements OnInit {
       this.router.navigate(['/not-found']);
     }
   }
+
+  moveToTop() {
+    window.scrollTo(0, 0);
+  }
 }

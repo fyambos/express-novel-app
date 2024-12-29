@@ -244,4 +244,8 @@ export class ChapterDetailsComponent implements OnInit {
       console.error('Error toggling bookmark:', error);
     }
   }
+
+  moveToTop() {
+    window.scrollTo(0, 0);
+  }
 }
