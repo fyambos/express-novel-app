@@ -1,6 +1,6 @@
 
 <div class="comment pl-4 border-l-4 my-4">
-    <p class="text-lg font-semibold">{{ comment.author }}:</p>
+    <p class="text-lg font-semibold">{{ comment.author.username }}:</p>
     <p class="ml-2 text-gray-700">{{ comment.text }}</p>
     <div class="replies mt-4" *ngIf="comment.replies && comment.replies.length > 0">
       <app-comments 

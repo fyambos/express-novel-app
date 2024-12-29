@@ -1,9 +1,11 @@
 export interface Comment {
     id: number;
-    author: string;
+    authorId: string;
+    chapterId: string;
     text: string;
     replyTo: number | null;
     replies?: Comment[];
+    author?: any;
 }
   
   

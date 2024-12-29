@@ -39,7 +39,7 @@ export class ChapterDetailsComponent implements OnInit {
       if (chapterId) {
         await this.fetchChapter(chapterId);
         this.checkCurrentUser();
-        this.comments = this.commentService.transformToNested(this.commentService.comments);
+        this.comments = await this.commentService.transformToNested(this.commentService.comments);
       }
     });
   }
