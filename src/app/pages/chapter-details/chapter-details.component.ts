@@ -69,7 +69,6 @@ export class ChapterDetailsComponent implements OnInit {
           this.checkIfBookmarked();
           this.checkIfMarkedAsRead();
           this.checkIfLiked(this.chapter._id, this.currentUserUid);
-          console.log("isLiked:", this.isLiked);
         } else {
           this.isLoading = false;
         }
@@ -144,7 +143,7 @@ export class ChapterDetailsComponent implements OnInit {
   
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          console.log('Chapter Edited:', result);
+          
         }
       });
     }
@@ -259,11 +258,10 @@ export class ChapterDetailsComponent implements OnInit {
       this.router.navigate(['/login']);
       return;
     }
-
     try {
       const response = await this.chapterService.toggleLikeChapter(chapterId, userId);
       this.isLiked = await this.chapterService.checkIfLiked(chapterId, userId);
-      console.log('Like toggled:', response, "isLiked:", this.isLiked);
+      this.chapter.likes = response.likes;
     } catch (error) {
       console.error('Error toggling like:', error);
     }

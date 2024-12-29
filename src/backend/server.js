@@ -466,7 +466,7 @@ app.post('/api/chapters/:id/like', async (req, res) => {
   }
 });
 
-app.get('/api/chapters/:id/likeCount', async (req, res) => {
+app.get('/api/chapters/:id/likes', async (req, res) => {
   const chapterId = req.params.id;
 
   try {
@@ -474,7 +474,7 @@ app.get('/api/chapters/:id/likeCount', async (req, res) => {
     if (!chapter) {
       return res.status(404).json({ message: 'Chapter not found' });
     }
-    res.json({ likeCount: chapter.likes.length });
+    res.json({ likes: chapter.likes });
   } catch (err) {
     console.error('Error fetching like count:', err);
     res.status(500).json({ message: 'Error fetching like count' });

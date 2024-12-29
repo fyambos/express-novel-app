@@ -72,10 +72,10 @@ export class ChapterService {
     }
   }
 
-  async getLikeCount(chapterId: string): Promise<number> {
+  async getLikesByChapter(chapterId: string): Promise<number> {
     try {
       const response = await lastValueFrom(this.http.get<any>(`${this.baseUrl}/chapters/${chapterId}/likes`));
-      return response.likeCount;
+      return response.likes;
     } catch (error) {
       console.error(`Error fetching like count for chapter with ID ${chapterId}:`, error);
       throw error;

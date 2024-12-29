@@ -35,7 +35,7 @@
         </div>
         <div class="flex flex-col items-center">
           <p class="font-semibold">Likes</p>
-          <p class="text-xl">{{ chapter.likes || 100 }}</p>
+          <p class="text-xl">{{ chapter.likes.length || 0 }}</p>
         </div>
       </div>
       <div class="flex items-center justify-center gap-2 mt-4">
@@ -106,7 +106,7 @@
     [ngClass]="{'justify-end': isAuthor, 'justify-between': !isAuthor}">
       <div *ngIf="!isAuthor;">
         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4" (click)="likeChapter(chapter._id, currentUserUid)">
-          Like
+          {{ isLiked ? 'Liked' : 'Like' }}
         </button>
         <button 
         class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded"
