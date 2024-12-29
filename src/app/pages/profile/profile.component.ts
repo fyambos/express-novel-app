@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../../services/user.service';
 import { Auth } from '@angular/fire/auth';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { EditProfileDialogComponent } from 'src/app/components/edit-profile-dialog/edit-profile-dialog.component';
 import { BookmarkService } from 'src/app/services/bookmark.service';
@@ -30,6 +30,7 @@ export class ProfileComponent implements OnInit {
     private bookmarkService: BookmarkService,
     private storyService: StoryService,
     private chapterService: ChapterService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -103,5 +104,9 @@ export class ProfileComponent implements OnInit {
     this.bookmarkService.deleteBookmarkById(bookmarkId).then(() => {
       this.bookmarks = this.bookmarks.filter((bookmark) => bookmark._id !== bookmarkId);
     });
+  }
+
+  navigateToChapter(chapterId: string): void {
+    this.router.navigate(['/chapter', chapterId]);
   }
 }

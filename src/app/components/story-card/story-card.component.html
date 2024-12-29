@@ -1,4 +1,7 @@
-<div class="story-card mb-4 p-4 border rounded-lg dark:bg-gray-700 dark:border-gray-600 shadow-md">
+<div
+class="story-card mb-4 p-4 border rounded-lg dark:bg-gray-700 dark:border-gray-600 shadow-md cursor-pointer"
+(click)="readMore(story._id)"
+>
     <h2 class="text-2xl font-semibold">{{ story.title }}</h2>
     <p class="text-sm text-gray-600 dark:text-gray-300">By: {{ story.author.username }}</p>
     <p class="text-lg">{{ story.summary }}</p>
@@ -7,6 +10,7 @@
       <button
         class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
         (click)="readMore(story._id)"
+        (click)="$event.stopPropagation()"
       >
         Read More
       </button>

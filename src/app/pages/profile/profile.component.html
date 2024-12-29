@@ -51,14 +51,21 @@
     <div *ngIf="viewBookmarks" class="mb-4">
       <h2 class="text-xl font-semibold">Bookmarks</h2>
       <div *ngIf="bookmarks && bookmarks.length > 0; else noBookmarks">
-        <div *ngFor="let bookmark of bookmarks" class="flex items-center justify-between p-2 border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 shadow-md">
+        <div *ngFor="let bookmark of bookmarks"
+        class="flex items-center justify-between p-2 border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 cursor-pointer shadow-md"
+        (click)="navigateToChapter(bookmark.chapter._id)"
+        >
           <div class="flex flex-col">
             <div class="flex items-center justify-between">
               <div class="flex items-center">
                 <i class="fas fa-bookmark text-gray-500 dark:text-gray-400 mr-2"></i>
                 <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 truncate pt-1 bookmark-title">Chapter {{ bookmark.chapter.chapter }}: {{ bookmark.story.title }} - {{ bookmark.story.author.username }}</h3>
               </div>
-              <button class="bg-red-500 hover:bg-red-700 text-white font-semibold text-sm py-1 px-2 rounded mt-0" (click)="deleteBookmark(bookmark._id)">
+              <button
+              class="bg-red-500 hover:bg-red-700 text-white font-semibold text-sm py-1 px-2 rounded mt-0"
+              (click)="deleteBookmark(bookmark._id)"
+              (click)="$event.stopPropagation()"
+              >
                 <i class="fas fa-trash-alt mr-0"></i>
               </button>
             </div>
