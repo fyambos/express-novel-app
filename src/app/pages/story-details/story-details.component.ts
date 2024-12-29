@@ -6,6 +6,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { StoryDialogComponent } from '../../components/story-dialog/story-dialog.component';
 import { ChapterDialogComponent } from '../../components/chapter-dialog/chapter-dialog.component';
 import { ChapterService } from 'src/app/services/chapter.service';
+import { UsersModalComponent } from 'src/app/components/users-modal/users-modal.component';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-story-details',
@@ -23,6 +25,7 @@ export class StoryDetailsComponent implements OnInit {
     private auth: Auth,
     private dialog: MatDialog,
     private chapterService: ChapterService,
+    private userService: UserService,
   ) {}
 
   async ngOnInit() {
@@ -111,4 +114,26 @@ export class StoryDetailsComponent implements OnInit {
       this.router.navigate(['/full-story', storyId]);
     }
   }
+
+
+    async openLikesModal(userIds: string[]): Promise<void> {
+      try {
+        const userIdsSet = Array.from(new Set(userIds));
+        const userProfiles = await Promise.all(
+          userIdsSet.map(async (userId) => {
+            return await this.userService.fetchUser(userId);
+          })
+        );
+        console.log(userProfiles)
+        this.dialog.open(UsersModalComponent, {
+          width: '400px',
+          data: {
+            users: userProfiles,
+            title: 'Users who liked this story',
+          },
+        });
+      } catch (error) {
+        console.error('Error fetching user profiles:', error);
+      }
+    }
 }

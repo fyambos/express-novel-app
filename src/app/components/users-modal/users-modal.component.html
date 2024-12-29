@@ -4,12 +4,12 @@
     <li *ngFor="let user of data.users" class="mb-2">
       <div class="flex items-center space-x-3">
         <img mat-dialog-close
-          [src]="user.profilePicture"
+        [src]="user.profilePicture ? 'http://localhost:4200/assets/' + user.profilePicture : 'https://i.imgur.com/WxNkK7J.png'"
           alt="{{ user.username }}"
           class="w-8 h-8 rounded-full cursor-pointer"
           (click)="navigateToUserProfile(user.id)"
         />
-        <span class="cursor-pointer" mat-dialog-close (click)="navigateToUserProfile(user.id)">{{ user.username }}</span>
+        <span class="cursor-pointer dark:text-white" mat-dialog-close (click)="navigateToUserProfile(user.id)">{{ user.username }}</span>
       </div>
     </li>
   </ul>
