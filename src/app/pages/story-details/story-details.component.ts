@@ -57,7 +57,10 @@ export class StoryDetailsComponent implements OnInit {
   async fetchStoryChapters(storyId: string) {
     try {
       const chaptersData = await this.chapterService.getChaptersByStoryId(storyId);
-      this.story = { ...this.story, chapters: chaptersData };
+      const aggregatedLikes = chaptersData.reduce((likes: any, chapter: any) => {
+        return likes.concat(chapter.likes || []);
+      }, []);
+      this.story = { ...this.story, chapters: chaptersData, likes: aggregatedLikes };
       const wordCount = this.storyService.getStoryWordCount(this.story);
       this.story = { ...this.story, wordCount };
     } catch (error) {
