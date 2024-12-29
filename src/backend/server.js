@@ -6,6 +6,7 @@ import { User } from './models/user.js';
 import { Chapter } from './models/chapter.js'; 
 import { Comment } from './models/comment.js';
 import { Bookmark } from './models/bookmark.js';
+import { Read } from './models/read.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
@@ -388,6 +389,47 @@ app.delete('/api/bookmarks/:id', async (req, res) => {
 
   try {
     const result = await Bookmark.findByIdAndDelete(bookmarkId);
+    if (!result) {
+      return res.status(404).json({ message: 'Bookmark not found' });
+    }
+    res.status(200).json({ message: 'Bookmark deleted' });
+  } catch (error) {
+    console.error('Error deleting bookmark:', error);
+    res.status(500).json({ error: 'Failed to delete bookmark' });
+  }
+});
+
+
+app.post('/api/read', async (req, res) => {
+  const { userId, storyId } = req.body;
+  
+  try {
+    const newBookmark = new Read({ userId, storyId });
+    await newBookmark.save();
+    res.json(newBookmark);
+  } catch (error) {
+    console.error('Error creating bookmark:', error);
+    res.status(500).json({ error: 'Failed to create bookmark' });
+  }
+});
+
+app.get('/api/read/:id', async (req, res) => {
+  const userId = req.params.id;
+  
+  try {
+    const bookmarks = await Read.find({ userId });
+    res.json(bookmarks);
+  } catch (error) {
+    console.error('Error fetching bookmarks:', error);
+    res.status(500).json({ error: 'Failed to fetch bookmarks' });
+  }
+});
+
+app.delete('/api/read/:id', async (req, res) => {
+  const bookmarkId = req.params.id;
+
+  try {
+    const result = await Read.findByIdAndDelete(bookmarkId);
     if (!result) {
       return res.status(404).json({ message: 'Bookmark not found' });
     }
