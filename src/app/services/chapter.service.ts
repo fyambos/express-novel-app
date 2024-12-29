@@ -82,7 +82,7 @@ export class ChapterService {
     }
   }
 
-  async isChapterLikedByUser(chapterId: string, userId: string): Promise<boolean> {
+  async checkIfLiked(chapterId: string, userId: string): Promise<boolean> {
     try {
       const response = await lastValueFrom(
         this.http.get<any>(`${this.baseUrl}/chapters/${chapterId}/like-status`, { params: { userId } })

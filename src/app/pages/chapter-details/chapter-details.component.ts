@@ -29,6 +29,7 @@ export class ChapterDetailsComponent implements OnInit {
   currentUserUid: string | null = null;
   isBookmarked: boolean = false;
   isMarkedAsRead: boolean = false;
+  isLiked: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -50,8 +51,11 @@ export class ChapterDetailsComponent implements OnInit {
         await this.fetchChapter(chapterId);
         this.checkCurrentUser();
         this.comments = await this.commentService.getCommentsByChapterId(chapterId);
-        this.checkIfBookmarked();
-        this.checkIfMarkedAsRead();
+        if(this.currentUserUid) {
+          this.checkIfBookmarked();
+          this.checkIfMarkedAsRead();
+          this.checkIfLiked(this.chapter._id, this.currentUserUid);
+        }
       }
     });
   }
@@ -64,8 +68,9 @@ export class ChapterDetailsComponent implements OnInit {
           this.currentUserUid = user.uid;
           this.checkIfBookmarked();
           this.checkIfMarkedAsRead();
+          this.checkIfLiked(this.chapter._id, this.currentUserUid);
+          console.log("isLiked:", this.isLiked);
         } else {
-          this.isAuthor = false;
           this.isLoading = false;
         }
       });
@@ -247,5 +252,28 @@ export class ChapterDetailsComponent implements OnInit {
 
   moveToTop() {
     window.scrollTo(0, 0);
+  }
+
+  async likeChapter(chapterId: string, userId: string | null) {
+    if (!userId) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
+    try {
+      const response = await this.chapterService.toggleLikeChapter(chapterId, userId);
+      this.isLiked = await this.chapterService.checkIfLiked(chapterId, userId);
+      console.log('Like toggled:', response, "isLiked:", this.isLiked);
+    } catch (error) {
+      console.error('Error toggling like:', error);
+    }
+  }
+
+  async checkIfLiked(chapterId: string, userId: string) {
+    try {
+      this.isLiked = await this.chapterService.checkIfLiked(chapterId, userId);
+    } catch (error) {
+      console.error('Error checking like status:', error);
+    }
   }
 }

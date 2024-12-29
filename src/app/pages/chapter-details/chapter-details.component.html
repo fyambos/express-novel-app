@@ -105,7 +105,7 @@
     <div class="flex items-center"
     [ngClass]="{'justify-end': isAuthor, 'justify-between': !isAuthor}">
       <div *ngIf="!isAuthor;">
-        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4" (click)="likeChapter(chapter._id, currentUserUid)">
           Like
         </button>
         <button 
