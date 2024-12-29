@@ -5,7 +5,7 @@ import { Story } from './models/story.js';
 import { User } from './models/user.js'; 
 import { Chapter } from './models/chapter.js'; 
 import { Comment } from './models/comment.js';
-import { Bookmark } from './models/bookmark';
+import { Bookmark } from './models/bookmark.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';

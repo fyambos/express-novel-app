@@ -71,9 +71,10 @@
           Next Chapter
         </button>
       </div>
-      <div class="flex items-center justify-end mt-4">
+      <div *ngIf="currentUserUid" class="flex items-center justify-end mt-4">
         <button
-          class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded flex items-center"
+          class="font-semibold py-2 px-4 rounded flex items-center"
+          [ngClass]="{'bg-blue-500 text-white hover:bg-blue-700': isBookmarked, 'bg-gray-200 hover:bg-gray-300 text-gray-700': !isBookmarked}"
           (click)="toggleBookmark(chapter.storyId, chapter._id)"
         >
           <i class="fas fa-bookmark mr-2"></i>

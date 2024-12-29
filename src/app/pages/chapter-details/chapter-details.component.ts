@@ -11,6 +11,7 @@ import { CommentService } from 'src/app/services/comment.service';
 import { AddCommentDialogComponent } from 'src/app/components/add-comment-dialog/add-comment-dialog.component';
 import { UserService } from 'src/app/services/user.service';
 import { StoryService } from 'src/app/services/story.service';
+import { BookmarkService } from 'src/app/services/bookmark.service';
 
 @Component({
   selector: 'app-chapter-details',
@@ -26,6 +27,7 @@ export class ChapterDetailsComponent implements OnInit {
   isAuthor: boolean = false;
   comments: Comment[] = [];
   currentUserUid: string | null = null;
+  isBookmarked: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -37,6 +39,7 @@ export class ChapterDetailsComponent implements OnInit {
     private commentService: CommentService,
     private userService: UserService,
     private storyService: StoryService,
+    private bookmarkService: BookmarkService,
   ) {}
 
   async ngOnInit() {
@@ -46,6 +49,7 @@ export class ChapterDetailsComponent implements OnInit {
         await this.fetchChapter(chapterId);
         this.checkCurrentUser();
         this.comments = await this.commentService.getCommentsByChapterId(chapterId);
+        this.checkIfBookmarked();
       }
     });
   }
@@ -56,6 +60,7 @@ export class ChapterDetailsComponent implements OnInit {
           this.isAuthor = user.uid === this.chapter?.authorId;
           this.isLoading = false;
           this.currentUserUid = user.uid;
+          this.checkIfBookmarked();
         } else {
           this.isAuthor = false;
           this.isLoading = false;
@@ -150,8 +155,50 @@ export class ChapterDetailsComponent implements OnInit {
     });
   }
 
-  toggleBookmark(storyId: string, chapterId: string) {
+  async toggleBookmark(storyId: string, chapterId: string) {
+    if(!this.currentUserUid) {
+      return;
+    }
     const userId = this.currentUserUid;
-    console.log('Bookmark toggled');
+    try {
+      const bookmarks = await this.bookmarkService.getBookmarksByUserId(userId);
+      const existingBookmark = bookmarks.find(bookmark => bookmark.storyId === storyId);
+
+      if (existingBookmark) {
+        if (existingBookmark.chapterId === chapterId) {
+          await this.bookmarkService.deleteBookmarkById(existingBookmark._id); //delete bookmark if already bookmarked
+          this.isBookmarked = false;
+        } else {
+          await this.bookmarkService.deleteBookmarkById(existingBookmark._id);
+          await this.bookmarkService.createBookmark(this.currentUserUid, chapterId, storyId); //update bookmark if different chapter
+          this.isBookmarked = true;
+        }
+      } else {
+        await this.bookmarkService.createBookmark(this.currentUserUid, chapterId, storyId); //create bookmark if not already bookmarked
+        this.isBookmarked = true;
+      }
+    } catch (error) {
+      console.error('Error toggling bookmark:', error);
+    }
+  }
+
+  async checkIfBookmarked() {
+    if(!this.currentUserUid) {
+      return;
+    }
+    const userId = this.currentUserUid;
+    const chapterId = this.chapter._id;
+    const storyId = this.chapter.storyId;
+    try {
+      const bookmarks = await this.bookmarkService.getBookmarksByUserId(userId);
+      const existingBookmark = bookmarks.find(bookmark => bookmark.storyId === storyId);
+      if (existingBookmark && existingBookmark.chapterId === chapterId) {
+          this.isBookmarked = true;
+      } else {
+        this.isBookmarked = false;
+      }
+    } catch (error) {
+      console.error('Error toggling bookmark:', error);
+    }
   }
 }
