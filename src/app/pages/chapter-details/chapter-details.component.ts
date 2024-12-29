@@ -6,6 +6,8 @@ import { Subscription } from 'rxjs';
 import { Auth, onAuthStateChanged, User } from '@angular/fire/auth';
 import { MatDialog } from '@angular/material/dialog';
 import { ChapterDialogComponent } from 'src/app/components/chapter-dialog/chapter-dialog.component';
+import { Comment } from 'src/app/models/comment.model';
+import { CommentService } from 'src/app/services/comment.service';
 
 @Component({
   selector: 'app-chapter-details',
@@ -19,6 +21,7 @@ export class ChapterDetailsComponent implements OnInit {
   previousChapterId: string | null = null;
   nextChapterId: string | null = null;
   isAuthor: boolean = false;
+  comments: Comment[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -27,6 +30,7 @@ export class ChapterDetailsComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private auth: Auth,
     private dialog: MatDialog,
+    private commentService: CommentService,
   ) {}
 
   async ngOnInit() {
@@ -35,6 +39,7 @@ export class ChapterDetailsComponent implements OnInit {
       if (chapterId) {
         await this.fetchChapter(chapterId);
         this.checkCurrentUser();
+        this.comments = this.commentService.transformToNested(this.commentService.comments);
       }
     });
   }

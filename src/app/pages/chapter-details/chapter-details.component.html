@@ -83,4 +83,9 @@
         Move to Top
       </button>
     </div>
+    <div class="comment-section">
+      <h2 class="text-xl font-semibold mb-2 pt-2">Comments</h2>
+      <app-comments *ngFor="let comment of comments" [comment]="comment"></app-comments>
+    </div>
+
 </div>

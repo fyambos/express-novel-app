@@ -30,6 +30,7 @@ import { ChapterDialogComponent } from './components/chapter-dialog/chapter-dial
 import { ChapterDetailsComponent } from './pages/chapter-details/chapter-details.component';
 import { ContentEditableDirective } from './directives/content-editable.directive';
 import { AllChaptersComponent } from './pages/all-chapters/all-chapters.component';
+import { CommentsComponent } from './components/comments/comments.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { AllChaptersComponent } from './pages/all-chapters/all-chapters.componen
     ChapterDetailsComponent,
     ContentEditableDirective,
     AllChaptersComponent,
+    CommentsComponent,
   ],
   imports: [
     BrowserModule,
