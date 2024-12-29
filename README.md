@@ -11,10 +11,10 @@ This project is a web application for creating and sharing stories. Users can cr
 * **📝 Chapter Creation:** Create new chapters for stories, using a Rich Text Format editor.
 * **👤 User Profiles:** View user profiles with information like username and bio.
 * **🌔 Dark Mode:** Toggle between light and dark mode.
+* **💬 Add comments:** Add comments to stories, reply to comments.
+* **📊 Statistics:** Display story statistics such as number of chapters, word count, etc.
 
 ## 📈 Improvements
-* **💬 Add comments:** Add comments to stories, reply to comments.
-* **📊 Statistics!:** Display story statistics such as number of chapters, word count, etc.
 * **📍 Bookmark Chapters:** Let users bookmark chapters to continue reading later.
 * **✅ Mark as read:** Let users mark stories as read.
 * **❤️ Likes:** Like stories and display liked stories in profile.
@@ -27,6 +27,7 @@ This project is a web application for creating and sharing stories. Users can cr
 * **⭐ Story Ratings:** Allow users to rate stories and see an average rating displayed.
 * **🗂️ Story Filters:** Filter stories by tags or ratings for easy browsing.
 * **👥 Multi-author Stories:** Allow multiple authors to co-author a story, with clear author attributions.
+* **📊 Profile Statistics:** Display profile statistics such as number of words read or written.
 * **🏆 Achievements/Badges:** Give users achievements or badges for milestones (e.g., writing a certain number of chapters, gaining followers, reading x amount of words etc.).
 
 ## Getting Started

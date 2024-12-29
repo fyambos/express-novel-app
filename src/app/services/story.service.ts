@@ -63,4 +63,34 @@ export class StoryService {
       throw error;
     }
   }
+
+  getChapterWordCount(chapter: any): number {
+    if (!chapter || !chapter.content) {
+      throw new Error('Invalid chapter object');
+    }
+    const content = chapter.content || '';
+    const cleanedContent = this.stripHtmlTags(content);
+    return this.countWords(cleanedContent);
+  }
+
+  getStoryWordCount(story: any): number {
+    if (!story || !story.chapters || story.chapters.length === 0) {
+      throw new Error('Invalid story object');
+    }
+
+    return story.chapters.reduce((total: any, chapter: any) => {
+      return total + this.getChapterWordCount(chapter);
+    }, 0);
+  }
+
+  private countWords(text: string): number {
+    if (!text.trim()) {
+      return 0;
+    }
+    return text.trim().split(/\s+/).length;
+  }
+  
+  private stripHtmlTags(text: string): string {
+    return text.replace(/<[^>]*>/g, '');
+  }
 }

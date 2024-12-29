@@ -58,6 +58,8 @@ export class StoryDetailsComponent implements OnInit {
     try {
       const chaptersData = await this.chapterService.getChaptersByStoryId(storyId);
       this.story = { ...this.story, chapters: chaptersData };
+      const wordCount = this.storyService.getStoryWordCount(this.story);
+      this.story = { ...this.story, wordCount };
     } catch (error) {
       console.error('Error fetching story:', error);
       this.router.navigate(['/not-found']);
