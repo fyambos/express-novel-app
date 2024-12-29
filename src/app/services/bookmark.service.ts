@@ -68,5 +68,5 @@ export class BookmarkService {
       throw new Error('Failed to delete bookmark');
     }
   }
-  
+
 }

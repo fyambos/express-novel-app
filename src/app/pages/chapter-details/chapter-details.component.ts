@@ -28,6 +28,7 @@ export class ChapterDetailsComponent implements OnInit {
   comments: Comment[] = [];
   currentUserUid: string | null = null;
   isBookmarked: boolean = false;
+  isMarkedAsRead: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -50,6 +51,7 @@ export class ChapterDetailsComponent implements OnInit {
         this.checkCurrentUser();
         this.comments = await this.commentService.getCommentsByChapterId(chapterId);
         this.checkIfBookmarked();
+        this.checkIfMarkedAsRead();
       }
     });
   }
@@ -61,6 +63,7 @@ export class ChapterDetailsComponent implements OnInit {
           this.isLoading = false;
           this.currentUserUid = user.uid;
           this.checkIfBookmarked();
+          this.checkIfMarkedAsRead();
         } else {
           this.isAuthor = false;
           this.isLoading = false;
@@ -196,6 +199,46 @@ export class ChapterDetailsComponent implements OnInit {
           this.isBookmarked = true;
       } else {
         this.isBookmarked = false;
+      }
+    } catch (error) {
+      console.error('Error toggling bookmark:', error);
+    }
+  }
+
+  async toggleMarkAsRead(storyId: string) {
+    if(!this.currentUserUid) {
+      return;
+    }
+    const userId = this.currentUserUid;
+    try {
+      const bookmarks = await this.bookmarkService.getReadStoriesByUser(userId);
+      const existingBookmark = bookmarks.find(bookmark => bookmark.storyId === storyId);
+
+      if (existingBookmark) {
+        await this.bookmarkService.unmarkAsRead(existingBookmark._id); //delete bookmark if not already bookmarked
+        this.isMarkedAsRead = false;
+      } else {
+        await this.bookmarkService.markAsRead(this.currentUserUid, storyId); //create bookmark if not already bookmarked
+        this.isMarkedAsRead = true;
+      }
+    } catch (error) {
+      console.error('Error toggling bookmark:', error);
+    }
+  }
+
+  async checkIfMarkedAsRead() {
+    if(!this.currentUserUid) {
+      return;
+    }
+    const userId = this.currentUserUid;
+    const storyId = this.chapter.storyId;
+    try {
+      const bookmarks = await this.bookmarkService.getReadStoriesByUser(userId);
+      const existingBookmark = bookmarks.find(bookmark => bookmark.storyId === storyId);
+      if (existingBookmark) {
+        this.isMarkedAsRead = true;
+      } else {
+        this.isMarkedAsRead = false;
       }
     } catch (error) {
       console.error('Error toggling bookmark:', error);
