@@ -72,6 +72,11 @@
         </button>
       </div>
       <div *ngIf="currentUserUid" class="flex items-center justify-end mt-4">
+        <div *ngIf="isAuthor" class="flex items-center justify-start mr-4">
+          <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded" (click)="openEditModal(chapter)">
+            Edit Chapter
+          </button>
+        </div>
         <button
           class="font-semibold py-2 px-4 rounded flex items-center mr-4"
           [ngClass]="{'bg-blue-500 text-white hover:bg-blue-700': isBookmarked, 'bg-gray-200 hover:bg-gray-300 text-gray-700': !isBookmarked}"
@@ -97,8 +102,9 @@
       <p class="text-gray-700 dark:text-gray-300" [innerHTML]="safeContent"></p>
     </div>
   
-    <div class="flex justify-between items-center">
-      <div *ngIf="!isAuthor">
+    <div class="flex items-center"
+    [ngClass]="{'justify-end': isAuthor, 'justify-between': !isAuthor}">
+      <div *ngIf="!isAuthor;">
         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4">
           Like
         </button>
@@ -109,12 +115,8 @@
           Comment
         </button>
       </div>
-      <div *ngIf="isAuthor">
-        <button class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded" (click)="openEditModal(chapter)">
-          Edit Chapter
-        </button>
-      </div>
-      <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+      <button 
+        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
         Move to Top
       </button>
     </div>
@@ -122,5 +124,4 @@
       <h2 class="text-xl font-semibold mb-2 pt-2">Comments</h2>
       <app-comments *ngFor="let comment of comments" [comment]="comment"></app-comments>
     </div>
-
 </div>
