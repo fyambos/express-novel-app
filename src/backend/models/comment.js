@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const commentSchema = new mongoose.Schema({
   authorId: {
@@ -19,6 +19,4 @@ const commentSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-const Comment = mongoose.model('Comment', commentSchema);
-
-module.exports = Comment;
+export const Comment = mongoose.model('Comment', commentSchema);

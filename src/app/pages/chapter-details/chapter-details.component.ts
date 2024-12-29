@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ChapterDialogComponent } from 'src/app/components/chapter-dialog/chapter-dialog.component';
 import { Comment } from 'src/app/models/comment.model';
 import { CommentService } from 'src/app/services/comment.service';
+import { AddCommentDialogComponent } from 'src/app/components/add-comment-dialog/add-comment-dialog.component';
 
 @Component({
   selector: 'app-chapter-details',
@@ -22,6 +23,7 @@ export class ChapterDetailsComponent implements OnInit {
   nextChapterId: string | null = null;
   isAuthor: boolean = false;
   comments: Comment[] = [];
+  currentUserUid: string | null = null;
 
   constructor(
     private route: ActivatedRoute,
@@ -49,6 +51,7 @@ export class ChapterDetailsComponent implements OnInit {
         if (user) {
           this.isAuthor = user.uid === this.chapter?.authorId;
           this.isLoading = false;
+          this.currentUserUid = user.uid;
         } else {
           this.isAuthor = false;
           this.isLoading = false;
@@ -129,6 +132,15 @@ export class ChapterDetailsComponent implements OnInit {
     }
 
     openCommentModal() {
-      console.log("openCommentModal");
-    }
+    const dialogRef = this.dialog.open(AddCommentDialogComponent, {
+      width: '400px',
+      data: { chapterId: this.chapter._id, authorId: this.currentUserUid },
+    });
+
+    dialogRef.afterClosed().subscribe((newComment) => {
+      if (newComment) {
+        console.log('New comment added:', newComment);
+      }
+    });
+  }
 }

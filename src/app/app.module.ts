@@ -31,6 +31,7 @@ import { ChapterDetailsComponent } from './pages/chapter-details/chapter-details
 import { ContentEditableDirective } from './directives/content-editable.directive';
 import { AllChaptersComponent } from './pages/all-chapters/all-chapters.component';
 import { CommentsComponent } from './components/comments/comments.component';
+import { AddCommentDialogComponent } from './components/add-comment-dialog/add-comment-dialog.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +51,7 @@ import { CommentsComponent } from './components/comments/comments.component';
     ContentEditableDirective,
     AllChaptersComponent,
     CommentsComponent,
+    AddCommentDialogComponent,
   ],
   imports: [
     BrowserModule,

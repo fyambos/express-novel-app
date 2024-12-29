@@ -1,0 +1,15 @@
+<h1 mat-dialog-title>Add Comment</h1>
+<div mat-dialog-content>
+  <form (ngSubmit)="saveComment()">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Comment</mat-label>
+      <textarea matInput [(ngModel)]="commentText" name="commentText" required></textarea>
+    </mat-form-field>
+    <div mat-dialog-actions>
+      <div class="w-full flex justify-end">
+        <button mat-button class="cancel" (click)="closeDialog()">Cancel</button>
+        <button mat-button class="submit" type="submit">Save</button>
+      </div>
+    </div>
+  </form>
+</div>
