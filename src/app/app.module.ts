@@ -32,6 +32,7 @@ import { ContentEditableDirective } from './directives/content-editable.directiv
 import { AllChaptersComponent } from './pages/all-chapters/all-chapters.component';
 import { CommentsComponent } from './components/comments/comments.component';
 import { AddCommentDialogComponent } from './components/add-comment-dialog/add-comment-dialog.component';
+import { RelativeDatePipe } from './pipes/relative-date.pipe';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { AddCommentDialogComponent } from './components/add-comment-dialog/add-c
     AllChaptersComponent,
     CommentsComponent,
     AddCommentDialogComponent,
+    RelativeDatePipe,
   ],
   imports: [
     BrowserModule,

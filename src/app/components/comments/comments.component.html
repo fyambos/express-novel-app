@@ -7,7 +7,8 @@
         />
         <p class="text-lg font-semibold pt-3">{{ comment.author.username }}:</p>
     </div>
-    <p class="ml-2 text-gray-700">{{ comment.text }}</p>
+    <p class="ml-2 text-gray-700 dark:text-gray-300">{{ comment.text }}</p>
+    <p class="ml-2 text-sm text-gray-500 dark:text-gray-400">{{ comment.createdAt | relativeDate }}</p>
     <button 
       class="text-blue-500 mt-2 hover:underline"
       (click)="openReplyForm()">

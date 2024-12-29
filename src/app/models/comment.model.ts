@@ -6,6 +6,7 @@ export interface Comment {
     replyTo: number | null;
     replies?: Comment[];
     author?: any;
+    createdAt?: string;
 }
   
   
