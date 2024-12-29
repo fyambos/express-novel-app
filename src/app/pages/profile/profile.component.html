@@ -41,20 +41,22 @@
       </ng-template>
     </div>
     <div class="flex space-x-4 mb-4 mt-4 justify-center">
-      <button (click)="viewBookmarks = false" [ngClass]="{'bg-blue-500 text-white': !viewBookmarks, 'bg-gray-200 text-gray-700': viewBookmarks}" class="py-2 px-4 rounded">
+      <button (click)="viewBookmarks = 'stories'" [ngClass]="{'bg-blue-500 text-white': viewBookmarks === 'stories', 'bg-gray-200 text-gray-700': viewBookmarks !== 'stories'}" class="py-2 px-4 rounded">
         Stories
       </button>
-      <button (click)="viewBookmarks = true" [ngClass]="{'bg-blue-500 text-white': viewBookmarks, 'bg-gray-200 text-gray-700': !viewBookmarks}" class="py-2 px-4 rounded">
+      <button (click)="viewBookmarks = 'bookmarks'" [ngClass]="{'bg-blue-500 text-white': viewBookmarks === 'bookmarks', 'bg-gray-200 text-gray-700': viewBookmarks !== 'bookmarks'}" class="py-2 px-4 rounded">
         Bookmarks
       </button>
+      <button (click)="viewBookmarks = 'read'" [ngClass]="{'bg-blue-500 text-white': viewBookmarks === 'read', 'bg-gray-200 text-gray-700': viewBookmarks !== 'read'}" class="py-2 px-4 rounded">
+        Read
+      </button>
     </div>
-    <div *ngIf="viewBookmarks" class="mb-4">
+    <div *ngIf="viewBookmarks === 'bookmarks'" class="mb-4">
       <h2 class="text-xl font-semibold">Bookmarks</h2>
       <div *ngIf="bookmarks && bookmarks.length > 0; else noBookmarks">
         <div *ngFor="let bookmark of bookmarks"
         class="flex items-center justify-between p-2 border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 cursor-pointer shadow-md"
-        (click)="navigateToChapter(bookmark.chapter._id)"
-        >
+        (click)="navigateToChapter(bookmark.chapter._id)">
           <div class="flex flex-col">
             <div class="flex items-center justify-between">
               <div class="flex items-center">
@@ -63,9 +65,8 @@
               </div>
               <button
               class="bg-red-500 hover:bg-red-700 text-white font-semibold text-sm py-1 px-2 rounded mt-0"
-              (click)="deleteBookmark(bookmark._id)"
-              (click)="$event.stopPropagation()"
-              >
+              (click)="deleteBookmark(bookmark._id, 'bookmark')"
+              (click)="$event.stopPropagation()">
                 <i class="fas fa-trash-alt mr-0"></i>
               </button>
             </div>
@@ -79,13 +80,43 @@
         <p class="text-gray-500">No bookmarks added yet.</p>
       </ng-template>
     </div>
-    <div *ngIf="!viewBookmarks" class="mb-4">
+    <div *ngIf="viewBookmarks === 'stories'" class="mb-4">
       <h2 class="text-xl font-semibold mb-4">Stories</h2>
       <ng-container *ngIf="stories && stories.length > 0; else noStories">
         <app-story-card *ngFor="let story of stories" [story]="story"></app-story-card>
       </ng-container>
       <ng-template #noStories>
         <p class="text-gray-500">This author has not written any stories yet.</p>
+      </ng-template>
+    </div>
+    
+    <div *ngIf="viewBookmarks === 'read'" class="mb-4">
+      <h2 class="text-xl font-semibold">Read</h2>
+      <div *ngIf="reads && reads.length > 0; else noRead">
+        <div *ngFor="let bookmark of reads"
+        class="flex items-center justify-between p-2 border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 cursor-pointer shadow-md"
+        (click)="navigateToStory(bookmark.storyId)">
+          <div class="flex flex-col">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <i class="fas fa-book text-gray-500 dark:text-gray-400 mr-2"></i>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 truncate pt-1 bookmark-title">{{ bookmark.story.title }} - {{ bookmark.story.author.username }}</h3>
+              </div>
+              <button
+              class="bg-red-500 hover:bg-red-700 text-white font-semibold text-sm py-1 px-2 rounded mt-0"
+              (click)="deleteBookmark(bookmark._id, 'read')"
+              (click)="$event.stopPropagation()">
+                <i class="fas fa-trash-alt mr-0"></i>
+              </button>
+            </div>
+            <p class="text-sm text-gray-500 dark:text-gray-400 truncate-summary">
+              Summary: {{ bookmark.story.summary }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <ng-template #noRead>
+        <p class="text-gray-500">No stories read yet.</p>
       </ng-template>
     </div>
   </div>

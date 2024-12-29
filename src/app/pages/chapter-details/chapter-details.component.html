@@ -78,14 +78,14 @@
           (click)="toggleBookmark(chapter.storyId, chapter._id)"
         >
           <i class="fas fa-bookmark mr-2"></i>
-           {{ isBookmarked ? 'UnBookmark' : 'Bookmark' }}
+           {{ isBookmarked ? 'Bookmarked' : 'Bookmark' }}
         </button>
         <button
           class="font-semibold py-2 px-4 rounded flex items-center"
           [ngClass]="{'bg-green-500 text-white hover:bg-green-700': isMarkedAsRead, 'bg-gray-200 hover:bg-gray-300 text-gray-700': !isMarkedAsRead}"
           (click)="toggleMarkAsRead(chapter.storyId)"
         >
-        <i class="fas fa-bookmark mr-2"></i>
+        <i class="fas fa-book mr-2"></i>
         {{ isMarkedAsRead ? 'Read' : 'Mark As Read' }}
       </button>
       </div>

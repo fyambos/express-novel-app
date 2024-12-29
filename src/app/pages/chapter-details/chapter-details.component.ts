@@ -164,20 +164,20 @@ export class ChapterDetailsComponent implements OnInit {
     }
     const userId = this.currentUserUid;
     try {
-      const bookmarks = await this.bookmarkService.getBookmarksByUserId(userId);
+      const bookmarks = await this.bookmarkService.getBookmarksByUserId(userId, 'bookmark');
       const existingBookmark = bookmarks.find(bookmark => bookmark.storyId === storyId);
 
       if (existingBookmark) {
         if (existingBookmark.chapterId === chapterId) {
-          await this.bookmarkService.deleteBookmarkById(existingBookmark._id); //delete bookmark if already bookmarked
+          await this.bookmarkService.deleteBookmark(existingBookmark._id, 'bookmark'); //delete bookmark if already bookmarked
           this.isBookmarked = false;
         } else {
-          await this.bookmarkService.deleteBookmarkById(existingBookmark._id);
-          await this.bookmarkService.createBookmark(this.currentUserUid, chapterId, storyId); //update bookmark if different chapter
+          await this.bookmarkService.deleteBookmark(existingBookmark._id, 'bookmark');
+          await this.bookmarkService.createBookmark(this.currentUserUid, chapterId, storyId, 'bookmark'); //update bookmark if different chapter
           this.isBookmarked = true;
         }
       } else {
-        await this.bookmarkService.createBookmark(this.currentUserUid, chapterId, storyId); //create bookmark if not already bookmarked
+        await this.bookmarkService.createBookmark(this.currentUserUid, chapterId, storyId, 'bookmark'); //create bookmark if not already bookmarked
         this.isBookmarked = true;
       }
     } catch (error) {
@@ -193,7 +193,7 @@ export class ChapterDetailsComponent implements OnInit {
     const chapterId = this.chapter._id;
     const storyId = this.chapter.storyId;
     try {
-      const bookmarks = await this.bookmarkService.getBookmarksByUserId(userId);
+      const bookmarks = await this.bookmarkService.getBookmarksByUserId(userId, 'bookmark');
       const existingBookmark = bookmarks.find(bookmark => bookmark.storyId === storyId);
       if (existingBookmark && existingBookmark.chapterId === chapterId) {
           this.isBookmarked = true;
@@ -211,14 +211,14 @@ export class ChapterDetailsComponent implements OnInit {
     }
     const userId = this.currentUserUid;
     try {
-      const bookmarks = await this.bookmarkService.getReadStoriesByUser(userId);
+      const bookmarks = await this.bookmarkService.getBookmarksByUserId(userId, 'read');
       const existingBookmark = bookmarks.find(bookmark => bookmark.storyId === storyId);
 
       if (existingBookmark) {
-        await this.bookmarkService.unmarkAsRead(existingBookmark._id); //delete bookmark if not already bookmarked
+        await this.bookmarkService.deleteBookmark(existingBookmark._id, 'read'); //delete bookmark if not already bookmarked
         this.isMarkedAsRead = false;
       } else {
-        await this.bookmarkService.markAsRead(this.currentUserUid, storyId); //create bookmark if not already bookmarked
+        await this.bookmarkService.createBookmark(this.currentUserUid, null, storyId, 'read'); //create bookmark if not already bookmarked
         this.isMarkedAsRead = true;
       }
     } catch (error) {
@@ -233,7 +233,7 @@ export class ChapterDetailsComponent implements OnInit {
     const userId = this.currentUserUid;
     const storyId = this.chapter.storyId;
     try {
-      const bookmarks = await this.bookmarkService.getReadStoriesByUser(userId);
+      const bookmarks = await this.bookmarkService.getBookmarksByUserId(userId, 'read');
       const existingBookmark = bookmarks.find(bookmark => bookmark.storyId === storyId);
       if (existingBookmark) {
         this.isMarkedAsRead = true;

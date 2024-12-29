@@ -11,62 +11,37 @@ export class BookmarkService {
 
   constructor(private http: HttpClient) { }
 
-  async createBookmark(userId: string, chapterId: string, storyId: string): Promise<any> {
+  async createBookmark(userId: string, chapterId: string | null, storyId: string, actionType: 'bookmark' | 'read'): Promise<any> {
     try {
-      const response = await lastValueFrom(this.http.post(`${this.apiUrl}/bookmarks`, { userId, chapterId, storyId }));
+      const endpoint = actionType === 'bookmark' ? '/bookmarks' : '/read';
+      const response = await lastValueFrom(this.http.post(`${this.apiUrl}${endpoint}`, { userId, chapterId, storyId }));
       return response;
     } catch (error) {
-      console.error('Error creating bookmark:', error);
-      throw new Error('Failed to create bookmark');
+      console.error(`Error ${actionType === 'bookmark' ? 'creating bookmark' : 'marking story as read'}:`, error);
+      throw new Error(`Failed to ${actionType === 'bookmark' ? 'create bookmark' : 'mark story as read'}`);
     }
   }
-
-  async markAsRead(userId: string, storyId: string): Promise<any> {
+  
+  async getBookmarksByUserId(userId: string, actionType: 'bookmark' | 'read'): Promise<any[]> {
     try {
-      const response = await lastValueFrom(this.http.post(`${this.apiUrl}/read`, { userId, storyId }));
+      const endpoint = actionType === 'bookmark' ? `/bookmarks/${userId}` : `/read/${userId}`;
+      const response = await lastValueFrom(this.http.get<any[]>(`${this.apiUrl}${endpoint}`));
       return response;
     } catch (error) {
-      console.error('Error marking story as read:', error);
-      throw new Error('Failed to mark story as read');
+      console.error(`Error fetching ${actionType === 'bookmark' ? 'bookmarks' : 'read stories'}:`, error);
+      throw new Error(`Failed to fetch ${actionType === 'bookmark' ? 'bookmarks' : 'read stories'}`);
     }
   }
-
-  async getBookmarksByUserId(userId: string): Promise<any[]> {
+  
+  async deleteBookmark(id: string, actionType: 'bookmark' | 'read'): Promise<void> {
     try {
-      const response = await lastValueFrom(this.http.get<any[]>(`${this.apiUrl}/bookmarks/${userId}`));
-      return response;
+      const endpoint = actionType === 'bookmark' ? `/bookmarks/${id}` : `/read/${id}`;
+      await lastValueFrom(this.http.delete(`${this.apiUrl}${endpoint}`));
     } catch (error) {
-      console.error('Error fetching bookmarks:', error);
-      throw new Error('Failed to fetch bookmarks');
+      console.error(`Error deleting ${actionType === 'bookmark' ? 'bookmark' : 'read status'}:`, error);
+      throw new Error(`Failed to delete ${actionType === 'bookmark' ? 'bookmark' : 'read status'}`);
     }
   }
-
-  async getReadStoriesByUser(userId: string): Promise<any[]> {
-    try {
-      const response = await lastValueFrom(this.http.get<any[]>(`${this.apiUrl}/read/${userId}`));
-      return response;
-    } catch (error) {
-      console.error('Error fetching bookmarks:', error);
-      throw new Error('Failed to fetch bookmarks');
-    }
-  }
-
-  async deleteBookmarkById(id: string): Promise<void> {
-    try {
-      await lastValueFrom(this.http.delete(`${this.apiUrl}/bookmarks/${id}`));
-    } catch (error) {
-      console.error('Error deleting bookmark:', error);
-      throw new Error('Failed to delete bookmark');
-    }
-  }
-
-  async unmarkAsRead(id: string): Promise<void> {
-    try {
-      await lastValueFrom(this.http.delete(`${this.apiUrl}/read/${id}`));
-    } catch (error) {
-      console.error('Error deleting bookmark:', error);
-      throw new Error('Failed to delete bookmark');
-    }
-  }
+  
 
 }

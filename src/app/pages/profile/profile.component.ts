@@ -20,7 +20,8 @@ export class ProfileComponent implements OnInit {
   isOwnProfile: boolean = false;
   stories: any[] = [];
   bookmarks: any[] = [];
-  viewBookmarks: boolean = false;
+  viewBookmarks: 'bookmarks' | 'stories' | 'read' = 'stories';
+  reads: any[] = [];
 
   constructor(
     private userService: UserService,
@@ -57,18 +58,7 @@ export class ProfileComponent implements OnInit {
         }
 
         if (this.userIdFromParams) {
-          this.user = await this.userService.fetchUser(this.userIdFromParams);
-          this.stories = await this.userService.fetchAuthorStories(this.userIdFromParams);
-          const bookmarks = await this.bookmarkService.getBookmarksByUserId(this.userIdFromParams);
-          for (const bookmark of bookmarks) {
-            const story = await this.storyService.getStoryById(bookmark.storyId);
-            const chapter = await this.chapterService.getChapterById(bookmark.chapterId); 
-            bookmark.story = story;
-            bookmark.chapter = chapter;
-          }
-          this.bookmarks = bookmarks;
-          this.isLoading = false;
-          console.log("this.bookmarks",this.bookmarks);
+          this.fetchProfileInfo(this.userIdFromParams);
         }
       });
     } catch (error) {
@@ -76,6 +66,27 @@ export class ProfileComponent implements OnInit {
       this.isLoading = false;
       console.error(error);
     }
+  }
+
+  async fetchProfileInfo(userId: string) {
+    
+    this.user = await this.userService.fetchUser(userId);
+    this.stories = await this.userService.fetchAuthorStories(userId);
+    const bookmarks = await this.bookmarkService.getBookmarksByUserId(userId, 'bookmark');
+    for (const bookmark of bookmarks) {
+      const story = await this.storyService.getStoryById(bookmark.storyId);
+      const chapter = await this.chapterService.getChapterById(bookmark.chapterId); 
+      bookmark.story = story;
+      bookmark.chapter = chapter;
+    }
+    const reads = await this.bookmarkService.getBookmarksByUserId(userId, 'read');
+    for (const read of reads) {
+      const story = await this.storyService.getStoryById(read.storyId);
+      read.story = story;
+    }
+    this.bookmarks = bookmarks;
+    this.reads = reads;
+    this.isLoading = false;
   }
 
   openEditDialog(): void {
@@ -100,13 +111,18 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  deleteBookmark(bookmarkId: string): void {
-    this.bookmarkService.deleteBookmarkById(bookmarkId).then(() => {
+  deleteBookmark(bookmarkId: string, actionType: 'bookmark' | 'read'): void {
+    this.bookmarkService.deleteBookmark(bookmarkId, actionType).then(() => {
       this.bookmarks = this.bookmarks.filter((bookmark) => bookmark._id !== bookmarkId);
+      this.reads = this.reads.filter((read) => read._id !== bookmarkId);
     });
   }
 
   navigateToChapter(chapterId: string): void {
     this.router.navigate(['/chapter', chapterId]);
+  }
+
+  navigateToStory(storyId: string): void {
+    this.router.navigate(['/stories', storyId]);
   }
 }
