@@ -341,10 +341,19 @@ app.post('/api/comments', async (req, res) => {
 app.get('/api/comments/:chapterId', async (req, res) => {
   try {
     const chapterId = req.params.chapterId;
-    const comments = await Comment.find({ chapterId }).sort({ createdAt: 1 });
-    res.json(comments);
+    const comments = await Comment.find({ chapterId })
+      .sort({ createdAt: 1 })
+      .lean();
+    const commentsWithId = comments.map(comment => {
+      return {
+        ...comment,
+        id: comment._id.toString(),
+      };
+    });
+    res.json(commentsWithId);
   } catch (err) {
     res.status(500).json({ message: 'Error fetching comments', error: err });
   }
 });
+
 app.listen(port, () => console.log(`Server listening on port ${port}`));
