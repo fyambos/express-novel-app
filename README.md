@@ -16,9 +16,9 @@ This project is a web application for creating and sharing stories. Users can cr
 * **📍 Bookmark Chapters:** Let users bookmark chapters to continue reading later.
 * **✅ Mark as read:** Let users mark stories as read and display them in the profile.
 * **❤️ Likes:** Like chapters or comments and display users who liked.
+* **🔃 Reorder chapters:** Mingle with the order of chapters with a drag handle.
 
 ## 📈 Improvements
-* **🔃 Reorder chapters:** Mingle with the order of chapters with a drag handle.
 * **🗑️ Delete:** Ability to delete chapters, users and stories, while preserving dependant objects.
 * **🔔 Subscribe & Follow:** Follow users or stories and get notified when a new story/chapter is posted.
 * **🌐 Multi-language Support:** Add multi-language support for users to switch between languages.
