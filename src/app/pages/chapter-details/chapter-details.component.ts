@@ -10,6 +10,7 @@ import { Comment } from 'src/app/models/comment.model';
 import { CommentService } from 'src/app/services/comment.service';
 import { AddCommentDialogComponent } from 'src/app/components/add-comment-dialog/add-comment-dialog.component';
 import { UserService } from 'src/app/services/user.service';
+import { StoryService } from 'src/app/services/story.service';
 
 @Component({
   selector: 'app-chapter-details',
@@ -35,6 +36,7 @@ export class ChapterDetailsComponent implements OnInit {
     private dialog: MatDialog,
     private commentService: CommentService,
     private userService: UserService,
+    private storyService: StoryService,
   ) {}
 
   async ngOnInit() {
@@ -64,7 +66,8 @@ export class ChapterDetailsComponent implements OnInit {
   async fetchChapter(chapterId: string) {
     try {
       const chapterData = await this.chapterService.getChapterById(chapterId);
-      this.chapter = { ...chapterData };
+      const wordCount = this.storyService.getChapterWordCount(chapterData);
+      this.chapter = { ...chapterData, wordCount };
       if (!chapterData) {
         throw new Error('Chapter not found');
       }

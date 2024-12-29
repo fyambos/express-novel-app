@@ -56,7 +56,6 @@ export class HeaderComponent implements OnInit {
 
   saveUserTheme(userId: string, theme: string) {
     this.userService.saveUserTheme(userId, theme).then(() => {
-      console.log('User theme updated to:', theme);
     }).catch(error => {
       console.error('Error saving user theme:', error);
     });
@@ -94,9 +93,6 @@ toggleDarkMode() {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Story Created:', result);
-      }
     });
   }
 }

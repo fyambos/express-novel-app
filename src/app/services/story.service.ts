@@ -91,6 +91,7 @@ export class StoryService {
   }
   
   private stripHtmlTags(text: string): string {
-    return text.replace(/<[^>]*>/g, '');
+    const strippedText = text.replace(/<\/?(div|p|br|section|article|header|footer|h[1-6]|li|ul|ol|blockquote|pre)[^>]*>/gi, ' ');
+    return strippedText.replace(/<[^>]*>/g, '').trim();
   }
 }
