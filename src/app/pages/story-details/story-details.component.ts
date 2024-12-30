@@ -29,7 +29,7 @@ export class StoryDetailsComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    const storyId = this.route.snapshot.paramMap.get('storyId');
+    const storyId = this.route.snapshot.paramMap.get('id');
     if (storyId) {
       await this.fetchStory(storyId);
       await this.fetchStoryChapters(storyId);
