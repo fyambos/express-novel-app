@@ -1,9 +1,11 @@
-      <h2 class="text-xl font-semibold">{{ actionType === 'bookmark' ? 'Bookmarks' : 'Read'}} {{ '(' + bookmarks?.length + ')' || '' }}</h2>
+      <h2 class="text-xl font-semibold">{{ actionType === 'bookmark' ? 'Bookmarks' : 'Read'}} 
+        {{ bookmarks.length > 0 ? '(' + bookmarks.length + ')' : '' }}
+      </h2>
       <div *ngIf="bookmarks && bookmarks.length > 0; else noBookmarks">
         <div *ngFor="let bookmark of bookmarks"
-        class="flex items-center justify-between p-2 border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 cursor-pointer shadow-md"
+        class="flex items-center justify-between p-2 border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 cursor-pointer shadow-md mb-4"
         (click)="actionType === 'bookmark' ? navigateToChapter(bookmark.chapterId) : navigateToStory(bookmark.storyId)">
-          <div class="flex flex-col">
+          <div class="flex flex-col w-full">
             <div class="flex items-center justify-between">
               <div class="flex items-center">
                 <i 
