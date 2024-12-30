@@ -70,7 +70,14 @@ export class ProfileComponent implements OnInit {
 
   async fetchProfileInfo(userId: string) {
     
-    this.user = await this.userService.fetchUser(userId);
+    try {
+      this.user = await this.userService.fetchUser(userId);
+    } catch (error) {
+      this.isLoading = false;
+      this.router.navigate(['/not-found']);
+      return;
+    }
+    
     this.stories = await this.userService.fetchAuthorStories(userId);
     const bookmarks = await this.bookmarkService.getBookmarksByUserId(userId, 'bookmark');
     for (const bookmark of bookmarks) {

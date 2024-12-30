@@ -14,7 +14,7 @@ export class UserService {
     try {
       return await lastValueFrom(this.http.get<any>(`${this.apiUrl}/users/${userId}`));
     } catch (error) {
-      console.error('Error fetching author:', error);
+      console.error('Error fetching user:', error);
       throw error;
     }
   }
