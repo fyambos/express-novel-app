@@ -75,7 +75,7 @@ toggleDarkMode() {
 
   handleLogout(): void {
     this.authService.logout().then(() => {
-      this.router.navigate(['/login']);
+      this.router.navigate(['/']);
     }).catch((error) => {
       console.error('Logout failed', error);
     });

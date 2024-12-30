@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut } from '@angular/fire/auth';
+import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, deleteUser } from '@angular/fire/auth';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from 'firebase/auth';
 
@@ -51,5 +51,27 @@ export class AuthService {
       });
     });
   }
-  
+  async deleteAccount(): Promise<void> {
+    const currentUser = this.auth.currentUser;
+    if (currentUser) {
+      try {
+        await deleteUser(currentUser);
+        this.snackBar.open('Account deleted successfully!', 'Close', {
+          duration: 3000,
+          panelClass: ['success-snackbar'],
+        });
+      } catch (error) {
+        this.snackBar.open('Failed to delete account: ' + (error as Error).message, 'Close', {
+          duration: 3000,
+          panelClass: ['error-snackbar'],
+        });
+        throw error;
+      }
+    } else {
+      this.snackBar.open('No user is currently authenticated.', 'Close', {
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+      });
+    }
+  }
 }

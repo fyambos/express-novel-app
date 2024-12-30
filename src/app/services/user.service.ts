@@ -79,4 +79,13 @@ export class UserService {
       throw error;
     }
   }
+
+  async deleteUser(userId: string) {
+    try {
+      return await lastValueFrom(this.http.delete(`${this.apiUrl}/users/${userId}`, {}));
+    } catch (error) {
+      console.error('Error deleting user and processing data:', error);
+      throw error;
+    }
+  }
 }

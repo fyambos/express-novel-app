@@ -87,8 +87,6 @@ app.post('/api/signup', async (req, res) => {
         username, 
         email, 
       });
-      console.log(newUser);
-  
       await newUser.save();
   
       res.status(201).json({ message: 'User created successfully' });
@@ -603,5 +601,44 @@ app.delete('/api/stories/:id', async (req, res) => {
   }
 });
 
+app.delete('/api/users/:id', async (req, res) => {
+  const userId = req.params.id;
+  const replacementAuthorId = "svc3NgV4S3PSGgtXY0YH0ZFplZ93";
+
+  try {
+    const user = await User.findOne({ id: userId });
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+    await Story.updateMany(
+      { authorId: userId },
+      { $set: { authorId: replacementAuthorId } }
+    );
+    await Chapter.updateMany(
+      { authorId: userId },
+      { $set: { authorId: replacementAuthorId } }
+    );
+    await Comment.updateMany(
+      { authorId: userId },
+      { $set: { authorId: replacementAuthorId } }
+    );
+    await Bookmark.deleteMany({ userId });
+    await Read.deleteMany({ userId });
+    await Chapter.updateMany(
+      { likes: userId },
+      { $pull: { likes: userId } }
+    );
+    await Comment.updateMany(
+      { likes: userId },
+      { $pull: { likes: userId } }
+    );
+    await User.deleteOne({ id: userId });
+
+    res.status(200).json({ message: 'User and related data processed successfully' });
+  } catch (err) {
+    console.error('Error deleting user and processing related data:', err);
+    res.status(500).json({ message: 'Error deleting user and processing related data' });
+  }
+});
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));

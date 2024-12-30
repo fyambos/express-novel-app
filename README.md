@@ -7,8 +7,8 @@ This project is a web application for creating and sharing stories. Users can cr
 ## 🌟 Features
 
 * **✨ User Authentication:** Secure user authentication using Firebase Authentication.
-* **📖 Story Creation:** Create new stories with title, summary, rating, and tags.
-* **📝 Chapter Creation:** Create new chapters for stories, using a Rich Text Format editor.
+* **📖 Story Creation:** Create chaptered stories with title, summary, rating, and tags.
+* **📝 Rich Text Editor:** Rich Text Editor built-in for adding style to chapter contents.
 * **👤 User Profiles:** View user profiles with information like username and bio.
 * **🌔 Dark Mode:** Toggle between light and dark mode.
 * **💬 Add comments:** Add comments to stories, reply to comments.
@@ -17,9 +17,9 @@ This project is a web application for creating and sharing stories. Users can cr
 * **✅ Mark as read:** Let users mark stories as read and display them in the profile.
 * **❤️ Likes:** Like chapters or comments and display users who liked.
 * **🔃 Reorder chapters:** Mingle with the order of chapters with a drag handle.
+* **🗑️ Delete:** Ability to delete chapters, users and stories, while preserving dependant objects.
 
 ## 📈 Improvements
-* **🗑️ Delete:** Ability to delete chapters, users and stories, while preserving dependant objects.
 * **🔔 Subscribe & Follow:** Follow users or stories and get notified when a new story/chapter is posted.
 * **🌐 Multi-language Support:** Add multi-language support for users to switch between languages.
 * **🔍 Search Functionality:** Implement search for users and stories to easily find content.

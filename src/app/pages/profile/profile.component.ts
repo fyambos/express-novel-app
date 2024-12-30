@@ -7,6 +7,8 @@ import { EditProfileDialogComponent } from 'src/app/components/edit-profile-dial
 import { BookmarkService } from 'src/app/services/bookmark.service';
 import { StoryService } from 'src/app/services/story.service';
 import { ChapterService } from 'src/app/services/chapter.service';
+import { ConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -32,6 +34,7 @@ export class ProfileComponent implements OnInit {
     private storyService: StoryService,
     private chapterService: ChapterService,
     private router: Router,
+    private authService: AuthService,
   ) {}
 
   ngOnInit(): void {
@@ -121,5 +124,27 @@ export class ProfileComponent implements OnInit {
 
   navigateToStory(storyId: string): void {
     this.router.navigate(['/stories', storyId]);
+  }
+
+  deleteProfile(userId: string): void {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: {
+        title: 'Confirm',
+        message: 'Are you sure you want to delete your profile? This will NOT delete your stories and comments, they will be orphaned.',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.userService.deleteUser(userId).then(() => {
+          this.authService.deleteAccount().then(() => {
+            this.router.navigate(['/']);
+          }).catch((error) => {
+            console.error('Failed to delete account:', error);
+          });
+        });
+      }
+    });
   }
 }
