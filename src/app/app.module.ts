@@ -36,6 +36,7 @@ import { AddCommentDialogComponent } from './components/add-comment-dialog/add-c
 import { RelativeDatePipe } from './pipes/relative-date.pipe';
 import { UsersModalComponent } from './components/users-modal/users-modal.component';
 import { ChapterReorderComponent } from './pages/chapter-reorder/chapter-reorder.component';
+import { BookmarksComponent } from './components/bookmarks/bookmarks.component';
 
 @NgModule({
   declarations: [
@@ -59,6 +60,7 @@ import { ChapterReorderComponent } from './pages/chapter-reorder/chapter-reorder
     RelativeDatePipe,
     UsersModalComponent,
     ChapterReorderComponent,
+    BookmarksComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,36 @@
+      <h2 class="text-xl font-semibold">{{ actionType === 'bookmark' ? 'Bookmarks' : 'Read'}} {{ '(' + bookmarks?.length + ')' || '' }}</h2>
+      <div *ngIf="bookmarks && bookmarks.length > 0; else noBookmarks">
+        <div *ngFor="let bookmark of bookmarks"
+        class="flex items-center justify-between p-2 border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 cursor-pointer shadow-md"
+        (click)="actionType === 'bookmark' ? navigateToChapter(bookmark.chapterId) : navigateToStory(bookmark.storyId)">
+          <div class="flex flex-col">
+            <div class="flex items-center justify-between">
+              <div class="flex items-center">
+                <i 
+                class="text-gray-500 dark:text-gray-400 mr-2 fas"
+                [ngClass]="{
+                    'fa-bookmark': actionType === 'bookmark', 
+                    'fa-book': actionType === 'read'
+                }"
+                ></i>
+                <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 truncate pt-1 bookmark-title">
+                    {{ actionType === 'read' ? '' : 'Chapter ' + bookmark.chapter?.chapter + ': ' }}
+                    {{ bookmark.story.title }} - {{ bookmark.story.author.username }}
+                </h3>
+              </div>
+              <button
+              class="bg-red-500 hover:bg-red-700 text-white font-semibold text-sm py-1 px-2 rounded mt-0"
+              (click)="deleteBookmark(bookmark._id)"
+              (click)="$event.stopPropagation()">
+                <i class="fas fa-trash-alt mr-0"></i>
+              </button>
+            </div>
+            <p class="text-sm text-gray-500 dark:text-gray-400 truncate-summary">
+              {{ bookmark.story.summary }}
+            </p>
+          </div>
+        </div>
+      </div>
+      <ng-template #noBookmarks>
+        <p class="text-gray-500">No bookmarks added yet.</p>
+      </ng-template>

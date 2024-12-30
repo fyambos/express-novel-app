@@ -111,17 +111,6 @@ export class ProfileComponent implements OnInit {
     });
   }
 
-  deleteBookmark(bookmarkId: string, actionType: 'bookmark' | 'read'): void {
-    this.bookmarkService.deleteBookmark(bookmarkId, actionType).then(() => {
-      this.bookmarks = this.bookmarks.filter((bookmark) => bookmark._id !== bookmarkId);
-      this.reads = this.reads.filter((read) => read._id !== bookmarkId);
-    });
-  }
-
-  navigateToChapter(chapterId: string): void {
-    this.router.navigate(['/chapter', chapterId]);
-  }
-
   navigateToStory(storyId: string): void {
     this.router.navigate(['/stories', storyId]);
   }
