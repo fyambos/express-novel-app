@@ -34,14 +34,27 @@ export class HeaderComponent implements OnInit {
       this.isDarkMode = false;
       document.body.classList.remove('dark');
     }
+  
     this.auth.onAuthStateChanged(async user => {
       this.user = user;
       if (user) {
-        this.loadUserTheme(user.uid);
-        this.userProfile = await this.userService.fetchUser(user.uid);
+        const creationTime = new Date(user.metadata.creationTime!).getTime();
+        const currentTime = Date.now();
+        if (currentTime - creationTime < 300000) {
+          return; // don't fetch user profile if account was created less than 5 minutes ago
+        }
+        try {
+          this.userProfile = await this.userService.fetchUser(user.uid);
+          if (this.userProfile) {
+            this.loadUserTheme(user.uid);
+          }
+        } catch (error) {
+          console.error('Error loading user profile:', error);
+        }
       }
     });
   }
+  
 
   loadUserTheme(userId: string) {
     this.userService.fetchUser(userId).then(userData => {

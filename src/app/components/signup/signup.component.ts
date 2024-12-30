@@ -20,18 +20,9 @@ export class SignupComponent {
 
   async signup() {
     try {
-      console.log('Signing up with email:', this.email);
       const user = await this.authService.signUp(this.email, this.password);
       if (user) {
-        if (!user.email) {
-          throw new Error('User email is null');
-        }
-        const userData = {
-          uid: user.uid,
-          email: user.email,
-        };
-        await this.userService.saveUserToDB(userData);
-        this.router.navigate(['/home']);
+        this.router.navigate(['/']);
       } else {
         throw new Error('User is null');
       }

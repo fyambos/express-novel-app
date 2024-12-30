@@ -2,12 +2,17 @@ import { Injectable } from '@angular/core';
 import { Auth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, deleteUser } from '@angular/fire/auth';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from 'firebase/auth';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private auth: Auth, private snackBar: MatSnackBar) {}
+  constructor(
+    private auth: Auth,
+    private snackBar: MatSnackBar,
+    private userService: UserService,
+  ) {}
 
   signIn(email: string, password: string): Promise<any> {
     return signInWithEmailAndPassword(this.auth, email, password)
@@ -28,7 +33,15 @@ export class AuthService {
   async signUp(email: string, password: string): Promise<User | null> { 
     try {
       const userCredential = await createUserWithEmailAndPassword(this.auth, email, password);
-      const user: User = userCredential.user; 
+      const user: User = userCredential.user;
+      if (!user.email) {
+        throw new Error('Email is null');
+      }
+      const userData = {
+        uid: user.uid,
+        email: user.email,
+      };
+      await this.userService.saveUserToDB(userData); 
       this.snackBar.open('Account created successfully!', 'Close', {
         duration: 3000,
         panelClass: ['success-snackbar'],
