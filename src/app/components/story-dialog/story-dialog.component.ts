@@ -62,7 +62,7 @@ export class StoryDialogComponent implements OnInit {
       summary: this.summary,
       rating: this.rating,
       tags: this.tags.split(',').map((tag) => tag.trim()),
-      author: this.currentUser.uid,
+      authorId: this.currentUser.uid,
     };
 
     try {

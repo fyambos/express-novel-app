@@ -20,7 +20,7 @@ const storySchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
-  author: {
+  authorId: {
     type: String,
     required: true,
   },

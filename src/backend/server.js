@@ -41,14 +41,14 @@ const uploadPath = path.resolve(__dirname, '../assets/uploads');
 app.use('/uploads', express.static(uploadPath));
 
 app.post('/api/create', async (req, res) => {
-  const { title, summary, tags, rating, author } = req.body;
+  const { title, summary, tags, rating, authorId } = req.body;
   try {
     const newStory = new Story({
       title,
       summary,
       rating,
       tags,
-      author,
+      authorId,
     });
     const savedStory = await newStory.save();
     res.json(savedStory);
@@ -105,7 +105,7 @@ app.post('/api/signup', async (req, res) => {
       if (!user) {
         return res.status(404).json({ message: 'User not found' });
       }
-      const stories = await Story.find({ author: userId });
+      const stories = await Story.find({ authorId: userId });
       const userObj = user.toObject();
       if (stories.length > 0) {
         userObj.role = 'Writer';
@@ -181,7 +181,7 @@ app.post('/api/signup', async (req, res) => {
   app.get('/api/author/:id/stories', async (req, res) => {
     try {
       const authorId = req.params.id;
-      const stories = await Story.find({ author: authorId });
+      const stories = await Story.find({ authorId: authorId });
       res.json(stories);
     } catch (err) {
       console.error(err);

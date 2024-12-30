@@ -18,7 +18,7 @@ export class StoryService {
   async getStoryById(storyId: string) {
     try {
       const story = await lastValueFrom(this.http.get<any>(`${this.apiUrl}/stories/${storyId}`));
-      const author = await this.userService.fetchUser(story.author);
+      const author = await this.userService.fetchUser(story.authorId);
       return { ...story, author };
     } catch (error: any) {
       throw error;
@@ -51,7 +51,7 @@ export class StoryService {
 
       const storiesWithAuthors = await Promise.all(
         stories.map(async (story) => {
-          const author = await this.userService.fetchUser(story.author);
+          const author = await this.userService.fetchUser(story.authorId);
           return { ...story, author };
         })
       );
