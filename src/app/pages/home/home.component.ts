@@ -31,6 +31,7 @@ export class HomeComponent implements OnInit {
   }
 
   readMore(storyId: string) {
+    console.log(storyId);
     this.router.navigate([`/stories/${storyId}`]);
   }
 }

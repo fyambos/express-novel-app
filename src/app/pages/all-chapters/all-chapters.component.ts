@@ -34,10 +34,9 @@ export class AllChaptersComponent implements OnInit {
     try {
       const chaptersData = await this.chapterService.getChaptersByStoryId(storyId);
       if (!chaptersData) {
-        throw new Error('Chapter not found');
+        throw new Error('Chapters not found');
       }
-      this.chapters = chaptersData.sort((a: any, b: any) => a.chapter - b.chapter);
-      console.log('Chapters:', this.chapters);
+      this.chapters = chaptersData;
       for (let i = 0; i < this.chapters.length; i++) {
         this.chapters[i].content = this.sanitizer.bypassSecurityTrustHtml(this.chapters[i].content);
       }

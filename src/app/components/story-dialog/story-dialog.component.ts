@@ -36,8 +36,6 @@ export class StoryDialogComponent implements OnInit {
     if (this.data?._id) {
       this.isEditing = true;
       await this.loadStoryDetails(this.data._id);
-      console.log('isEditing:', this.isEditing);
-      console.log('Editing story:', this.data);
     }
   }
 
@@ -69,7 +67,7 @@ export class StoryDialogComponent implements OnInit {
 
     try {
       if (this.isEditing) {
-        const updatedStory = await this.updateStory(this.data.id, story);
+        const updatedStory = await this.updateStory(this.data._id, story);
         this.dialogRef.close(updatedStory);
         this.router.navigate([`/stories/${updatedStory._id}`]);
       } else {
@@ -96,7 +94,6 @@ export class StoryDialogComponent implements OnInit {
   async updateStory(storyId: string, story: any) {
     try {
       const updatedStory = await this.storyService.editStory(storyId, story);
-      console.log('Story updated successfully', updatedStory);
       return updatedStory;
     } catch (error) {
       console.error('Error updating story', error);

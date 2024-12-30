@@ -74,10 +74,12 @@ export class StoryService {
   }
 
   getStoryWordCount(story: any): number {
-    if (!story || !story.chapters || story.chapters.length === 0) {
-      throw new Error('Invalid story object');
+    if (!story) {
+      throw new Error('No story object provided');
     }
-
+    if (!story.chapters || !story.chapters.length) {
+      return 0;
+    }
     return story.chapters.reduce((total: any, chapter: any) => {
       return total + this.getChapterWordCount(chapter);
     }, 0);

@@ -62,11 +62,6 @@ app.get('/api/stories/:id', async (req, res) => {
     try {
         const storyId = req.params.id;
         const story = await Story.findById(storyId);
-
-        if (!story) {
-            return res.status(404).json({ message: 'Story not found' });
-        }
-
         res.json(story);
     } catch (err) {
         console.error(err);
@@ -100,9 +95,6 @@ app.post('/api/signup', async (req, res) => {
     try {
       const userId = req.params.id;
       const user = await User.findOne({ id: userId });
-      if (!user) {
-        return res.status(404).json({ message: 'User not found' });
-      }
       const stories = await Story.find({ author: userId });
       const userObj = user.toObject();
       if (stories.length > 0) {
@@ -249,9 +241,6 @@ app.get('/api/chapters/:id', async (req, res) => {
   try {
     const chapterId = req.params.id;
     const chapter = await Chapter.findById(chapterId);
-    if (!chapter) {
-      return res.status(404).json({ message: 'Chapter not found' });
-    }
     const story = await Story.findOne({ _id: chapter.storyId });
     const author = await User.findOne({ id: chapter.authorId });
     const chapterWithDetails = {
@@ -308,11 +297,6 @@ app.get('/api/stories/:storyId/chapters', async (req, res) => {
 
   try {
     const chapters = await Chapter.find({ storyId: storyId });
-
-    if (chapters.length === 0) {
-      return res.status(404).json({ message: 'No chapters found for this story' });
-    }
-
     res.json(chapters);
   } catch (err) {
     console.error(err);
