@@ -585,4 +585,23 @@ app.post('/api/chapters/update-chapter-order', async (req, res) => {
   }
 });
 
+app.delete('/api/stories/:id', async (req, res) => {
+  const storyId = req.params.id;
+
+  try {
+    const story = await Story.findById(storyId);
+    if (!story) {
+      return res.status(404).json({ message: 'Story not found' });
+    }
+    await Story.findByIdAndDelete(storyId);
+    await Chapter.deleteMany({ storyId });
+
+    res.status(200).json({ message: 'Story and associated chapters deleted successfully' });
+  } catch (err) {
+    console.error('Error deleting story and chapters:', err);
+    res.status(500).json({ message: 'Error deleting story and associated chapters' });
+  }
+});
+
+
 app.listen(port, () => console.log(`Server listening on port ${port}`));

@@ -321,6 +321,6 @@ export class ChapterDetailsComponent implements OnInit {
           });
         }
       });
-    }
+  }
   
 }

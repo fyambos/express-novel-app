@@ -95,4 +95,14 @@ export class StoryService {
     const strippedText = text.replace(/<\/?(div|p|br|section|article|header|footer|h[1-6]|li|ul|ol|blockquote|pre)[^>]*>/gi, ' ');
     return strippedText.replace(/<[^>]*>/g, '').trim();
   }
+
+  async deleteStory(storyId: string) {
+    try {
+      const deletedStory = await lastValueFrom(this.http.delete<any>(`${this.apiUrl}/stories/${storyId}`));
+      return deletedStory;
+    } catch (error) {
+      console.error('Error deleting story:', error);
+      throw error;
+    }
+  }
 }

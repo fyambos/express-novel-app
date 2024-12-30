@@ -8,6 +8,7 @@ import { ChapterDialogComponent } from '../../components/chapter-dialog/chapter-
 import { ChapterService } from 'src/app/services/chapter.service';
 import { UsersModalComponent } from 'src/app/components/users-modal/users-modal.component';
 import { UserService } from 'src/app/services/user.service';
+import { ConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-story-details',
@@ -149,4 +150,23 @@ export class StoryDetailsComponent implements OnInit {
         this.router.navigate(['/reorder-chapters', storyId]);
       }
     }
+
+
+  deleteStory(storyId: string): void {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        width: '300px',
+        data: {
+          title: 'Confirm',
+          message: 'Are you sure you want to delete this story? This will delete the story and all its chapters.',
+        },
+      });
+  
+      dialogRef.afterClosed().subscribe((confirmed) => {
+        if (confirmed) {
+          this.storyService.deleteStory(storyId).then(() => {
+            this.router.navigate(['/']);
+          });
+        }
+      });
+  }
 }
