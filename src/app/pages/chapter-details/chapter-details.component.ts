@@ -150,6 +150,10 @@ export class ChapterDetailsComponent implements OnInit {
     }
 
     async openCommentModal() {
+    if (!this.currentUserUid) {
+      this.router.navigate(['/login']);
+      return;
+    }
     const dialogRef = this.dialog.open(AddCommentDialogComponent, {
       width: '400px',
       data: { chapterId: this.chapter._id, authorId: this.currentUserUid },
