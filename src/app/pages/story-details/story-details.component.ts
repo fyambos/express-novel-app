@@ -47,13 +47,17 @@ export class StoryDetailsComponent implements OnInit {
       }
     });
   }
+
   async fetchStory(storyId: string) {
     try {
       const storyData = await this.storyService.getStoryById(storyId);
       this.story = { ...storyData };
-    } catch (error) {
-      console.error('Error fetching story:', error);
-      this.router.navigate(['/not-found']);
+    } catch (error: any) {
+      if (error.status === 404) {
+        this.router.navigate(['/not-found']);
+      } else {
+        console.error('Unexpected error fetching story:', error);
+      }
     }
   }
 

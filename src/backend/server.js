@@ -62,10 +62,17 @@ app.get('/api/stories/:id', async (req, res) => {
     try {
         const storyId = req.params.id;
         const story = await Story.findById(storyId);
+        if (!story) {
+            return res.status(404).json({ message: 'Story not found' });
+        }
         res.json(story);
     } catch (err) {
-        console.error(err);
-        res.status(500).json({ message: 'Error fetching story' });
+        if (err.name === 'CastError') {
+            return res.status(404).json({ message: 'Story not found' });
+        } else {
+            console.error(err);
+            return res.status(500).json({ message: 'Error fetching story' });
+        }
     }
 });
 

@@ -20,8 +20,7 @@ export class StoryService {
       const story = await lastValueFrom(this.http.get<any>(`${this.apiUrl}/stories/${storyId}`));
       const author = await this.userService.fetchUser(story.author);
       return { ...story, author };
-    } catch (error) {
-      console.error('Error fetching story and author:', error);
+    } catch (error: any) {
       throw error;
     }
   }
