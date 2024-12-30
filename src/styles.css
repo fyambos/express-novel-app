@@ -45,7 +45,7 @@
     --primary-foreground: hsl(222.2, 47.4%, 11.2%);
     --secondary: hsl(217.2, 32.6%, 17.5%);
     --secondary-foreground: hsl(210, 40%, 98%);
-    --muted: hsl(217.2, 32.6%, 17.5%);
+    --muted: hsl(212, 29%, 19%);
     --muted-foreground: hsl(215, 20.2%, 65.1%);
     --accent: hsl(215, 27.9%, 16.9%);
     --accent-foreground: hsl(210, 40%, 98%);
@@ -84,14 +84,14 @@
   }
 
   .mat-form-field-appearance-outline .mat-mdc-text-field-wrapper {
-    background-color: var(--accent);
+    background-color: var(--neutral-foreground);
     border-radius: 5px;
     color: var(--accent-foreground)!important; /* add background and foreground color to mat inputs */
   }
 
   .mat-mdc-dialog-surface {
-    background-color: var(--background)!important;
-    color: var(--background-foreground)!important; /* add background and foreground color to mat dialogs */
+    background-color: var(--accent)!important;
+    color: var(--accent-foreground)!important; /* add background and foreground color to mat dialogs */
   }
 
   .mat-mdc-input-element, .mat-mdc-dialog-container .mdc-dialog__title {
@@ -125,8 +125,8 @@
   }
 
   .mat-mdc-dialog-actions div .cancel {
-    background-color: var(--background);
-    color: var(--foreground);
+    background-color: var(--accent);
+    color: var(--accent-foreground);
   }
   
   .mat-mdc-dialog-actions div .submit:hover {
@@ -135,6 +135,10 @@
 
   .mat-mdc-dialog-actions div .cancel:hover {
     background-color: var(--secondary); 
+  }
+
+  .mat-mdc-dialog-actions div .cancel:active, .mat-mdc-dialog-actions div .cancel:focus {
+    background-color: var(--muted);
   }
 
   /* truncate text in summary */

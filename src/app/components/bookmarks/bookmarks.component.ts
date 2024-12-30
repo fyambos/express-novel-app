@@ -2,6 +2,8 @@ import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { BookmarkService } from 'src/app/services/bookmark.service';
 import { Auth, onAuthStateChanged, User } from '@angular/fire/auth'; 
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-bookmarks',
@@ -16,6 +18,7 @@ export class BookmarksComponent {
     private router: Router,
     private bookmarkService: BookmarkService,
     private auth: Auth,
+    private dialog: MatDialog,
   ) {}
   
   async ngOnInit() {
@@ -35,8 +38,20 @@ export class BookmarksComponent {
   }
 
   deleteBookmark(bookmarkId: string): void {
-    this.bookmarkService.deleteBookmark(bookmarkId, this.actionType).then(() => {
-      this.bookmarks = this.bookmarks.filter((bookmark: any) => bookmark._id !== bookmarkId);
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      width: '300px',
+      data: {
+        title: 'Confirm',
+        message: 'Are you sure you want to delete this bookmark?',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.bookmarkService.deleteBookmark(bookmarkId, this.actionType).then(() => {
+          this.bookmarks = this.bookmarks.filter((bookmark: any) => bookmark._id !== bookmarkId);
+        });
+      }
     });
   }
 

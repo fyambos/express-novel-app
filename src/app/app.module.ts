@@ -37,6 +37,7 @@ import { RelativeDatePipe } from './pipes/relative-date.pipe';
 import { UsersModalComponent } from './components/users-modal/users-modal.component';
 import { ChapterReorderComponent } from './pages/chapter-reorder/chapter-reorder.component';
 import { BookmarksComponent } from './components/bookmarks/bookmarks.component';
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { BookmarksComponent } from './components/bookmarks/bookmarks.component';
     UsersModalComponent,
     ChapterReorderComponent,
     BookmarksComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
