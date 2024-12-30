@@ -69,13 +69,14 @@ export class ProfileComponent implements OnInit {
   }
 
   async fetchProfileInfo(userId: string) {
-    
     try {
       this.user = await this.userService.fetchUser(userId);
-    } catch (error) {
-      this.isLoading = false;
-      this.router.navigate(['/not-found']);
-      return;
+    } catch (error: any) {
+      if (error.status === 404) {
+        this.router.navigate(['/not-found']);
+      } else {
+        console.error('Unexpected error fetching profile:', error);
+      }
     }
     
     this.stories = await this.userService.fetchAuthorStories(userId);

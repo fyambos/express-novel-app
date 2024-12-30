@@ -41,9 +41,12 @@ export class AllChaptersComponent implements OnInit {
         this.chapters[i].content = this.sanitizer.bypassSecurityTrustHtml(this.chapters[i].content);
       }
       this.isLoading = false;
-    } catch (error) {
-      console.error('Error fetching story:', error);
-      this.router.navigate(['/not-found']);
+    } catch (error: any) {
+      if (error.status === 404) {
+        this.router.navigate(['/not-found']);
+      } else {
+        console.error('Unexpected error fetching story:', error);
+      }
     }
   }
 

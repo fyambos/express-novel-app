@@ -102,6 +102,9 @@ app.post('/api/signup', async (req, res) => {
     try {
       const userId = req.params.id;
       const user = await User.findOne({ id: userId });
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
       const stories = await Story.find({ author: userId });
       const userObj = user.toObject();
       if (stories.length > 0) {
@@ -111,8 +114,12 @@ app.post('/api/signup', async (req, res) => {
       }
       res.json(userObj);
     } catch (err) {
-      console.error(err);
-      res.status(500).json({ message: 'Error fetching user' });
+      if (err.name === 'CastError') {
+          return res.status(404).json({ message: 'User not found' });
+      } else {
+          console.error(err);
+          return res.status(500).json({ message: 'Error fetching user' });
+      }
     }
   });
   
@@ -248,6 +255,9 @@ app.get('/api/chapters/:id', async (req, res) => {
   try {
     const chapterId = req.params.id;
     const chapter = await Chapter.findById(chapterId);
+    if (!chapter) {
+      return res.status(404).json({ message: 'Chapter not found' });
+    }
     const story = await Story.findOne({ _id: chapter.storyId });
     const author = await User.findOne({ id: chapter.authorId });
     const chapterWithDetails = {
@@ -257,8 +267,12 @@ app.get('/api/chapters/:id', async (req, res) => {
     };
     res.json(chapterWithDetails);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Error fetching chapter' });
+    if (err.name === 'CastError') {
+        return res.status(404).json({ message: 'Chapter not found' });
+    } else {
+        console.error(err);
+        return res.status(500).json({ message: 'Error fetching chapter' });
+    }
   }
 });
 
@@ -299,15 +313,22 @@ app.delete('/api/chapters/:id', async (req, res) => {
   }
 });
 
-app.get('/api/stories/:storyId/chapters', async (req, res) => {
-  const storyId = req.params.storyId;
-
+app.get('/api/stories/:id/chapters', async (req, res) => {
+  const storyId = req.params.id;
   try {
+    const story = await Story.findById(storyId);
+    if (!story) {
+      return res.status(404).json({ message: 'Story not found' });
+    }
     const chapters = await Chapter.find({ storyId: storyId });
     res.json(chapters);
   } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Error fetching chapters' });
+    if (err.name === 'CastError') {
+        return res.status(404).json({ message: 'Story not found' });
+    } else {
+        console.error(err);
+        return res.status(500).json({ message: 'Error fetching story or chapters' });
+    }
   }
 });
 

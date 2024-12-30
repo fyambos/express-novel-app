@@ -63,8 +63,11 @@ export class ChapterDetailsComponent implements OnInit {
 
   checkCurrentUser() {
       onAuthStateChanged(this.auth, (user: User | null) => {
+        if (!this.chapter) {
+          return;
+        }
         if (user) {
-          this.isAuthor = user.uid === this.chapter?.authorId;
+          this.isAuthor = user.uid === this.chapter.authorId;
           this.isLoading = false;
           this.currentUserUid = user.uid;
           this.checkIfBookmarked();
@@ -81,15 +84,15 @@ export class ChapterDetailsComponent implements OnInit {
       const chapterData = await this.chapterService.getChapterById(chapterId);
       const wordCount = this.storyService.getChapterWordCount(chapterData);
       this.chapter = { ...chapterData, wordCount };
-      if (!chapterData) {
-        throw new Error('Chapter not found');
-      }
       this.safeContent = this.sanitizer.bypassSecurityTrustHtml(this.chapter.content);
       await this.fetchStoryChapters(this.chapter.storyId);
       this.updateNavigation();
-    } catch (error) {
-      console.error('Error fetching chapter:', error);
-      this.router.navigate(['/not-found']);
+    } catch (error: any) {
+      if (error.status === 404) {
+        this.router.navigate(['/not-found']);
+      } else {
+        console.error('Unexpected error fetching chapter:', error);
+      }
     }
   }
 

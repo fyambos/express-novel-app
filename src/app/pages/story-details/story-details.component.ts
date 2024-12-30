@@ -38,6 +38,9 @@ export class StoryDetailsComponent implements OnInit {
   }
   checkCurrentUser() {
     onAuthStateChanged(this.auth, (user: User | null) => {
+      if (!this.story) {
+        return;
+      }
       if (user) {
         this.isAuthor = user.uid === this.story?.author?.id;
         this.isLoading = false;

@@ -25,7 +25,6 @@ export class ChapterService {
       const response = await lastValueFrom(this.http.get<any>(`${this.baseUrl}/chapters/${chapterId}`));
       return response;
     } catch (error) {
-      console.error(`Error fetching chapter with ID ${chapterId}:`, error);
       throw error;
     }
   }
@@ -56,7 +55,6 @@ export class ChapterService {
       const sortedChapters = chapters.sort((a: any, b: any) => a.chapter - b.chapter);
       return sortedChapters;
     } catch (error) {
-      console.error(`Error fetching chapters for story with ID ${storyId}:`, error);
       throw error;
     }
   }
