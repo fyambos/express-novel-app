@@ -137,12 +137,18 @@ export class ProfileComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((confirmed) => {
       if (confirmed) {
-        this.userService.deleteUser(userId).then(() => {
-          this.authService.deleteAccount().then(() => {
-            this.router.navigate(['/']);
+        this.authService.forceReauthentication().then(() => {
+          this.userService.deleteUser(userId).then(() => {
+            this.authService.deleteAccount().then(() => {
+              this.router.navigate(['/']);
+            }).catch((error) => {
+              console.error('Failed to delete firebase account:', error);
+            });
           }).catch((error) => {
-            console.error('Failed to delete account:', error);
+            console.error('Failed to delete user', error);
           });
+        }).catch((error) => {
+          console.error('Failed to reauthenticate:', error);
         });
       }
     });

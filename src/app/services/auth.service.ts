@@ -74,4 +74,29 @@ export class AuthService {
       });
     }
   }
+
+  async forceReauthentication(): Promise<void> {
+    const currentUser = this.auth.currentUser;
+    if (currentUser) {
+      const authTimeInMillis = (currentUser.metadata.lastSignInTime) 
+        ? new Date(currentUser.metadata.lastSignInTime).getTime() 
+        : 0;
+      const currentTimeInMillis = new Date().getTime();
+      const timeElapsedInMillis = currentTimeInMillis - authTimeInMillis;
+      const FIVE_MINUTES_IN_MILLIS = 300000;
+      if (timeElapsedInMillis < FIVE_MINUTES_IN_MILLIS) {
+        return;
+      }
+      await this.logout();
+      this.snackBar.open('Please log in again to continue.', 'Close', {
+        duration: 3000,
+        panelClass: ['warning-snackbar'],
+      });
+    } else {
+      this.snackBar.open('No user is currently authenticated.', 'Close', {
+        duration: 3000,
+        panelClass: ['error-snackbar'],
+      });
+    }
+  }
 }
