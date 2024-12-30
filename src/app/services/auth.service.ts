@@ -105,11 +105,6 @@ export class AuthService {
         duration: 3000,
         panelClass: ['warning-snackbar'],
       });
-    } else {
-      this.snackBar.open('No user is currently authenticated.', 'Close', {
-        duration: 3000,
-        panelClass: ['error-snackbar'],
-      });
     }
   }
 }
