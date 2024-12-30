@@ -13,6 +13,7 @@ import { UserService } from 'src/app/services/user.service';
 import { StoryService } from 'src/app/services/story.service';
 import { BookmarkService } from 'src/app/services/bookmark.service';
 import { UsersModalComponent } from 'src/app/components/users-modal/users-modal.component';
+import { ConfirmDialogComponent } from 'src/app/components/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-chapter-details',
@@ -303,4 +304,23 @@ export class ChapterDetailsComponent implements OnInit {
       console.error('Error fetching user profiles:', error);
     }
   }
+
+  deleteChapter(chapterId: string): void {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        width: '300px',
+        data: {
+          title: 'Confirm',
+          message: 'Are you sure you want to delete this chapter?',
+        },
+      });
+  
+      dialogRef.afterClosed().subscribe((confirmed) => {
+        if (confirmed) {
+          this.chapterService.deleteChapter(chapterId).then(() => {
+            this.router.navigate(['/stories', this.chapter.storyId]);
+          });
+        }
+      });
+    }
+  
 }

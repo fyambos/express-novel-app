@@ -302,14 +302,21 @@ app.delete('/api/chapters/:id', async (req, res) => {
   const chapterId = req.params.id;
 
   try {
-    const deletedChapter = await Chapter.findByIdAndDelete(chapterId);
-    if (!deletedChapter) {
+    const chapterToDelete = await Chapter.findById(chapterId);
+    if (!chapterToDelete) {
       return res.status(404).json({ message: 'Chapter not found' });
     }
-    res.json({ message: 'Chapter deleted successfully' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: 'Error deleting chapter' });
+
+    await Chapter.findByIdAndDelete(chapterId);
+    const chapters = await Chapter.find({ storyId: chapterToDelete.storyId }).sort({ chapter: 1 });
+    for (let i = 0; i < chapters.length; i++) {
+      chapters[i].chapter = i + 1; //reorder chapters after deleting one
+      await chapters[i].save();
+    }
+    res.status(200).json({ message: 'Chapter deleted and reordered successfully!' });
+  } catch (error) {
+    console.error('Error deleting and reordering chapters:', error);
+    res.status(500).json({ message: 'An error occurred while deleting and reordering the chapters.' });
   }
 });
 
