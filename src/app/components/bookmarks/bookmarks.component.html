@@ -19,6 +19,7 @@
                 </h3>
               </div>
               <button
+              *ngIf="currentUserUid === bookmark.userId"
               class="bg-red-500 hover:bg-red-700 text-white font-semibold text-sm py-1 px-2 rounded mt-0"
               (click)="deleteBookmark(bookmark._id)"
               (click)="$event.stopPropagation()">

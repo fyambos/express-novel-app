@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Router } from '@angular/router';
 import { BookmarkService } from 'src/app/services/bookmark.service';
+import { Auth, onAuthStateChanged, User } from '@angular/fire/auth'; 
 
 @Component({
   selector: 'app-bookmarks',
@@ -9,12 +10,22 @@ import { BookmarkService } from 'src/app/services/bookmark.service';
 export class BookmarksComponent {
   @Input() bookmarks: any;
   @Input() actionType: 'bookmark' | 'read' = 'bookmark';
+  currentUserUid: string | null = null;
 
   constructor(
     private router: Router,
     private bookmarkService: BookmarkService,
+    private auth: Auth,
   ) {}
   
+  async ngOnInit() {
+    onAuthStateChanged(this.auth, (user: User | null) => {
+      if (user) {
+        this.currentUserUid = user.uid;
+      }
+    });
+  }
+
   navigateToChapter(chapterId: string): void {
     this.router.navigate(['/chapters', chapterId]);
   }
@@ -28,4 +39,5 @@ export class BookmarksComponent {
       this.bookmarks = this.bookmarks.filter((bookmark: any) => bookmark._id !== bookmarkId);
     });
   }
+
 }
