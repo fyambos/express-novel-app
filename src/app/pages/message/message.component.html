@@ -13,7 +13,7 @@
                 alt="Profile Picture"
                 class="w-7 h-7 rounded-full flex-shrink-0" />
             <div class="min-w-0 flex-1">
-              <h3 class="font-medium truncate">{{ conversation.username }}</h3>
+              <h3 class="font-medium truncate">{{ conversation.username || "Deleted User" }}</h3>
               <p class="text-sm text-gray-500 truncate">{{ conversation.lastMessage }}</p>
             </div>
             <div class="flex items-center space-x-2">
@@ -40,7 +40,7 @@
           <div class="min-w-0 flex-1">
             <h2 
               class="text-lg font-bold cursor-pointer"
-              (click)="navigateToUserProfile()">{{ recipient.username }}</h2>
+              (click)="navigateToUserProfile()">{{ recipient.username || "Deleted User" }}</h2>
           </div>
         </div>
       </div>
