@@ -13,7 +13,7 @@ export class BookmarkService {
 
   async createBookmark(userId: string, chapterId: string | null, storyId: string, actionType: 'bookmark' | 'read'): Promise<any> {
     try {
-      const endpoint = actionType === 'bookmark' ? '/bookmarks' : '/read';
+      const endpoint = actionType === 'bookmark' ? '/bookmarks' : '/reads';
       const response = await lastValueFrom(this.http.post(`${this.apiUrl}${endpoint}`, { userId, chapterId, storyId }));
       return response;
     } catch (error) {
@@ -24,7 +24,7 @@ export class BookmarkService {
   
   async getBookmarksByUserId(userId: string, actionType: 'bookmark' | 'read'): Promise<any[]> {
     try {
-      const endpoint = actionType === 'bookmark' ? `/bookmarks/${userId}` : `/read/${userId}`;
+      const endpoint = actionType === 'bookmark' ? `/bookmarks/${userId}` : `/reads/${userId}`;
       const response = await lastValueFrom(this.http.get<any[]>(`${this.apiUrl}${endpoint}`));
       return response;
     } catch (error) {
@@ -35,7 +35,7 @@ export class BookmarkService {
   
   async deleteBookmark(id: string, actionType: 'bookmark' | 'read'): Promise<void> {
     try {
-      const endpoint = actionType === 'bookmark' ? `/bookmarks/${id}` : `/read/${id}`;
+      const endpoint = actionType === 'bookmark' ? `/bookmarks/${id}` : `/reads/${id}`;
       await lastValueFrom(this.http.delete(`${this.apiUrl}${endpoint}`));
     } catch (error) {
       console.error(`Error deleting ${actionType === 'bookmark' ? 'bookmark' : 'read status'}:`, error);
