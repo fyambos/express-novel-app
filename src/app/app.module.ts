@@ -39,6 +39,7 @@ import { ChapterReorderComponent } from './pages/chapter-reorder/chapter-reorder
 import { BookmarksComponent } from './components/bookmarks/bookmarks.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { MessageComponent } from './pages/message/message.component';
+import { ConversationsComponent } from './pages/conversations/conversations.component';
 
 @NgModule({
   declarations: [
@@ -64,7 +65,8 @@ import { MessageComponent } from './pages/message/message.component';
     ChapterReorderComponent,
     BookmarksComponent,
     ConfirmDialogComponent,
-    MessageComponent
+    MessageComponent,
+    ConversationsComponent
   ],
   imports: [
     BrowserModule,

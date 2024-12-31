@@ -12,6 +12,7 @@ import { ChapterDetailsComponent } from './pages/chapter-details/chapter-details
 import { AllChaptersComponent } from './pages/all-chapters/all-chapters.component';
 import { ChapterReorderComponent } from './pages/chapter-reorder/chapter-reorder.component';
 import { MessageComponent } from './pages/message/message.component';
+import { ConversationsComponent } from './pages/conversations/conversations.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
@@ -25,7 +26,7 @@ const routes: Routes = [
   { path: 'chapters/:id', component: ChapterDetailsComponent },
   { path: 'full-story/:id', component: AllChaptersComponent },
   { path: 'reorder-chapters/:id', component: ChapterReorderComponent, canActivate: [authGuard] },
-  { path: 'messages', component: MessageComponent, canActivate: [authGuard] },
+  { path: 'messages', component: ConversationsComponent, canActivate: [authGuard] },
   { path: 'messages/:recipientId', component: MessageComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: '/not-found' },
 ];

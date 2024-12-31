@@ -18,12 +18,12 @@ This project is a web application for creating and sharing stories. Users can cr
 * **❤️ Likes:** Like chapters or comments and display users who liked.
 * **🔃 Reorder chapters:** Mingle with the order of chapters with a drag handle.
 * **🗑️ Delete:** Ability to delete chapters, users and stories, while preserving dependant objects.
+* **💬 Direct Messages:** Add a real-time chat feature for authors and readers to communicate.
 
 ## 📈 Improvements
 * **🔔 Subscribe & Follow:** Follow users or stories and get notified when a new story/chapter is posted.
 * **🌐 Multi-language Support:** Add multi-language support for users to switch between languages.
 * **🔍 Search Functionality:** Implement search for users and stories to easily find content.
-* **💬 Direct Messages:** Add a real-time chat feature for authors and readers to communicate.
 * **⭐ Story Ratings:** Allow users to rate stories and see an average rating displayed.
 * **🗂️ Story Filters:** Filter stories by tags or ratings for easy browsing.
 * **👥 Multi-author Stories:** Allow multiple authors to co-author a story, with clear author attributions.

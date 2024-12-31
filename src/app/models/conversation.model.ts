@@ -1,6 +1,6 @@
 export interface Conversation {
   recipientId: string;
-  nickname: string;
+  username: string;
   lastMessage: string;
   lastMessageTimestamp: string;
   profilePicture: string;
