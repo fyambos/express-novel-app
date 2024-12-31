@@ -47,17 +47,20 @@ export class MessageComponent implements OnInit {
     });
   }
 
-  loadRecipient(): void {
+  async loadRecipient(): Promise<void> {
     if (this.recipientId) {
-      this.userService.fetchUser(this.recipientId).then(
-        (userData) => {
-          this.recipient = userData;
-        }
-      ).catch(
-        (error) => {
-          console.error('Error loading recipient:', error);
-        }
-      );
+      const recipientExists = await this.userService.checkIfUserExists(this.recipientId);
+      if (recipientExists) {
+        this.userService.fetchUser(this.recipientId).then(
+          (userData) => {
+            this.recipient = userData;
+          }
+        ).catch(
+          (error) => {
+            console.error('Error loading recipient:', error);
+          }
+        );
+      }
     }
   }
 

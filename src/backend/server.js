@@ -94,6 +94,22 @@ app.post('/api/signup', async (req, res) => {
     }
   });
 
+
+  app.get('/api/users/exists/:userId', async (req, res) => {
+    try {
+      const { userId } = req.params;
+      const user = await User.findOne({ id: userId });
+      if (user) {
+        return res.status(200).json({ exists: true });
+      } else {
+        return res.status(200).json({ exists: false });
+      }
+    } catch (error) {
+      console.error('Error checking if user exists:', error);
+      res.status(500).json({ message: 'Failed to check user existence' });
+    }
+  });
+
   app.get('/api/users/:id', async (req, res) => {
     try {
       const userId = req.params.id;
@@ -749,7 +765,5 @@ app.put('/api/messages/mark-read', async (req, res) => {
     res.status(500).send('Error marking messages as read');
   }
 });
-
-
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));

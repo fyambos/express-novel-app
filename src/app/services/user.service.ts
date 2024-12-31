@@ -88,4 +88,14 @@ export class UserService {
       throw error;
     }
   }
+
+  async checkIfUserExists(userId: string) {
+    try {
+      const response = await lastValueFrom(this.http.get<any>(`${this.apiUrl}/users/exists/${userId}`));
+      return response.exists;
+    } catch (error) {
+      console.error('Error deleting user and processing data:', error);
+      throw error;
+    }
+  }
 }
