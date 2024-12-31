@@ -681,6 +681,18 @@ app.get('/api/conversations/:userId', async (req, res) => {
   }
 });
 
+app.get('/api/messages/unread-count/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const unreadMessages = await Message.find({ recipientId: userId, read: false });
+    const totalUnreadCount = unreadMessages.length;
+    res.status(200).json({ totalUnreadCount, message: 'Unread message count fetched successfully' });
+  } catch (error) {
+    console.error('Error fetching unread messages:', error);
+    res.status(500).json({ message: 'Failed to fetch unread message count' });
+  }
+});
+
 app.get('/api/messages/:currentUserId/:recipientId', async (req, res) => {
   try {
     const { currentUserId, recipientId } = req.params;
@@ -729,6 +741,7 @@ app.put('/api/messages/mark-read', async (req, res) => {
     res.status(500).send('Error marking messages as read');
   }
 });
+
 
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));

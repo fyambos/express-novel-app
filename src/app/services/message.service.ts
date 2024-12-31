@@ -69,7 +69,7 @@ export class MessageService {
       const response: any = await lastValueFrom(
         this.http.get(`${this.baseUrl}/messages/unread-count/${userId}`)
       );
-      return response.totalUnreadCount || 0;
+      return response.totalUnreadCount;
     } catch (error) {
       console.error('Error fetching unread message count:', error);
       return 0;
