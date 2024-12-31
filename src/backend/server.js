@@ -7,6 +7,7 @@ import { Chapter } from './models/chapter.js';
 import { Comment } from './models/comment.js';
 import { Bookmark } from './models/bookmark.js';
 import { Read } from './models/read.js';
+import { Message } from './models/message.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
@@ -638,6 +639,88 @@ app.delete('/api/users/:id', async (req, res) => {
   } catch (err) {
     console.error('Error deleting user and processing related data:', err);
     res.status(500).json({ message: 'Error deleting user and processing related data' });
+  }
+});
+
+app.get('/api/conversations/:userId', async (req, res) => {
+  try {
+    const userId = req.params.userId;
+    const messages = await Message.find({ participants: userId }).sort({ timestamp: -1 });
+
+    const conversationsMap = new Map();
+    for (const msg of messages) {
+      const otherUserId = msg.senderId === userId ? msg.recipientId : msg.senderId;
+
+      if (!conversationsMap.has(otherUserId)) {
+        conversationsMap.set(otherUserId, {
+          recipientId: otherUserId,
+          lastMessage: msg.text,
+          lastMessageTimestamp: msg.timestamp,
+          unreadCount: msg.read === false && msg.recipientId === userId ? 1 : 0,
+        });
+      } else {
+        const conversation = conversationsMap.get(otherUserId);
+        conversation.unreadCount += msg.read === false && msg.recipientId === userId ? 1 : 0;
+        if (new Date(conversation.lastMessageTimestamp) < new Date(msg.timestamp)) {
+          conversation.lastMessage = msg.text;
+          conversation.lastMessageTimestamp = msg.timestamp;
+        }
+      }
+    }
+
+    const conversations = Array.from(conversationsMap.values());
+    res.json(conversations);
+  } catch (error) {
+    res.status(500).send('Error fetching conversations');
+  }
+});
+
+app.get('/api/messages/:currentUserId/:recipientId', async (req, res) => {
+  try {
+    const { currentUserId, recipientId } = req.params;
+    const messages = await Message.find({
+      participants: { $all: [currentUserId, recipientId] },
+    }).sort({ timestamp: 1 });
+
+    res.json(messages);
+  } catch (error) {
+    res.status(500).send('Error fetching messages');
+  }
+});
+
+app.post('/api/messages', async (req, res) => {
+  try {
+    const { senderId, recipientId, text } = req.body;
+    const newMessage = new Message({
+      senderId,
+      recipientId,
+      text,
+      timestamp: new Date().toISOString(),
+      read: false,
+      participants: [senderId, recipientId],
+    });
+
+    await newMessage.save();
+    res.json(newMessage);
+  } catch (error) {
+    res.status(500).send('Error sending message');
+  }
+});
+
+app.put('/api/messages/mark-read', async (req, res) => {
+  try {
+    const { currentUserId, recipientId } = req.body;
+    await Message.updateMany(
+      {
+        participants: { $all: [currentUserId, recipientId] },
+        recipientId: currentUserId,
+        read: false,
+      },
+      { $set: { read: true } }
+    );
+    res.send('Messages marked as read');
+  } catch (error) {
+    res.status(500).send('Error marking messages as read');
   }
 });
 
