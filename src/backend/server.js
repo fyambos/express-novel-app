@@ -643,8 +643,8 @@ app.get('/api/conversations/:userId', async (req, res) => {
   try {
     const userId = req.params.userId;
     const messages = await Message.find({ participants: userId }).sort({ timestamp: -1 });
-
     const conversationsMap = new Map();
+
     for (const msg of messages) {
       const otherUserId = msg.senderId === userId ? msg.recipientId : msg.senderId;
 
@@ -664,10 +664,19 @@ app.get('/api/conversations/:userId', async (req, res) => {
         }
       }
     }
-
-    const conversations = Array.from(conversationsMap.values());
+    const conversations = await Promise.all(
+      Array.from(conversationsMap.values()).map(async (conversation) => {
+        const recipient = await User.findOne({ id: conversation.recipientId });
+        if (recipient) {
+          conversation.username = recipient.username;
+          conversation.profilePicture = recipient.profilePicture;
+        }
+        return conversation;
+      })
+    );
     res.json(conversations);
   } catch (error) {
+    console.error('Error fetching conversations:', error);
     res.status(500).send('Error fetching conversations');
   }
 });
@@ -715,23 +724,11 @@ app.put('/api/messages/mark-read', async (req, res) => {
       },
       { $set: { read: true } }
     );
-    res.send('Messages marked as read');
+    res.json({ message: 'Messages marked as read' });
   } catch (error) {
     res.status(500).send('Error marking messages as read');
   }
 });
 
-app.get('/api/messages/unread-count/:userId', async (req, res) => {
-  try {
-    const { userId } = req.params;
-    const unreadMessages = await Message.find({ recipientId: userId, read: false });
-    const totalUnreadCount = unreadMessages.length;
-
-    res.status(200).json({ totalUnreadCount });
-  } catch (error) {
-    console.error('Error fetching unread messages:', error);
-    res.status(500).json({ message: 'Failed to fetch unread message count' });
-  }
-});
 
 app.listen(port, () => console.log(`Server listening on port ${port}`));

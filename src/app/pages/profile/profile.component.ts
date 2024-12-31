@@ -157,4 +157,9 @@ export class ProfileComponent implements OnInit {
       }
     });
   }
+
+  sendMessage(): void {
+    this.router.navigate(['/messages', this.userIdFromParams]);
+  }
+
 }

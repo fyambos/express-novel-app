@@ -26,6 +26,7 @@ const routes: Routes = [
   { path: 'full-story/:id', component: AllChaptersComponent },
   { path: 'reorder-chapters/:id', component: ChapterReorderComponent, canActivate: [authGuard] },
   { path: 'messages', component: MessageComponent, canActivate: [authGuard] },
+  { path: 'messages/:recipientId', component: MessageComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: '/not-found' },
 ];
 
