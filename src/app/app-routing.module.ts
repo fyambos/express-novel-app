@@ -11,6 +11,7 @@ import { ProfileComponent } from './pages/profile/profile.component';
 import { ChapterDetailsComponent } from './pages/chapter-details/chapter-details.component';
 import { AllChaptersComponent } from './pages/all-chapters/all-chapters.component';
 import { ChapterReorderComponent } from './pages/chapter-reorder/chapter-reorder.component';
+import { MessageComponent } from './pages/message/message.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
@@ -24,8 +25,8 @@ const routes: Routes = [
   { path: 'chapters/:id', component: ChapterDetailsComponent },
   { path: 'full-story/:id', component: AllChaptersComponent },
   { path: 'reorder-chapters/:id', component: ChapterReorderComponent, canActivate: [authGuard] },
+  { path: 'messages', component: MessageComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: '/not-found' },
-
 ];
 
 @NgModule({

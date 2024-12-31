@@ -38,6 +38,7 @@ import { UsersModalComponent } from './components/users-modal/users-modal.compon
 import { ChapterReorderComponent } from './pages/chapter-reorder/chapter-reorder.component';
 import { BookmarksComponent } from './components/bookmarks/bookmarks.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { MessageComponent } from './pages/message/message.component';
 
 @NgModule({
   declarations: [
@@ -62,7 +63,8 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
     UsersModalComponent,
     ChapterReorderComponent,
     BookmarksComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    MessageComponent
   ],
   imports: [
     BrowserModule,
