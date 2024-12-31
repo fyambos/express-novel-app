@@ -27,7 +27,7 @@ export class StoryService {
 
   async createStory(story: any) {
     try {
-      const newStory = await lastValueFrom(this.http.post<any>(`${this.apiUrl}/create`, story));
+      const newStory = await lastValueFrom(this.http.post<any>(`${this.apiUrl}/stories`, story));
       return newStory;
     } catch (error) {
       console.error('Error creating story:', error);

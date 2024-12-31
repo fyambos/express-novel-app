@@ -34,11 +34,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname);
-const uploadPath = path.resolve(__dirname, '../assets/uploads');
-app.use('/uploads', express.static(uploadPath));
-
-app.post('/api/create', async (req, res) => {
+app.post('/api/stories', async (req, res) => {
   const { title, summary, tags, rating, authorId } = req.body;
   try {
     const newStory = new Story({
@@ -190,7 +186,7 @@ app.post('/api/signup', async (req, res) => {
     }
   });
 
-  app.get('/api/author/:id/stories', async (req, res) => {
+  app.get('/api/users/:id/stories', async (req, res) => {
     try {
       const authorId = req.params.id;
       const stories = await Story.find({ authorId: authorId });

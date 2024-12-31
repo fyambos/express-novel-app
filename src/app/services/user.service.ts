@@ -54,7 +54,7 @@ export class UserService {
   async fetchAuthorStories(authorId: string) {
     try {
       const stories = await lastValueFrom(
-        this.http.get<any[]>(`${this.apiUrl}/author/${authorId}/stories`)
+        this.http.get<any[]>(`${this.apiUrl}/users/${authorId}/stories`)
       );
       const storiesWithAuthors = await Promise.all(
         stories.map(async (story) => {
