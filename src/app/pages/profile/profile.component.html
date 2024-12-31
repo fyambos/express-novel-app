@@ -32,7 +32,6 @@
         <i class="fas fa-envelope"></i>
       </button>
       <button *ngIf="isOwnProfile" class="bg-gray-200 hover:bg-gray-300 text-gray-700 font-semibold py-2 px-4 rounded" (click)="openEditDialog()">Edit Profile</button>
-      <button *ngIf="isOwnProfile" class="bg-red-500 dark:bg-red-700 hover:bg-red-700 dark:hover:bg-red-800 text-white font-semibold py-2 px-4 rounded" (click)="deleteProfile(user.id)">Delete Profile</button>
     </div>
 
     <h2 class="text-xl font-semibold mb-2">Bio</h2>

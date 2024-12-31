@@ -19,7 +19,6 @@ export class EditProfileDialogComponent {
     this.user.interestsString = this.user.interests 
       ? this.user.interests.join(', ') 
       : '';
-    console.log('User data:', this.user);
   }
 
   async saveChanges(): Promise<void> {

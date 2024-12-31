@@ -13,6 +13,7 @@ import { AllChaptersComponent } from './pages/all-chapters/all-chapters.componen
 import { ChapterReorderComponent } from './pages/chapter-reorder/chapter-reorder.component';
 import { MessageComponent } from './pages/message/message.component';
 import { ConversationsComponent } from './pages/conversations/conversations.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
@@ -28,6 +29,7 @@ const routes: Routes = [
   { path: 'reorder-chapters/:id', component: ChapterReorderComponent, canActivate: [authGuard] },
   { path: 'messages', component: ConversationsComponent, canActivate: [authGuard] },
   { path: 'messages/:recipientId', component: MessageComponent, canActivate: [authGuard] },
+  { path: 'settings', component: SettingsComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: '/not-found' },
 ];
 

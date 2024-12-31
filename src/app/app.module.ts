@@ -40,6 +40,7 @@ import { BookmarksComponent } from './components/bookmarks/bookmarks.component';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { MessageComponent } from './pages/message/message.component';
 import { ConversationsComponent } from './pages/conversations/conversations.component';
+import { SettingsComponent } from './pages/settings/settings.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { ConversationsComponent } from './pages/conversations/conversations.comp
     BookmarksComponent,
     ConfirmDialogComponent,
     MessageComponent,
-    ConversationsComponent
+    ConversationsComponent,
+    SettingsComponent
   ],
   imports: [
     BrowserModule,
