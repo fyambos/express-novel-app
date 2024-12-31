@@ -16,6 +16,7 @@ export class MessageComponent implements OnInit {
   messages: any[] = [];
   currentUserId: string = '';
   newMessage: string = '';
+  isViewingConversation: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -29,13 +30,18 @@ export class MessageComponent implements OnInit {
     onAuthStateChanged(this.auth, (user) => {
       if (user) {
         this.currentUserId = user.uid;
-        this.loadMessages();
-        this.loadConversations();
+        if (this.isViewingConversation) {
+          this.loadMessages();
+          this.loadConversations();
+        }
+      } else {
+        this.isViewingConversation = false;
       }
     });
 
     this.route.paramMap.subscribe((params) => {
       this.recipientId = params.get('recipientId') || '';
+      this.isViewingConversation = !!this.recipientId;
       this.loadRecipient(); 
       this.loadMessages();
     });
