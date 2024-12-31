@@ -608,6 +608,14 @@ app.delete('/api/users/:id', async (req, res) => {
     if (!user) {
       return res.status(404).json({ message: 'User not found' });
     }
+    if (user.profilePicture!="") {
+      const oldFilePath = path.join('..', '/assets', user.profilePicture);
+      fs.unlink(oldFilePath, (err) => {
+        if (err) {
+          console.error('Error deleting old profile picture:', err);
+        }
+      });
+    }
     await Story.updateMany(
       { authorId: userId },
       { $set: { authorId: replacementAuthorId } }
