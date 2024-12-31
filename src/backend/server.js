@@ -15,10 +15,7 @@ import fs from 'fs';
 const app = express();
 const port = process.env.PORT || 5000;
 
-mongoose.connect('mongodb://localhost:27017/novel-app', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+mongoose.connect('mongodb://localhost:27017/novel-app')
 .then(() => console.log('MongoDB connected'))
 .catch(err => console.error(err));
 
@@ -721,6 +718,19 @@ app.put('/api/messages/mark-read', async (req, res) => {
     res.send('Messages marked as read');
   } catch (error) {
     res.status(500).send('Error marking messages as read');
+  }
+});
+
+app.get('/api/messages/unread-count/:userId', async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const unreadMessages = await Message.find({ recipientId: userId, read: false });
+    const totalUnreadCount = unreadMessages.length;
+
+    res.status(200).json({ totalUnreadCount });
+  } catch (error) {
+    console.error('Error fetching unread messages:', error);
+    res.status(500).json({ message: 'Failed to fetch unread message count' });
   }
 });
 

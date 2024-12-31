@@ -63,4 +63,17 @@ export class MessageService {
       throw error;
     }
   }
+
+  async getUnreadMessageCount(userId: string): Promise<number> {
+    try {
+      const response: any = await lastValueFrom(
+        this.http.get(`${this.baseUrl}/messages/unread-count/${userId}`)
+      );
+      return response.totalUnreadCount || 0;
+    } catch (error) {
+      console.error('Error fetching unread message count:', error);
+      return 0;
+    }
+  }
+
 }

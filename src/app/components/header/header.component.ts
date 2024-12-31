@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { StoryDialogComponent } from '../story-dialog/story-dialog.component';
 import { UserService } from '../../services/user.service';
+import { MessageService } from 'src/app/services/message.service';
 
 @Component({
   selector: 'app-header',
@@ -16,13 +17,15 @@ export class HeaderComponent implements OnInit {
   dropdownOpen = false;
   user: User | null = null;
   userProfile: any = null;
+  totalUnreadCount: number = 0;
 
   constructor(
     private authService: AuthService,
     private auth: Auth,
     private router: Router,
     private dialog: MatDialog,
-    private userService: UserService
+    private userService: UserService,
+    private messageService: MessageService,
   ) {}
 
   async ngOnInit() {
@@ -47,6 +50,7 @@ export class HeaderComponent implements OnInit {
           this.userProfile = await this.userService.fetchUser(user.uid);
           if (this.userProfile) {
             this.loadUserTheme(user.uid);
+            this.loadUnreadMessages(user.uid);
           }
         } catch (error) {
           console.error('Error loading user profile:', error);
@@ -107,5 +111,11 @@ toggleDarkMode() {
 
     dialogRef.afterClosed().subscribe(result => {
     });
+  }
+
+  async loadUnreadMessages(userId: string): Promise<void> {
+    if (userId) {
+      this.totalUnreadCount = await this.messageService.getUnreadMessageCount(userId);
+    }
   }
 }

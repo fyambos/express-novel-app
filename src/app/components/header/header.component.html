@@ -14,6 +14,14 @@
           >
           <span class=" text-gray-800 dark:text-white">Post</span>
           </button>
+          <a routerLink="/messages" routerLinkActive="text-blue-500" class="flex flex-col items-center text-gray-400 hover:text-blue-500 relative">
+            <i class="fas fa-comments text-2xl"></i>
+            <span
+              *ngIf="totalUnreadCount > 0"
+              class="absolute -top-2 -right-2 bg-blue-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+              {{ totalUnreadCount }}
+            </span>
+          </a>
           <button
             mat-button
             [matMenuTriggerFor]="accountMenu"
