@@ -109,11 +109,23 @@ export class StoryService {
   async toggleSubscribe(storyId: string, currentUserId: string): Promise<any> {
     try {
       const response = await lastValueFrom(
-        this.http.post<any>(`${this.apiUrl}/story/${storyId}/subscribe`, { currentUserId })
+        this.http.post<any>(`${this.apiUrl}/stories/${storyId}/subscribe`, { currentUserId })
       );
       return response;
     } catch (error) {
       console.error(`Error toggling subscribe for story with ID ${storyId}:`, error);
+      throw error;
+    }
+  }
+
+  async checkIfSubscribed(storyId: string, currentUserId: string): Promise<boolean> {
+    try {
+      const response = await lastValueFrom(
+        this.http.get<any>(`${this.apiUrl}/stories/${storyId}/subscribe-status`, { params: { currentUserId } })
+      );
+      return response.isFollowing;
+    } catch (error) {
+      console.error(`Error checking subscribe status for story with ID ${storyId}:`, error);
       throw error;
     }
   }

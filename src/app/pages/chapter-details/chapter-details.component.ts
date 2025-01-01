@@ -32,6 +32,7 @@ export class ChapterDetailsComponent implements OnInit {
   isBookmarked: boolean = false;
   isMarkedAsRead: boolean = false;
   isLiked: boolean = false;
+  isSubscribed: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -57,6 +58,7 @@ export class ChapterDetailsComponent implements OnInit {
           this.checkIfBookmarked();
           this.checkIfMarkedAsRead();
           this.checkIfLiked(this.chapter._id, this.currentUserUid);
+          this.checkIfSubscribed(this.chapter.storyId);
         }
       }
     });
@@ -74,6 +76,7 @@ export class ChapterDetailsComponent implements OnInit {
           this.checkIfBookmarked();
           this.checkIfMarkedAsRead();
           this.checkIfLiked(this.chapter._id, this.currentUserUid);
+          this.checkIfSubscribed(this.chapter.storyId);
         } else {
           this.isLoading = false;
         }
@@ -331,9 +334,21 @@ export class ChapterDetailsComponent implements OnInit {
     }
     try {
       const response = await this.storyService.toggleSubscribe(storyId, this.currentUserUid);
+      this.isSubscribed = await this.storyService.checkIfSubscribed(storyId, this.currentUserUid);
       this.chapter.subscribers = response.subscribers;
     } catch (error) {
       console.error('Error toggling subscribe:', error);
+    }
+  }
+
+  async checkIfSubscribed(storyId: string) {
+    if (!this.currentUserUid) {
+      return;
+    }
+    try {
+      this.isSubscribed = await this.storyService.checkIfSubscribed(storyId, this.currentUserUid);
+    } catch (error) {
+      console.error('Error checking follow status:', error);
     }
   }
 }

@@ -125,11 +125,11 @@ const router = express.Router();
   });
 
   router.post('/:id/subscribe', async (req, res) => {
-    const id = req.params.id;
+    const storyId = req.params.id;
     const { currentUserId } = req.body;
   
     try {
-      const story = await Story.findOne({ id: id });
+      const story = await Story.findById(storyId);
       if (!story) {
         return res.status(404).json({ message: 'Story to subscribe not found' });
       }
@@ -149,5 +149,21 @@ const router = express.Router();
       res.status(500).json({ message: 'Error updating story subscribers status' });
     }
   });
+
+  router.get('/:id/subscribe-status', async (req, res) => {
+    const storyId = req.params.id;
+    const currentUserId = req.query.currentUserId;
   
+    try {
+      const story = await Story.findById(storyId);
+      if (!story) {
+        return res.status(404).json({ message: 'Story not found' });
+      }
+      const isFollowing = story.subscribers.includes(currentUserId);
+      res.json({ isFollowing });
+    } catch (err) {
+      console.error('Error checking subscribe status:', err);
+      res.status(500).json({ message: 'Error checking subscribe status' });
+    }
+  });
 export default router;
