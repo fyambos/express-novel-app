@@ -21,7 +21,7 @@ This project is a web application for creating and sharing stories. Users can cr
 * **💬 Direct Messages:** Add a chat feature for authors and readers to communicate.
 
 ## 📈 Improvements
-* **🔔 Subscribe & Follow:** Follow users or stories and get notified when a new story/chapter is posted.
+* **🔔 Subscribe & Follow:** Follow users or stories and get notified when a new story/chapter is posted or when a user interacts with a story/user.
 * **🌐 Multi-language Support:** Add multi-language support for users to switch between languages.
 * **🔍 Search Functionality:** Implement search for users and stories to easily find content.
 * **⭐ Story Ratings:** Allow users to rate stories and see an average rating displayed.

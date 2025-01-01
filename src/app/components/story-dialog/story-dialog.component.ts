@@ -83,7 +83,6 @@ export class StoryDialogComponent implements OnInit {
   async createStory(story: any) {
     try {
       const newStory = await this.storyService.createStory(story);
-      console.log('Story created successfully', newStory);
       return newStory;
     } catch (error) {
       console.error('Error creating story', error);

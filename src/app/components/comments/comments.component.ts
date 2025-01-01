@@ -51,7 +51,7 @@ export class CommentsComponent {
     const newReply = {
       text: this.newReplyText.trim(),
       authorId: this.currentUserUid,
-      replyTo: comment.id,
+      replyTo: comment._id,
       chapterId: comment.chapterId,
     };
     this.commentService.addComment(newReply).then(async (newComment) => {
@@ -59,6 +59,7 @@ export class CommentsComponent {
         comment.replies = [];
       }
       newComment.author = await this.userService.fetchUser(newComment.authorId);
+      newComment.id = newComment._id;
       comment.replies.push(newComment);
       this.isReplying = false;
     }).catch((error) => {

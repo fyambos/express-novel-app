@@ -1,21 +1,43 @@
 
 import express from 'express';
 import { Comment } from '../models/comment.js';
+import { Chapter } from '../models/chapter.js';
+import { Notification } from '../models/notification.js';
 
 const router = express.Router();
 
 router.post('/', async (req, res) => {
     try {
       const { authorId, chapterId, text, replyTo } = req.body;
+      const chapterAuthor = await Chapter.findById(chapterId);
+      const replyToAuthor = await Comment.findById(replyTo);
       const newComment = new Comment({
         authorId,
         chapterId,
         text,
         replyTo: replyTo || null,
       });
+      if (authorId !== chapterAuthor.authorId) {
+        await Notification.create({
+          userId: chapterAuthor.authorId,
+          actorId: authorId,
+          type: 'comment',
+          objectId: chapterId,
+        });
+      }
+      if (replyTo && authorId !== replyToAuthor.authorId) {
+        await Notification.create({
+          userId: replyToAuthor.authorId,
+          actorId: authorId,
+          type: 'reply',
+          objectId: chapterId,
+        });
+      }
+
       await newComment.save();
       res.json(newComment);
     } catch (err) {
+      console.error('Error adding comment:', err);
       res.status(500).json({ message: 'Error adding comment', error: err });
     }
   });
