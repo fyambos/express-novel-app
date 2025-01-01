@@ -29,7 +29,7 @@ export class NotificationsComponent implements OnInit {
               const actorProfile = await this.userService.fetchUser(notification.actorId);
               return {
                 ...notification,
-                actorUsername: actorProfile.username,
+                actor: actorProfile,
               };
             })
           );

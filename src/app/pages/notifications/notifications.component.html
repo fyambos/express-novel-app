@@ -4,12 +4,13 @@
     <div class="space-y-4">
       <div *ngFor="let notification of notifications" class="bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-md p-4">
         <div class="flex items-center">
-          <div class="flex-shrink-0 w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
-            <span>{{ notification.actorUsername }}</span>
-          </div>
+          <img
+                [src]="notification.actor.profilePicture ? 'http://localhost:4200/assets/' + notification.actor.profilePicture : 'https://i.imgur.com/WxNkK7J.png'"
+                alt="Profile Picture"
+                class="flex items-center justify-center w-10 h-10 rounded-full flex-shrink-0" />
           <div class="ml-4">
             <p class="text-sm text-gray-800 dark:text-gray-200">
-              <span class="font-medium">{{ notification.actorUsername }}</span> started following you.
+              <span class="font-medium">{{ notification.actor.username }}</span> started following you.
             </p>
             <p class="text-xs text-gray-500 dark:text-gray-400">{{ notification.createdAt | relativeDate }}</p>
           </div>
