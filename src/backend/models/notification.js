@@ -4,20 +4,23 @@ const notificationSchema = new mongoose.Schema({
   userId: {
     type: String,
     required: true
-  }, // The user being notified
+  },
   actorId: {
     type: String,
     required: true
-  }, // The user who triggered the notification
+  },
   type: {
     type: String,
-    enum: ['follow'],
+    enum: ['follow','story'],
     required: true
-  }, // Notification type (e.g., 'follow')
+  },
   isRead: {
     type: Boolean,
     default: false
-  }, // For marking notifications as read
+  },
+  objectId: {
+    type: String,
+  },
 }, { timestamps: true });
 
 export const Notification = mongoose.model('Notification', notificationSchema);

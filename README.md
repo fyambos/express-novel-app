@@ -18,7 +18,7 @@ This project is a web application for creating and sharing stories. Users can cr
 * **❤️ Likes:** Like chapters or comments and display users who liked.
 * **🔃 Reorder chapters:** Mingle with the order of chapters with a drag handle.
 * **🗑️ Delete:** Ability to delete chapters, users and stories, while preserving dependant objects.
-* **💬 Direct Messages:** Add a real-time chat feature for authors and readers to communicate.
+* **💬 Direct Messages:** Add a chat feature for authors and readers to communicate.
 
 ## 📈 Improvements
 * **🔔 Subscribe & Follow:** Follow users or stories and get notified when a new story/chapter is posted.
@@ -29,6 +29,7 @@ This project is a web application for creating and sharing stories. Users can cr
 * **👥 Multi-author Stories:** Allow multiple authors to co-author a story, with clear author attributions.
 * **📊 Profile Statistics:** Display profile statistics such as number of words read or written.
 * **🏆 Achievements/Badges:** Give users achievements or badges for milestones (e.g., writing a certain number of chapters, gaining followers, reading x amount of words etc.).
+* **🔔 Real-time:** Real time notification features, and enhancing chat features to real time with socket.io.
 
 ## Getting Started
 

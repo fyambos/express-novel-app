@@ -2,6 +2,8 @@
 import express from 'express';
 import { Story } from '../models/story.js'; 
 import { Chapter } from '../models/chapter.js';
+import { User } from '../models/user.js';
+import { Notification } from '../models/notification.js';
 
 const router = express.Router();
 
@@ -34,6 +36,18 @@ const router = express.Router();
         authorId,
       });
       const savedStory = await newStory.save();
+      const author = await User.findOne({ id: authorId });
+      if (!author) {
+        return res.status(404).json({ message: 'Author not found' });
+      }
+      for (const followerId of author.followers) {
+        await Notification.create({
+          userId: followerId,
+          actorId: authorId,
+          type: 'story',
+          objectId: savedStory._id,
+        });
+      }
       res.json(savedStory);
     } catch (err) {
       console.error(err);

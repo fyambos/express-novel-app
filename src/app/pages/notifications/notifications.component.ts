@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NotificationService } from 'src/app/services/notification.service';
 import { Auth } from '@angular/fire/auth';
 import { UserService } from 'src/app/services/user.service';
+import { StoryService } from 'src/app/services/story.service';
 
 @Component({
   selector: 'app-notifications',
@@ -15,6 +16,7 @@ export class NotificationsComponent implements OnInit {
     private notificationService: NotificationService,
     private auth: Auth,
     private userService: UserService,
+    private storyService: StoryService,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -27,10 +29,18 @@ export class NotificationsComponent implements OnInit {
           this.notifications = await Promise.all(
             this.notifications.map(async (notification: any) => {
               const actorProfile = await this.userService.fetchUser(notification.actorId);
-              return {
+              notification = {
                 ...notification,
                 actor: actorProfile,
               };
+              if(notification.type === 'story') {
+                const story = await this.storyService.getStoryById(notification.objectId);
+                notification = {
+                  ...notification,
+                  objectName: story.title,
+                };
+              }
+              return notification;
             })
           );
           await this.notificationService.markNotificationsAsRead(this.currentUserUid);
