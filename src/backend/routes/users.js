@@ -6,6 +6,7 @@ import { Chapter } from '../models/chapter.js';
 import { Comment } from '../models/comment.js';
 import { Bookmark } from '../models/bookmark.js';
 import { Read } from '../models/read.js';
+import { Notification } from '../models/notification.js';
 import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
@@ -190,6 +191,18 @@ router.post('/:id/upload-profile-picture', upload.single('profilePicture'), asyn
   
       if (userIndex === -1) {
         userToFollow.followers.push(currentUserId);
+        const notificationExists = await Notification.findOne({
+          userId: userId,
+          actorId: currentUserId,
+          type: 'follow',
+        });
+        if (!notificationExists) {
+          await Notification.create({
+            userId: userId,
+            actorId: currentUserId,
+            type: 'follow',
+          });
+        }
       } else {
         userToFollow.followers.splice(userIndex, 1);
       }
