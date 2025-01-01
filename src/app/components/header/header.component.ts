@@ -1,25 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { Auth } from '@angular/fire/auth';
 import { User } from 'firebase/auth';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { StoryDialogComponent } from '../story-dialog/story-dialog.component';
 import { UserService } from '../../services/user.service';
 import { MessageService } from 'src/app/services/message.service';
 import { NotificationService } from 'src/app/services/notification.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
 })
-export class HeaderComponent implements OnInit {
+export class HeaderComponent implements OnInit, OnDestroy {
   isDarkMode = false;
   dropdownOpen = false;
   user: User | null = null;
   userProfile: any = null;
   unreadMessages: number = 0;
   unreadNotifications: number = 0;
+  private routerSub: Subscription | null = null;
 
   constructor(
     private authService: AuthService,
@@ -60,8 +62,21 @@ export class HeaderComponent implements OnInit {
         }
       }
     });
+
+    this.routerSub = this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        if (this.user) {
+          this.loadUnreads(this.user.uid);
+        }
+      }
+    });
   }
-  
+
+  ngOnDestroy() {
+    if (this.routerSub) {
+      this.routerSub.unsubscribe();
+    }
+  }
 
   loadUserTheme(userId: string) {
     this.userService.fetchUser(userId).then(userData => {
