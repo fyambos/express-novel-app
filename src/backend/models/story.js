@@ -24,6 +24,10 @@ const storySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  subscribers: {
+    type: [String],
+    default: []
+  },
 });
 
 export const Story = mongoose.model('Story', storySchema);

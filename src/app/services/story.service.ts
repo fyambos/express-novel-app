@@ -105,4 +105,16 @@ export class StoryService {
       throw error;
     }
   }
+
+  async toggleSubscribe(storyId: string, currentUserId: string): Promise<any> {
+    try {
+      const response = await lastValueFrom(
+        this.http.post<any>(`${this.apiUrl}/story/${storyId}/subscribe`, { currentUserId })
+      );
+      return response;
+    } catch (error) {
+      console.error(`Error toggling subscribe for story with ID ${storyId}:`, error);
+      throw error;
+    }
+  }
 }

@@ -123,5 +123,31 @@ const router = express.Router();
       res.status(500).json({ message: 'Error deleting story and associated chapters' });
     }
   });
+
+  router.post('/:id/subscribe', async (req, res) => {
+    const id = req.params.id;
+    const { currentUserId } = req.body;
+  
+    try {
+      const story = await Story.findOne({ id: id });
+      if (!story) {
+        return res.status(404).json({ message: 'Story to subscribe not found' });
+      }
+  
+      const userIndex = story.subscribers.indexOf(currentUserId);
+  
+      if (userIndex === -1) {
+        story.subscribers.push(currentUserId);
+      } else {
+        story.subscribers.splice(userIndex, 1);
+      }
+  
+      await story.save();
+      res.json({ message: 'Story subscribers status updated', subscribers: story.subscribers });
+    } catch (err) {
+      console.error('Error updating story subscribers status:', err);
+      res.status(500).json({ message: 'Error updating story subscribers status' });
+    }
+  });
   
 export default router;

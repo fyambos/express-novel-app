@@ -324,4 +324,16 @@ export class ChapterDetailsComponent implements OnInit {
       });
   }
   
+  async subscribe(storyId: string) {
+    if (!this.currentUserUid) {
+      this.router.navigate(['/login']);
+      return;
+    }
+    try {
+      const response = await this.storyService.toggleSubscribe(storyId, this.currentUserUid);
+      this.chapter.subscribers = response.subscribers;
+    } catch (error) {
+      console.error('Error toggling subscribe:', error);
+    }
+  }
 }
