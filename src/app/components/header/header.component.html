@@ -15,15 +15,20 @@
           <span class=" text-gray-800 dark:text-white">Post</span>
           </button>
           <a routerLink="/messages" routerLinkActive="text-blue-500" class="flex flex-col items-center hover:text-blue-500 text-gray-800 dark:text-white relative">
-            <i class="fas fa-envelope text-2xl"></i>
+            <i class="fas fa-envelope text-2xl mr-2"></i>
             <span
-              *ngIf="totalUnreadCount > 0"
+              *ngIf="unreadMessages > 0"
               class="absolute -top-2 -right-2 bg-blue-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
-              {{ totalUnreadCount }}
+              {{ unreadMessages }}
             </span>
           </a>
           <a routerLink="/notifications" routerLinkActive="text-blue-500" class="flex flex-col items-center hover:text-blue-500 text-gray-800 dark:text-white relative">
             <i class="fas fa-bell text-2xl"></i>
+            <span
+              *ngIf="unreadNotifications > 0"
+              class="absolute -top-2 -right-2 bg-blue-500 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">
+              {{ unreadNotifications }}
+            </span>
           </a>
           <button
             mat-button

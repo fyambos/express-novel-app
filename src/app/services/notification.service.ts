@@ -29,4 +29,17 @@ export class NotificationService {
       throw err;
     }
   }
+  
+  async getUnreadNotificationCount(userId: string): Promise<number> {
+    try {
+      const response: any = await lastValueFrom(
+        this.http.get(`${this.baseUrl}/notifications/unread-count/${userId}`)
+      );
+      return response.totalUnreadCount;
+    } catch (error) {
+      console.error('Error fetching unread notification count:', error);
+      return 0;
+    }
+  }
+  
 }

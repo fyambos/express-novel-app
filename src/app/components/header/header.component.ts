@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { StoryDialogComponent } from '../story-dialog/story-dialog.component';
 import { UserService } from '../../services/user.service';
 import { MessageService } from 'src/app/services/message.service';
+import { NotificationService } from 'src/app/services/notification.service';
 
 @Component({
   selector: 'app-header',
@@ -17,7 +18,8 @@ export class HeaderComponent implements OnInit {
   dropdownOpen = false;
   user: User | null = null;
   userProfile: any = null;
-  totalUnreadCount: number = 0;
+  unreadMessages: number = 0;
+  unreadNotifications: number = 0;
 
   constructor(
     private authService: AuthService,
@@ -26,6 +28,7 @@ export class HeaderComponent implements OnInit {
     private dialog: MatDialog,
     private userService: UserService,
     private messageService: MessageService,
+    private notificationService: NotificationService,
   ) {}
 
   async ngOnInit() {
@@ -50,7 +53,7 @@ export class HeaderComponent implements OnInit {
           this.userProfile = await this.userService.fetchUser(user.uid);
           if (this.userProfile) {
             this.loadUserTheme(user.uid);
-            this.loadUnreadMessages(user.uid);
+            this.loadUnreads(user.uid);
           }
         } catch (error) {
           console.error('Error loading user profile:', error);
@@ -113,9 +116,10 @@ toggleDarkMode() {
     });
   }
 
-  async loadUnreadMessages(userId: string): Promise<void> {
+  async loadUnreads(userId: string): Promise<void> {
     if (userId) {
-      this.totalUnreadCount = await this.messageService.getUnreadMessageCount(userId);
+      this.unreadMessages = await this.messageService.getUnreadMessageCount(userId);
+      this.unreadNotifications = await this.notificationService.getUnreadNotificationCount(userId);
     }
   }
 }

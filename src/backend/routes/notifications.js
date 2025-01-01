@@ -3,6 +3,17 @@ import express from 'express';
 import { Notification } from '../models/notification.js';
 
 const router = express.Router();
+  router.get('/unread-count/:id', async (req, res) => {
+    try {
+      const userId = req.params.id;
+      const unreadNotifications = await Notification.find({ userId: userId, isRead: false });
+      const totalUnreadCount = unreadNotifications.length;
+      res.status(200).json({ totalUnreadCount, message: 'Unread notification count fetched successfully' });
+    } catch (error) {
+      console.error('Error fetching unread notifications:', error);
+      res.status(500).json({ message: 'Failed to fetch unread notification count' });
+    }
+  });
 
   router.get('/:id', async (req, res) => {
     const userId = req.params.id;

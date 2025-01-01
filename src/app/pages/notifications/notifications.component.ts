@@ -38,7 +38,6 @@ export class NotificationsComponent implements OnInit {
           console.error('Error loading notifications:', err);
         }
       }
-      console.log("notifications", this.notifications);
     });
   }
 }
