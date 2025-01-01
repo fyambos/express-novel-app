@@ -27,12 +27,12 @@ export class AddCommentDialogComponent {
       replyTo: this.data.replyTo || null,
     };
 
-    try {
-      await this.commentService.addComment(commentData);
-      this.dialogRef.close(commentData);
-    } catch (error) {
-      console.error('Error adding comment:', error);
-    }
+    this.commentService.addComment(commentData).then(async (newComment) => {
+      newComment.id = newComment._id;
+      this.dialogRef.close(newComment);
+    }).catch((error) => {
+      console.error('Error submitting reply:', error);
+    });
   }
 
   closeDialog(): void {

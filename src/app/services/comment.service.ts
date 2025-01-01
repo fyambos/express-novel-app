@@ -17,7 +17,7 @@ export class CommentService {
 
   async getCommentsByChapterId(chapterId: string) {
     try {
-      const comments = await lastValueFrom(this.http.get<any[]>(`${this.apiUrl}/comments/${chapterId}`));
+      const comments = await lastValueFrom(this.http.get<any[]>(`${this.apiUrl}/comments/chapters/${chapterId}`));
       return this.transformToNested(comments);
     } catch (error) {
       console.error('Error fetching comments:', error);
@@ -45,7 +45,11 @@ export class CommentService {
     const nestedComments: Comment[] = [];
 
     for (const comment of comments) {
-      comment.author = await this.userService.fetchUser(comment.authorId);
+      try {
+        comment.author = await this.userService.fetchUser(comment.authorId);
+      } catch (error) {
+        console.error(`Failed to fetch author for comment ${comment.id}:`, error);
+      }
 
       if (comment.replyTo === null) {
         nestedComments.push(comment);
@@ -53,6 +57,8 @@ export class CommentService {
         const parent = commentMap.get(comment.replyTo);
         if (parent) {
           parent.replies!.push(comment);
+        } else {
+          console.warn(`Parent not found for reply ${comment.id} with replyTo ${comment.replyTo}`);
         }
       }
     }
@@ -90,6 +96,34 @@ export class CommentService {
       return response.isLiked;
     } catch (error) {
       console.error(`Error checking like status for comment with ID ${commentId}:`, error);
+      throw error;
+    }
+  }
+
+  async getCommentById(commentId: string) {
+    try {
+      const comment = await lastValueFrom(this.http.get<any>(`${this.apiUrl}/comments/${commentId}`));
+      const chapterComments = await this.getCommentsByChapterId(comment.chapterId);
+      const findCommentById = (comments: any[], id: string): any | null => {
+        for (const comment of comments) {
+          if (comment.id === id) {
+            return comment;
+          }
+          const foundInReplies = findCommentById(comment.replies, id);
+          if (foundInReplies) {
+            return foundInReplies;
+          }
+        }
+        return null;
+      };
+      
+      const targetComment = findCommentById(chapterComments, commentId);
+      if (!targetComment) {
+        throw new Error(`Comment with ID ${commentId} not found`);
+      }
+      return [targetComment];
+    } catch (error) {
+      console.error('Error fetching comments:', error);
       throw error;
     }
   }

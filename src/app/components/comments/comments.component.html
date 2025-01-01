@@ -1,23 +1,37 @@
-<div class="comment pl-4 border-l-4 my-4">
+<div class="comment pl-4 border-l-4 my-4 cursor-pointer"
+[routerLink]="'/comments/' + comment.id"
+(click)="$event.stopPropagation()">
     <div class="flex items-center">
         <img 
           [src]="comment.author.profilePicture ? 'http://localhost:4200/assets/' + comment.author.profilePicture : 'https://i.imgur.com/WxNkK7J.png'"
           alt="Profile Picture" 
-          class="w-8 h-8 rounded-full mr-2"
+          class="w-8 h-8 rounded-full mr-2 cursor-pointer"
+          [routerLink]="'/profile/' + comment.author.id"
+          (click)="$event.stopPropagation()"
         />
-        <p class="text-lg font-semibold pt-3">{{ comment.author.username }}:</p>
+        <p class="text-lg font-semibold pt-3 cursor-pointer"
+        [routerLink]="'/profile/' + comment.author.id"
+        (click)="$event.stopPropagation()">{{ comment.author.username }}:</p>
     </div>
     <p class="ml-2 text-gray-700 dark:text-gray-300">{{ comment.text }}</p>
     <p class="ml-2 text-sm text-gray-500 dark:text-gray-400">{{ comment.createdAt | relativeDate }}</p>
     <div class="flex items-center space-x-4 mt-2">
       <button 
         class="text-blue-500 mt-2 hover:underline"
-        (click)="openReplyForm()">
+        (click)="openReplyForm()"
+        (click)="$event.stopPropagation()">
         Reply
+      </button>
+      <button *ngIf="comment.replyTo"
+        class="text-blue-500 mt-2 hover:underline"
+        [routerLink]="'/comments/' + comment.replyTo"
+        (click)="$event.stopPropagation()">
+        Parent Thread
       </button>
       <button 
         class="flex items-center px-2 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 hover:dark:bg-gray-800 rounded-lg"
         (click)="likeComment(comment.id, this.currentUserUid)"
+        (click)="$event.stopPropagation()"
         >
         <i class="fas fa-heart mr-2" [ngClass]="{'text-red-500': isLiked, 'text-gray-500 dark:text-gray-200': !isLiked}"></i> {{ comment.likes?.length || 0}}
       </button>
@@ -28,10 +42,12 @@
           [(ngModel)]="newReplyText" 
           class="w-full border rounded-md p-2" 
           placeholder="Write your reply..." 
-          rows="3"></textarea>
+          rows="3"
+          (click)="$event.stopPropagation()"></textarea>
         <button 
           class="mt-2 text-white bg-blue-500 hover:bg-blue-700 py-1 px-4 rounded"
-          (click)="submitReply(comment)">
+          (click)="submitReply(comment)"
+          (click)="$event.stopPropagation()">
           Submit Reply
         </button>
       </div>

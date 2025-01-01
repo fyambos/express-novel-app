@@ -42,6 +42,7 @@ import { MessageComponent } from './pages/message/message.component';
 import { ConversationsComponent } from './pages/conversations/conversations.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
+import { CommentComponent } from './pages/comment/comment.component';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { NotificationsComponent } from './pages/notifications/notifications.comp
     MessageComponent,
     ConversationsComponent,
     SettingsComponent,
-    NotificationsComponent
+    NotificationsComponent,
+    CommentComponent
   ],
   imports: [
     BrowserModule,

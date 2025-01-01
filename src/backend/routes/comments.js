@@ -3,6 +3,7 @@ import express from 'express';
 import { Comment } from '../models/comment.js';
 import { Chapter } from '../models/chapter.js';
 import { Notification } from '../models/notification.js';
+import { User } from '../models/user.js';
 
 const router = express.Router();
 
@@ -22,7 +23,7 @@ router.post('/', async (req, res) => {
           userId: chapterAuthor.authorId,
           actorId: authorId,
           type: 'comment',
-          objectId: chapterId,
+          objectId: newComment._id.toString(),
         });
       }
       if (replyTo && authorId !== replyToAuthor.authorId) {
@@ -30,7 +31,7 @@ router.post('/', async (req, res) => {
           userId: replyToAuthor.authorId,
           actorId: authorId,
           type: 'reply',
-          objectId: chapterId,
+          objectId: replyTo,
         });
       }
 
@@ -42,7 +43,7 @@ router.post('/', async (req, res) => {
     }
   });
   
-  router.get('/:id', async (req, res) => {
+  router.get('/chapters/:id', async (req, res) => {
     try {
       const chapterId = req.params.id;
       const comments = await Comment.find({ chapterId })
@@ -60,6 +61,19 @@ router.post('/', async (req, res) => {
     }
   });
 
+  router.get('/:id', async (req, res) => {
+    try {
+      const commentId = req.params.id;
+      const comment = await Comment.findById(commentId).lean();
+      if (!comment) {
+        return res.status(404).json({ message: 'Comment not found' });
+      }
+      const commentWithId = { ...comment, id: comment._id.toString() };
+      res.json(commentWithId);
+    } catch (err) {
+      res.status(500).json({ message: 'Error fetching comment', error: err });
+    }
+  });
   
   router.post('/:id/like', async (req, res) => {
     const commentId = req.params.id;

@@ -15,6 +15,7 @@ import { MessageComponent } from './pages/message/message.component';
 import { ConversationsComponent } from './pages/conversations/conversations.component';
 import { SettingsComponent } from './pages/settings/settings.component';
 import { NotificationsComponent } from './pages/notifications/notifications.component';
+import { CommentComponent } from './pages/comment/comment.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
@@ -32,6 +33,7 @@ const routes: Routes = [
   { path: 'messages/:recipientId', component: MessageComponent, canActivate: [authGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [authGuard] },
   { path: 'notifications', component: NotificationsComponent, canActivate: [authGuard] },
+  { path: 'comments/:id', component: CommentComponent },
   { path: '**', redirectTo: '/not-found' },
 ];
 

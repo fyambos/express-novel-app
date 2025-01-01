@@ -166,6 +166,8 @@ export class ChapterDetailsComponent implements OnInit {
     dialogRef.afterClosed().subscribe(async (newComment) => {
       if (newComment) {
         newComment.author = await this.userService.fetchUser(newComment.authorId);
+        newComment.id = newComment._id;
+        console.log("newComment", newComment);
         this.comments.push(newComment);
       }
     });

@@ -3,6 +3,8 @@ import { NotificationService } from 'src/app/services/notification.service';
 import { Auth } from '@angular/fire/auth';
 import { UserService } from 'src/app/services/user.service';
 import { StoryService } from 'src/app/services/story.service';
+import { ChapterService } from 'src/app/services/chapter.service';
+import { CommentService } from 'src/app/services/comment.service';
 
 @Component({
   selector: 'app-notifications',
@@ -17,6 +19,8 @@ export class NotificationsComponent implements OnInit {
     private auth: Auth,
     private userService: UserService,
     private storyService: StoryService,
+    private chapterService: ChapterService,
+    private commentService: CommentService,
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -38,6 +42,15 @@ export class NotificationsComponent implements OnInit {
                 notification = {
                   ...notification,
                   objectName: story.title,
+                };
+              };
+              if(notification.type === 'comment') {
+                const commentId = notification.objectId;
+                const comment = await this.commentService.getCommentById(commentId);
+                const chapterId = comment[0].chapterId;
+                notification = {
+                  ...notification,
+                  objectName: chapterId,
                 };
               }
               return notification;
