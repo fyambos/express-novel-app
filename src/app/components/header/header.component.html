@@ -22,6 +22,9 @@
               {{ totalUnreadCount }}
             </span>
           </a>
+          <a routerLink="/notifications" routerLinkActive="text-blue-500" class="flex flex-col items-center hover:text-blue-500 text-gray-800 dark:text-white relative">
+            <i class="fas fa-bell text-2xl"></i>
+          </a>
           <button
             mat-button
             [matMenuTriggerFor]="accountMenu"

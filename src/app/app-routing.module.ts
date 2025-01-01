@@ -14,6 +14,7 @@ import { ChapterReorderComponent } from './pages/chapter-reorder/chapter-reorder
 import { MessageComponent } from './pages/message/message.component';
 import { ConversationsComponent } from './pages/conversations/conversations.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: '/home' },
@@ -30,6 +31,7 @@ const routes: Routes = [
   { path: 'messages', component: ConversationsComponent, canActivate: [authGuard] },
   { path: 'messages/:recipientId', component: MessageComponent, canActivate: [authGuard] },
   { path: 'settings', component: SettingsComponent, canActivate: [authGuard] },
+  { path: 'notifications', component: NotificationsComponent, canActivate: [authGuard] },
   { path: '**', redirectTo: '/not-found' },
 ];
 
