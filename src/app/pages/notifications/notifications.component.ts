@@ -53,6 +53,13 @@ export class NotificationsComponent implements OnInit {
                   objectName: chapterId,
                 };
               }
+              if(notification.type === 'subscribe') {
+                const story = await this.storyService.getStoryById(notification.objectId);
+                notification = {
+                  ...notification,
+                  objectName: story.title,
+                };
+              }
               return notification;
             })
           );

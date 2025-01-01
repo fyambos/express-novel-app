@@ -138,6 +138,21 @@ const router = express.Router();
   
       if (userIndex === -1) {
         story.subscribers.push(currentUserId);
+        const notificationExists = await Notification.findOne({
+          userId: story.authorId,
+          actorId: currentUserId,
+          type: 'subscribe',
+          objectId: storyId,
+        });
+  
+        if (!notificationExists) {
+          await Notification.create({
+            userId: story.authorId,
+            actorId: currentUserId,
+            type: 'subscribe',
+            objectId: storyId,
+          });
+        }
       } else {
         story.subscribers.splice(userIndex, 1);
       }
