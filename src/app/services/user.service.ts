@@ -110,4 +110,16 @@ export class UserService {
       throw error;
     }
   }
+
+  async checkIfFollowed(userId: string, currentUserId: string): Promise<boolean> {
+    try {
+      const response = await lastValueFrom(
+        this.http.get<any>(`${this.apiUrl}/users/${userId}/follow-status`, { params: { currentUserId } })
+      );
+      return response.isFollowing;
+    } catch (error) {
+      console.error(`Error checking follow status for user with ID ${userId}:`, error);
+      throw error;
+    }
+  }
 }

@@ -177,11 +177,11 @@ router.post('/:id/upload-profile-picture', upload.single('profilePicture'), asyn
   });
 
   router.post('/:id/follow', async (req, res) => {
-    const id = req.params.id;
+    const userId = req.params.id;
     const { currentUserId } = req.body;
   
     try {
-      const userToFollow = await User.findOne({ id: id });
+      const userToFollow = await User.findOne({ id: userId });
       if (!userToFollow) {
         return res.status(404).json({ message: 'User to follow not found' });
       }
@@ -199,6 +199,23 @@ router.post('/:id/upload-profile-picture', upload.single('profilePicture'), asyn
     } catch (err) {
       console.error('Error updating followers status:', err);
       res.status(500).json({ message: 'Error updating followers status' });
+    }
+  });
+
+  router.get('/:id/follow-status', async (req, res) => {
+    const userId = req.params.id;
+    const currentUserId = req.query.currentUserId;
+  
+    try {
+      const user = await User.findOne({id: userId});
+      if (!user) {
+        return res.status(404).json({ message: 'User not found' });
+      }
+      const isFollowing = user.followers.includes(currentUserId);
+      res.json({ isFollowing });
+    } catch (err) {
+      console.error('Error checking follow status:', err);
+      res.status(500).json({ message: 'Error checking follow status' });
     }
   });
   

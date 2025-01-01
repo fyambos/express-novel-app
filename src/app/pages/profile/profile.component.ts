@@ -23,6 +23,7 @@ export class ProfileComponent implements OnInit {
   viewBookmarks: 'bookmarks' | 'stories' | 'read' = 'stories';
   reads: any[] = [];
   currentUserUid: string | null = null;
+  isFollowing: boolean = false;
 
   constructor(
     private userService: UserService,
@@ -38,11 +39,17 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
     this.userIdFromParams = this.route.snapshot.paramMap.get('id');
     this.fetchUserProfile();
+    if (this.currentUserUid && this.userIdFromParams) {
+      this.checkIfFollowed(this.userIdFromParams);
+    }
   }
 
   async fetchUserProfile() {
     try {
       this.auth.onAuthStateChanged(async (currentUser) => {
+        if (currentUser) {
+          this.currentUserUid = currentUser.uid;
+        }
         if (!currentUser) {
           // no user
           this.isOwnProfile = false;
@@ -50,19 +57,18 @@ export class ProfileComponent implements OnInit {
           // own profile
           this.isOwnProfile = true;
           this.userIdFromParams = currentUser.uid;
-          this.currentUserUid = currentUser.uid;
         } else if (this.userIdFromParams === currentUser.uid) {
           // own profile w. param
           this.isOwnProfile = true;
-          this.currentUserUid = currentUser.uid;
         } else {
           // other user profile
           this.isOwnProfile = false;
-          this.currentUserUid = currentUser.uid;
         }
-
         if (this.userIdFromParams) {
           this.fetchProfileInfo(this.userIdFromParams);
+          if (this.currentUserUid) {
+            this.checkIfFollowed(this.userIdFromParams);
+          }
         }
       });
     } catch (error) {
@@ -138,9 +144,21 @@ export class ProfileComponent implements OnInit {
     }
     try {
       const response = await this.userService.toggleFollowUser(userId, this.currentUserUid);
+      this.isFollowing = await this.userService.checkIfFollowed(userId, this.currentUserUid);
       this.user.followers = response.followers;
     } catch (error) {
       console.error('Error toggling follow:', error);
+    }
+  }
+  
+  async checkIfFollowed(userId: string) {
+    if (!this.currentUserUid) {
+      return;
+    }
+    try {
+      this.isFollowing = await this.userService.checkIfFollowed(userId, this.currentUserUid);
+    } catch (error) {
+      console.error('Error checking follow status:', error);
     }
   }
 
