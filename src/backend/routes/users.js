@@ -195,6 +195,7 @@ router.post('/:id/upload-profile-picture', upload.single('profilePicture'), asyn
   
     try {
       const userToFollow = await User.findOne({ id: userId });
+      const currentUser = await User.findOne({ id: currentUserId });
       if (!userToFollow) {
         return res.status(404).json({ message: 'User to follow not found' });
       }
@@ -203,6 +204,7 @@ router.post('/:id/upload-profile-picture', upload.single('profilePicture'), asyn
   
       if (userIndex === -1) {
         userToFollow.followers.push(currentUserId);
+        currentUser.followings.push(userId);
         const notificationExists = await Notification.findOne({
           userId: userId,
           actorId: currentUserId,
@@ -217,9 +219,11 @@ router.post('/:id/upload-profile-picture', upload.single('profilePicture'), asyn
         }
       } else {
         userToFollow.followers.splice(userIndex, 1);
+        currentUser.followings.splice(currentUser.followings.indexOf(userId), 1);
       }
   
       await userToFollow.save();
+      await currentUser.save();
       res.json({ message: 'Followers status updated', followers: userToFollow.followers });
     } catch (err) {
       console.error('Error updating followers status:', err);
