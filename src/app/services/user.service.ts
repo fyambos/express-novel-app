@@ -98,4 +98,16 @@ export class UserService {
       throw error;
     }
   }
+
+  async toggleFollowUser(userId: string, currentUserId: string): Promise<any> {
+    try {
+      const response = await lastValueFrom(
+        this.http.post<any>(`${this.apiUrl}/users/${userId}/follow`, { currentUserId })
+      );
+      return response;
+    } catch (error) {
+      console.error(`Error toggling follow for user with ID ${userId}:`, error);
+      throw error;
+    }
+  }
 }

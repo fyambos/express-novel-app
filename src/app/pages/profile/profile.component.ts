@@ -22,6 +22,7 @@ export class ProfileComponent implements OnInit {
   bookmarks: any[] = [];
   viewBookmarks: 'bookmarks' | 'stories' | 'read' = 'stories';
   reads: any[] = [];
+  currentUserUid: string | null = null;
 
   constructor(
     private userService: UserService,
@@ -49,12 +50,15 @@ export class ProfileComponent implements OnInit {
           // own profile
           this.isOwnProfile = true;
           this.userIdFromParams = currentUser.uid;
+          this.currentUserUid = currentUser.uid;
         } else if (this.userIdFromParams === currentUser.uid) {
           // own profile w. param
           this.isOwnProfile = true;
+          this.currentUserUid = currentUser.uid;
         } else {
           // other user profile
           this.isOwnProfile = false;
+          this.currentUserUid = currentUser.uid;
         }
 
         if (this.userIdFromParams) {
@@ -125,6 +129,19 @@ export class ProfileComponent implements OnInit {
 
   sendMessage(): void {
     this.router.navigate(['/messages', this.userIdFromParams]);
+  }
+
+  async followUser(userId: string) {
+    if (!this.currentUserUid) {
+      this.router.navigate(['/login']);
+      return;
+    }
+    try {
+      const response = await this.userService.toggleFollowUser(userId, this.currentUserUid);
+      this.user.followers = response.followers;
+    } catch (error) {
+      console.error('Error toggling follow:', error);
+    }
   }
 
 }

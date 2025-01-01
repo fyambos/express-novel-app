@@ -175,5 +175,31 @@ router.post('/:id/upload-profile-picture', upload.single('profilePicture'), asyn
       res.status(500).json({ message: 'Error deleting user and processing related data' });
     }
   });
+
+  router.post('/:id/follow', async (req, res) => {
+    const id = req.params.id;
+    const { currentUserId } = req.body;
+  
+    try {
+      const userToFollow = await User.findOne({ id: id });
+      if (!userToFollow) {
+        return res.status(404).json({ message: 'User to follow not found' });
+      }
+  
+      const userIndex = userToFollow.followers.indexOf(currentUserId);
+  
+      if (userIndex === -1) {
+        userToFollow.followers.push(currentUserId);
+      } else {
+        userToFollow.followers.splice(userIndex, 1);
+      }
+  
+      await userToFollow.save();
+      res.json({ message: 'Followers status updated', followers: userToFollow.followers });
+    } catch (err) {
+      console.error('Error updating followers status:', err);
+      res.status(500).json({ message: 'Error updating followers status' });
+    }
+  });
   
 export default router;

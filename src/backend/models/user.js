@@ -33,6 +33,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  followings: {
+    type: [String],
+    default: []
+  },
+  followers: {
+    type: [String],
+    default: []
+  }
 });
 
 export const User = mongoose.model('User', userSchema);
