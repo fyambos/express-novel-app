@@ -89,6 +89,20 @@ router.post('/', async (req, res) => {
   
       if (userIndex === -1) {
         comment.likes.push(userId);
+        const notificationExists = await Notification.findOne({
+          userId: comment.authorId,
+          actorId: userId,
+          type: 'comment-like',
+          objectId: commentId,
+        });
+        if (!notificationExists && userId !== comment.authorId) {
+          await Notification.create({
+            userId: comment.authorId,
+            actorId: userId,
+            type: 'comment-like',
+            objectId: commentId,
+          });
+        }
       } else {
         comment.likes.splice(userIndex, 1);
       }

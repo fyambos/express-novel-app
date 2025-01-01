@@ -16,6 +16,8 @@
               <span *ngIf="notification.type === 'story'">New story "<a class="font-medium" [routerLink]="'/stories/' + notification.objectId">{{ notification.objectName }}</a>" by <a class="font-medium" [routerLink]="'/profile/' + notification.actorId">{{ notification.actor?.username }}</a>.</span>
               <span *ngIf="notification.type === 'comment'"><a class="font-medium" [routerLink]="'/profile/' + notification.actorId">{{ notification.actor?.username }}</a> <a class="font-medium" [routerLink]="'/comments/' + notification.objectId"> commented</a> on your <a class="font-medium" [routerLink]="'/chapters/' + notification.objectName"> chapter</a>.</span>
               <span *ngIf="notification.type === 'reply'"><a class="font-medium" [routerLink]="'/profile/' + notification.actorId">{{ notification.actor?.username }}</a> replied to your <a class="font-medium" [routerLink]="'/comments/' + notification.objectId">comment</a>.</span>
+              <span *ngIf="notification.type === 'comment-like'"><a class="font-medium" [routerLink]="'/profile/' + notification.actorId">{{ notification.actor?.username }}</a> liked your <a class="font-medium" [routerLink]="'/comments/' + notification.objectId">comment</a>.</span>
+              <span *ngIf="notification.type === 'chapter-like'"><a class="font-medium" [routerLink]="'/profile/' + notification.actorId">{{ notification.actor?.username }}</a> liked your <a class="font-medium" [routerLink]="'/chapters/' + notification.objectId">chapter</a>.</span>
             </p>
             <p class="text-xs text-gray-500 dark:text-gray-400">{{ notification.createdAt | relativeDate }}</p>
           </div>

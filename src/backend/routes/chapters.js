@@ -4,6 +4,7 @@ import { Story } from '../models/story.js';
 import { User } from '../models/user.js'; 
 import { Chapter } from '../models/chapter.js'; 
 import { Comment } from '../models/comment.js';
+import { Notification } from '../models/notification.js';
 
 const router = express.Router();
 
@@ -122,6 +123,20 @@ router.post('/:id/like', async (req, res) => {
   
       if (userIndex === -1) {
         chapter.likes.push(userId);
+        const notificationExists = await Notification.findOne({
+          userId: chapter.authorId,
+          actorId: userId,
+          type: 'chapter-like',
+          objectId: chapterId,
+        });
+        if (!notificationExists && userId !== chapter.authorId) {
+          await Notification.create({
+            userId: chapter.authorId,
+            actorId: userId,
+            type: 'chapter-like',
+            objectId: chapterId,
+          });
+        }
       } else {
         chapter.likes.splice(userIndex, 1);
       }
