@@ -160,6 +160,18 @@ router.post('/:id/upload-profile-picture', upload.single('profilePicture'), asyn
       );
       await Bookmark.deleteMany({ userId });
       await Read.deleteMany({ userId });
+      await Notification.deleteMany({
+        $or: [
+          { userId: userId },
+          { actorId: userId }
+        ]
+      });
+      await User.updateMany(
+        { $or: [{ followers: userId }, { followings: userId }] },
+        {
+          $pull: { followers: userId, followings: userId },
+        }
+      );
       await Chapter.updateMany(
         { likes: userId },
         { $pull: { likes: userId } }
