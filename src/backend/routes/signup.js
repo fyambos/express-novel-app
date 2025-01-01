@@ -7,6 +7,7 @@ import { Comment } from '../models/comment.js';
 import { Bookmark } from '../models/bookmark.js';
 import { Read } from '../models/read.js';
 import { Message } from '../models/message.js';
+import { Notification } from '../models/notification.js';
 import path from 'path';
 import fs from 'fs';
 
