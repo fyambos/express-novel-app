@@ -37,7 +37,7 @@ export class NotificationsComponent implements OnInit {
                 ...notification,
                 actor: actorProfile,
               };
-              if(notification.type === 'story') {
+              if(notification.type === 'story' || notification.type === 'subscribe') {
                 const story = await this.storyService.getStoryById(notification.objectId);
                 notification = {
                   ...notification,
@@ -53,11 +53,11 @@ export class NotificationsComponent implements OnInit {
                   objectName: chapterId,
                 };
               }
-              if(notification.type === 'subscribe') {
-                const story = await this.storyService.getStoryById(notification.objectId);
+              if(notification.type === 'chapter') {
+                const chapter = await this.chapterService.getChapterById(notification.objectId);
                 notification = {
                   ...notification,
-                  objectName: story.title,
+                  objectName: chapter.title,
                 };
               }
               return notification;

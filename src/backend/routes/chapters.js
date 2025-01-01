@@ -11,8 +11,8 @@ const router = express.Router();
 router.post('/', async (req, res) => {
     const { title, content, storyId, authorId } = req.body;
     try {
-      const storyExists = await Story.findOne({ _id: storyId });
-      if (!storyExists) {
+      const story = await Story.findOne({ _id: storyId });
+      if (!story) {
         return res.status(404).json({ message: 'Story not found' });
       }
       const authorExists = await User.findOne({ id: authorId });
@@ -32,6 +32,14 @@ router.post('/', async (req, res) => {
         chapter: chapterNumber,
       });
       const savedChapter = await newChapter.save();
+      for (const subscriberId of story.subscribers) {
+        await Notification.create({
+          userId: subscriberId,
+          actorId: authorId,
+          type: 'chapter',
+          objectId: savedChapter._id,
+        });
+      }
       res.json(savedChapter);
     } catch (err) {
       console.error(err);
