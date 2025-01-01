@@ -41,6 +41,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { MessageComponent } from './pages/message/message.component';
 import { ConversationsComponent } from './pages/conversations/conversations.component';
 import { SettingsComponent } from './pages/settings/settings.component';
+import { NotificationsComponent } from './pages/notifications/notifications.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +69,8 @@ import { SettingsComponent } from './pages/settings/settings.component';
     ConfirmDialogComponent,
     MessageComponent,
     ConversationsComponent,
-    SettingsComponent
+    SettingsComponent,
+    NotificationsComponent
   ],
   imports: [
     BrowserModule,
