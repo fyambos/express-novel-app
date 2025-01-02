@@ -112,6 +112,6 @@
     </div>
     <div *ngIf="comments.length > 0" class="comment-section">
       <h2 class="text-xl font-semibold mb-2 pt-2">Comments</h2>
-      <app-comments *ngFor="let comment of comments" [comment]="comment"></app-comments>
+      <app-comment-trees *ngFor="let comment of comments" [comment]="comment"></app-comment-trees>
     </div>
 </div>

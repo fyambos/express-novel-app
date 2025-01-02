@@ -6,10 +6,10 @@ import { UserService } from 'src/app/services/user.service';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-comments',
-  templateUrl: './comments.component.html',
+  selector: 'app-comment-trees',
+  templateUrl: './comment-trees.component.html',
 })
-export class CommentsComponent {
+export class CommentTreesComponent {
   @Input() comment!: Comment;
   currentUserUid: string | null = null;
   isReplying: boolean = false;
