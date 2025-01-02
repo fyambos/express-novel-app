@@ -1,42 +1,55 @@
-<div class="comment pl-4 border-l-4 my-4 cursor-pointer"
-[routerLink]="'/comments/' + comment.id"
-(click)="$event.stopPropagation()">
-    <div class="flex items-center">
-        <img 
-          [src]="comment.author.profilePicture ? 'http://localhost:4200/assets/' + comment.author.profilePicture : 'https://i.imgur.com/WxNkK7J.png'"
-          alt="Profile Picture" 
-          class="w-8 h-8 rounded-full mr-2 cursor-pointer"
+<div class="comment pl-4 border-l-4 my-4">
+  <ng-container *ngIf="!comment.deleted; else deletedCommentTemplate"
+  >
+    <div
+    class="cursor-pointer"
+    [routerLink]="'/comments/' + comment.id"
+    (click)="$event.stopPropagation()">
+      <div class="flex items-center">
+          <img 
+            [src]="comment.author.profilePicture ? 'http://localhost:4200/assets/' + comment.author.profilePicture : 'https://i.imgur.com/WxNkK7J.png'"
+            alt="Profile Picture" 
+            class="w-8 h-8 rounded-full mr-2 cursor-pointer"
+            [routerLink]="'/profile/' + comment.author.id"
+            (click)="$event.stopPropagation()"
+          />
+          <p class="text-lg font-semibold pt-3 cursor-pointer"
           [routerLink]="'/profile/' + comment.author.id"
+          (click)="$event.stopPropagation()">{{ comment.author.username }}:</p>
+      </div>
+      <p class="ml-2 text-gray-700 dark:text-gray-300">{{ comment.text }}</p>
+      <p class="ml-2 text-sm text-gray-500 dark:text-gray-400">{{ comment.createdAt | relativeDate }}</p>
+      <div class="flex items-center space-x-4 mt-2">
+        <button 
+          class="text-blue-500 mt-2 hover:underline"
+          (click)="openReplyForm()"
+          (click)="$event.stopPropagation()">
+          Reply
+        </button>
+        <button *ngIf="comment.replyTo"
+          class="text-blue-500 mt-2 hover:underline"
+          [routerLink]="'/comments/' + comment.replyTo"
+          (click)="$event.stopPropagation()">
+          Parent Thread
+        </button>
+        <button 
+          class="flex items-center px-2 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 hover:dark:bg-gray-800 rounded-lg"
+          (click)="likeComment(comment.id, this.currentUserUid)"
           (click)="$event.stopPropagation()"
-        />
-        <p class="text-lg font-semibold pt-3 cursor-pointer"
-        [routerLink]="'/profile/' + comment.author.id"
-        (click)="$event.stopPropagation()">{{ comment.author.username }}:</p>
+          >
+          <i class="fas fa-heart mr-2" [ngClass]="{'text-red-500': isLiked, 'text-gray-500 dark:text-gray-200': !isLiked}"></i> {{ comment.likes?.length || 0}}
+        </button>
+      </div>
     </div>
-    <p class="ml-2 text-gray-700 dark:text-gray-300">{{ comment.text }}</p>
-    <p class="ml-2 text-sm text-gray-500 dark:text-gray-400">{{ comment.createdAt | relativeDate }}</p>
-    <div class="flex items-center space-x-4 mt-2">
-      <button 
-        class="text-blue-500 mt-2 hover:underline"
-        (click)="openReplyForm()"
-        (click)="$event.stopPropagation()">
-        Reply
-      </button>
-      <button *ngIf="comment.replyTo"
-        class="text-blue-500 mt-2 hover:underline"
-        [routerLink]="'/comments/' + comment.replyTo"
-        (click)="$event.stopPropagation()">
-        Parent Thread
-      </button>
-      <button 
-        class="flex items-center px-2 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-700 hover:dark:bg-gray-800 rounded-lg"
-        (click)="likeComment(comment.id, this.currentUserUid)"
-        (click)="$event.stopPropagation()"
-        >
-        <i class="fas fa-heart mr-2" [ngClass]="{'text-red-500': isLiked, 'text-gray-500 dark:text-gray-200': !isLiked}"></i> {{ comment.likes?.length || 0}}
-      </button>
+  </ng-container>
+  <ng-template #deletedCommentTemplate>
+    <div 
+    *ngIf="comment.replyTo && comment.replies && comment.replies.length > 0" 
+    class="p-4 bg-red-100 dark:bg-red-900 border border-red-400 text-red-700 dark:text-red-300 rounded">
+      <p class="text-sm">This comment has been deleted.</p>
     </div>
-    
+    <!-- only show deleted comments if they have replies and a parent (breaking threads)-->
+  </ng-template>
     <div *ngIf="isReplying" class="mt-2">
         <textarea 
           [(ngModel)]="newReplyText" 

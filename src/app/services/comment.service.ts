@@ -18,7 +18,10 @@ export class CommentService {
   async getCommentsByChapterId(chapterId: string) {
     try {
       const comments = await lastValueFrom(this.http.get<any[]>(`${this.apiUrl}/comments/chapters/${chapterId}`));
-      return this.transformToNested(comments);
+      const nestedComments = await this.transformToNested(comments);
+      console.log('comments:', comments);
+      console.log('nestedComments:', nestedComments);
+      return nestedComments;
     } catch (error) {
       console.error('Error fetching comments:', error);
       throw error;
@@ -46,7 +49,9 @@ export class CommentService {
 
     for (const comment of comments) {
       try {
-        comment.author = await this.userService.fetchUser(comment.authorId);
+        if (!comment.deleted) {
+          comment.author = await this.userService.fetchUser(comment.authorId);
+        }
       } catch (error) {
         console.error(`Failed to fetch author for comment ${comment.id}:`, error);
       }
@@ -58,7 +63,7 @@ export class CommentService {
         if (parent) {
           parent.replies!.push(comment);
         } else {
-          console.warn(`Parent not found for reply ${comment.id} with replyTo ${comment.replyTo}`);
+          console.warn(`Comment with ID ${comment.id} has an orphaned parent`)
         }
       }
     }

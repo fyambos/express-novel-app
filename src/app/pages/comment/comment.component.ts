@@ -19,6 +19,7 @@ export class CommentComponent implements OnInit {
     private route: ActivatedRoute,
     private auth: Auth,
     private commentService: CommentService,
+    private router: Router,
   ) {}
 
   async ngOnInit() {
@@ -27,6 +28,10 @@ export class CommentComponent implements OnInit {
       if (commentId) {
         this.checkCurrentUser();
         this.comments = await this.commentService.getCommentById(commentId);
+        console.log("component's comments:", this.comments);
+        if (this.comments && this.comments.length > 0 && this.comments[0]?.deleted === true && !this.comments[0]?.replies) {
+          this.router.navigate(['/not-found']);
+        }
       }
     });
   }

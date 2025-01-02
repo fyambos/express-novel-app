@@ -8,6 +8,7 @@ export interface Comment {
     author?: any;
     createdAt?: string;
     likes?: string[];
+    deleted?: boolean;
 }
   
   
