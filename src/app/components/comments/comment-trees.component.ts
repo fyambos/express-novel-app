@@ -88,4 +88,13 @@ export class CommentTreesComponent {
       console.error('Error checking like status:', error);
     }
   }
+
+  async deleteComment(commentId: string) {
+    try {
+      const deletedComment = await this.commentService.deleteComment(commentId);
+      this.comment = deletedComment;
+    } catch (error) {
+      console.error('Error deleting comment:', error);
+    }
+  }
 }

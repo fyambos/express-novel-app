@@ -1,6 +1,6 @@
 <div class="comment pl-4 border-l-4 my-4">
   <ng-container *ngIf="!comment.deleted; else deletedCommentTemplate"
-  >
+  > 
     <div
     class="cursor-pointer"
     [routerLink]="'/comments/' + comment.id"
@@ -38,6 +38,14 @@
           (click)="$event.stopPropagation()"
           >
           <i class="fas fa-heart mr-2" [ngClass]="{'text-red-500': isLiked, 'text-gray-500 dark:text-gray-200': !isLiked}"></i> {{ comment.likes?.length || 0}}
+        </button>
+        <button 
+          *ngIf="this.currentUserUid === comment.author.id"
+          class="bg-red-500 hover:bg-red-700 text-white font-semibold text-sm py-1 px-2 rounded mt-0"
+          (click)="deleteComment(comment.id)"
+          (click)="$event.stopPropagation()"
+          title="Delete Comment">
+          <i class="fas fa-trash"></i>
         </button>
       </div>
     </div>

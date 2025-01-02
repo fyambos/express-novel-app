@@ -20,7 +20,10 @@ const commentSchema = new mongoose.Schema({
   likes: {
     type: [String],
     default: []
-  }
+  },
+  deleted: {
+    type: Boolean
+  },
 }, { timestamps: true });
 
 export const Comment = mongoose.model('Comment', commentSchema);

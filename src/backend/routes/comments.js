@@ -146,5 +146,24 @@ router.post('/', async (req, res) => {
       res.status(500).json({ message: 'Error checking like status' });
     }
   });
+
+  router.patch('/:id/delete', async (req, res) => {
+    const commentId = req.params.id;
+  
+    try {
+      const comment = await Comment.findById(commentId);
+      if (!comment) {
+        return res.status(404).json({ message: 'Comment not found' });
+      }
+      comment.deleted = true;
+      comment.authorId = "Unknown";
+      comment.text = "This comment has been deleted";
+      await comment.save();
+      res.json({ message: 'Comment marked as deleted', comment });
+    } catch (err) {
+      console.error('Error deleting comment:', err);
+      res.status(500).json({ message: 'Error deleting comment', error: err });
+    }
+  });
   
 export default router;

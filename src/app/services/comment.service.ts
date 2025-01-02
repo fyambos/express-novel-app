@@ -19,8 +19,6 @@ export class CommentService {
     try {
       const comments = await lastValueFrom(this.http.get<any[]>(`${this.apiUrl}/comments/chapters/${chapterId}`));
       const nestedComments = await this.transformToNested(comments);
-      console.log('comments:', comments);
-      console.log('nestedComments:', nestedComments);
       return nestedComments;
     } catch (error) {
       console.error('Error fetching comments:', error);
@@ -129,6 +127,18 @@ export class CommentService {
       return [targetComment];
     } catch (error) {
       console.error('Error fetching comments:', error);
+      throw error;
+    }
+  }
+
+  async deleteComment(commentId: string): Promise<Comment> {
+    try {
+      const response = await lastValueFrom(
+        this.http.patch<any>(`${this.apiUrl}/comments/${commentId}/delete`, {})
+      );
+      return response.comment;
+    } catch (error) {
+      console.error(`Error deleting comment with ID ${commentId}:`, error);
       throw error;
     }
   }
