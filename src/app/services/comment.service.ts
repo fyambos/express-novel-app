@@ -106,7 +106,13 @@ export class CommentService {
   async getCommentById(commentId: string) {
     try {
       const comment = await lastValueFrom(this.http.get<any>(`${this.apiUrl}/comments/${commentId}`));
+      if (!comment) {
+        throw new Error(`Comment with ID ${commentId} not found`);
+      }
       const chapterComments = await this.getCommentsByChapterId(comment.chapterId);
+      if(!chapterComments) {
+        throw new Error(`Comments not found for chapter with ID ${comment.chapterId}`);
+      }
       const findCommentById = (comments: any[], id: string): any | null => {
         for (const comment of comments) {
           if (comment.id === id) {
@@ -122,11 +128,10 @@ export class CommentService {
       
       const targetComment = findCommentById(chapterComments, commentId);
       if (!targetComment) {
-        throw new Error(`Comment with ID ${commentId} not found`);
+        throw new Error(`Comment with ID ${commentId} not found in chapter comments`);
       }
       return [targetComment];
     } catch (error) {
-      console.error('Error fetching comments:', error);
       throw error;
     }
   }

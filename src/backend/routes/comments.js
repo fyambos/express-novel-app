@@ -71,7 +71,12 @@ router.post('/', async (req, res) => {
       const commentWithId = { ...comment, id: comment._id.toString() };
       res.json(commentWithId);
     } catch (err) {
-      res.status(500).json({ message: 'Error fetching comment', error: err });
+      if (err.name === 'CastError') {
+          return res.status(404).json({ message: 'Comment not found' });
+      } else {
+          console.error(err);
+          return res.status(500).json({ message: 'Error fetching comment' });
+      }
     }
   });
   

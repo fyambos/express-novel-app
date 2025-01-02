@@ -27,7 +27,15 @@ export class CommentComponent implements OnInit {
       const commentId = paramMap.get('id');
       if (commentId) {
         this.checkCurrentUser();
-        this.comments = await this.commentService.getCommentById(commentId);
+        try {
+          this.comments = await this.commentService.getCommentById(commentId);
+        } catch (error: any) {
+          if (error.status === 404) {
+            this.router.navigate(['/not-found']);
+          } else {
+            console.error('Unexpected error fetching comment:', error);
+          }
+        }
         if (this.comments && this.comments.length > 0 && this.comments[0]?.deleted === true && !this.comments[0]?.replies) {
           this.router.navigate(['/not-found']);
         }
