@@ -122,4 +122,16 @@ export class UserService {
       throw error;
     }
   }
+
+  async checkUsernameAvailability(username: string, userId: string): Promise<boolean> {
+    try {
+      const response = await lastValueFrom(
+        this.http.get<any>(`${this.apiUrl}/users/check-username/${username}`, { params: { userId } })
+      );
+      return response.available;
+    } catch (error) {
+      console.error(`Error checking if username ${username} is available:`, error);
+      throw error;
+    }
+  }
 }

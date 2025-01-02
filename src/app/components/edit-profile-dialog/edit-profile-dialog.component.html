@@ -1,22 +1,45 @@
 <h1 mat-dialog-title>Edit Profile</h1>
 <div mat-dialog-content>
-  <form (ngSubmit)="saveChanges()">
+  <form [formGroup]="profileForm" (ngSubmit)="saveChanges()">
     <p></p>
     <mat-form-field appearance="outline" class="full-width">
       <mat-label>Username</mat-label>
-      <input matInput [(ngModel)]="user.username" name="username" required />
+      <input matInput formControlName="username" required />
+      <mat-error *ngIf="profileForm.get('username')?.hasError('required')">
+        Username is required
+      </mat-error>
+      <mat-error *ngIf="profileForm.get('username')?.hasError('minlength')">
+        Username must be at least 2 characters long
+      </mat-error>
+      <mat-error *ngIf="profileForm.get('username')?.hasError('maxlength')">
+        Username cannot be more than 20 characters long
+      </mat-error>
+      <mat-error *ngIf="profileForm.get('username')?.hasError('pattern')">
+        Username cannot contain special characters
+      </mat-error>
+      <mat-error *ngIf="profileForm.get('username')?.hasError('usernameTaken')">
+        Username is already taken
+      </mat-error>
+      <!--
+      <mat-hint class="text-green-500" *ngIf="profileForm.get('username')?.status === 'PENDING'">
+        Checking username availability...
+      </mat-hint>
+      -->
+      <mat-hint class="text-green-500" *ngIf="profileForm.get('username')?.valid">
+        <i class="fa-solid fa-circle-check"></i> Username is available
+      </mat-hint>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
+    <mat-form-field appearance="outline" class="full-width mt-3">
       <mat-label>Bio</mat-label>
-      <textarea matInput [(ngModel)]="user.bio" name="bio"></textarea>
+      <textarea matInput formControlName="bio"></textarea>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Enter commas-separated interests</mat-label>
-      <input matInput [(ngModel)]="user.interestsString" name="interestsString" />
+    <mat-form-field appearance="outline" class="full-width mt-3">
+      <mat-label>Enter comma-separated interests</mat-label>
+      <input matInput formControlName="interestsString" />
     </mat-form-field>
-    
+
     <label for="file-upload" class="file-upload-button flex items-center justify-center w-full p-4 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600 bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer text-center">
       <i class="fas fa-file-image h-5 w-5 text-gray-600 dark:text-white"></i>
       <span class="ml-2 text-sm font-medium text-gray-500 dark:text-gray-400">
@@ -25,10 +48,11 @@
     </label>
 
     <input id="file-upload" type="file" class="hidden" (change)="onFileSelected($event)" accept=".png, .jpg, .jpeg, .webp, .svg, .heif, .heic" />
+
     <div mat-dialog-actions>
       <div class="w-full flex justify-end">
         <button mat-button class="cancel" (click)="closeDialog()">Cancel</button>
-        <button mat-button class="submit" type="submit">Save</button>
+        <button mat-button class="submit" type="submit" [disabled]="profileForm.invalid">Save</button>
       </div>
     </div>
   </form>

@@ -247,5 +247,22 @@ router.post('/:id/upload-profile-picture', upload.single('profilePicture'), asyn
       res.status(500).json({ message: 'Error checking follow status' });
     }
   });
+
+  router.get('/check-username/:username', async (req, res) => {
+    const { username } = req.params;
+    const { userId } = req.query;
+    
+    try {
+      const user = await User.findOne({ username });
+      if (user && user.id !== userId) {
+        return res.status(200).json({ available: false });
+      }
+      return res.status(200).json({ available: true });
+    } catch (err) {
+      console.error('Error checking username availability:', err);
+      return res.status(500).json({ message: 'Error checking username availability' });
+    }
+  });
+  
   
 export default router;
