@@ -172,6 +172,10 @@ router.post('/:id/upload-profile-picture', upload.single('profilePicture'), asyn
           $pull: { followers: userId, followings: userId },
         }
       );
+      await Story.updateMany(
+        { subscribers: userId },
+        { $pull: { subscribers: userId } }
+      );
       await Chapter.updateMany(
         { likes: userId },
         { $pull: { likes: userId } }
