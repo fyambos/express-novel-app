@@ -13,6 +13,7 @@ import { CommentService } from 'src/app/services/comment.service';
 export class NotificationsComponent implements OnInit {
   notifications: any = [];
   currentUserUid: string | null = null;
+  isLoading: boolean = true;
 
   constructor(
     private notificationService: NotificationService,
@@ -64,6 +65,7 @@ export class NotificationsComponent implements OnInit {
             })
           );
           await this.notificationService.markNotificationsAsRead(this.currentUserUid);
+          this.isLoading = false;
         } catch (err) {
           console.error('Error loading notifications:', err);
         }

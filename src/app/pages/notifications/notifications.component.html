@@ -1,4 +1,4 @@
-<div class="min-h-screen bg-gray-100 dark:bg-gray-800 p-6">
+<div *ngIf="!isLoading" class="min-h-screen bg-gray-100 dark:bg-gray-800 p-6">
   <div class="max-w-3xl mx-auto">
     <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-6">Notifications</h1>
     <div class="space-y-4">
@@ -27,6 +27,25 @@
       </div>
       <div *ngIf="notifications.length === 0" class="text-center py-8 text-gray-500 dark:text-gray-400">
         <p>No notifications yet.</p>
+      </div>
+    </div>
+  </div>
+</div>
+<div *ngIf="isLoading" class="min-h-screen bg-gray-100 dark:bg-gray-800 p-6">
+  <div class="max-w-3xl mx-auto">
+    <h1 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-6">Notifications</h1>
+    <div class="space-y-4 animate-pulse">
+      <div *ngFor="let _ of [1, 2, 3]">
+        <div class="relative bg-white dark:bg-gray-700 border border-gray-300 dark:border-gray-600 rounded-lg shadow-md p-4">
+          <div class="absolute top-2 right-2 w-3 h-3 bg-blue-500 rounded-full"></div>
+          <div class="flex items-center">
+            <div class="w-10 h-10 bg-gray-300 dark:bg-gray-600 rounded-full"></div>
+            <div class="ml-4 flex-1 space-y-2">
+              <div class="h-4 bg-gray-300 dark:bg-gray-600 rounded"></div>
+              <div class="h-3 w-1/2 bg-gray-300 dark:bg-gray-600 rounded"></div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>

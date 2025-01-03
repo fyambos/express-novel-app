@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 export class ConversationsComponent implements OnInit {
   currentUserId: string = '';
   conversations: Conversation[] = [];
+  isLoading: boolean = true;
 
   constructor(
     private messageService: MessageService,
@@ -36,6 +37,7 @@ export class ConversationsComponent implements OnInit {
       this.messageService.getConversations(this.currentUserId)
         .then((conversations: Conversation[]) => {
           this.conversations = conversations;
+          this.isLoading = false;
         })
         .catch((error) => {
           console.error('Error fetching conversations:', error);

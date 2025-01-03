@@ -17,6 +17,7 @@ export class MessageComponent implements OnInit {
   currentUserId: string = '';
   newMessage: string = '';
   isViewingConversation: boolean = false;
+  isLoading: boolean = true;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,8 +32,9 @@ export class MessageComponent implements OnInit {
       if (user) {
         this.currentUserId = user.uid;
         if (this.isViewingConversation) {
-          this.loadMessages();
           this.loadConversations();
+          this.loadMessages();
+
         }
       } else {
         this.isViewingConversation = false;
@@ -70,6 +72,7 @@ export class MessageComponent implements OnInit {
         const messages = await this.messageService.getMessages(this.currentUserId, this.recipientId);
         this.messages = messages;
         await this.messageService.markMessagesAsRead(this.currentUserId, this.recipientId);
+        this.isLoading = false;
       } catch (error) {
         console.error('Error loading messages:', error);
       }
