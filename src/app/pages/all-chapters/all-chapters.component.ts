@@ -4,6 +4,9 @@ import { ChapterService } from 'src/app/services/chapter.service';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { Subscription } from 'rxjs';
 import { StoryService } from 'src/app/services/story.service';
+import { UserService } from 'src/app/services/user.service';
+import { MatDialog } from '@angular/material/dialog';
+import { UsersModalComponent } from 'src/app/components/users-modal/users-modal.component';
 
 @Component({
   selector: 'app-all-chapters',
@@ -22,6 +25,8 @@ export class AllChaptersComponent implements OnInit {
     private router: Router,
     private sanitizer: DomSanitizer,
     private storyService: StoryService,
+    private userService: UserService,
+    private dialog: MatDialog,
   ) {}
 
   async ngOnInit() {
@@ -84,6 +89,26 @@ export class AllChaptersComponent implements OnInit {
   onChapterSelect(chapterId: string): void {
     if (chapterId) {
       this.router.navigate(['/chapters', chapterId]);
+    }
+  }
+
+  async openLikesModal(userIds: string[]): Promise<void> {
+    try {
+      const userIdsSet = Array.from(new Set(userIds));
+      const userProfiles = await Promise.all(
+        userIdsSet.map(async (userId) => {
+          return await this.userService.fetchUser(userId);
+        })
+      );
+      this.dialog.open(UsersModalComponent, {
+        width: '400px',
+        data: {
+          users: userProfiles,
+          title: 'Users who liked this story',
+        },
+      });
+    } catch (error) {
+      console.error('Error fetching user profiles:', error);
     }
   }
 }

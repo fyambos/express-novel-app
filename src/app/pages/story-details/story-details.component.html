@@ -7,7 +7,7 @@
     <div class="flex items-center space-x-2">
       <span class="bg-gray-100 text-gray-600 rounded-md px-2 py-1">Words: {{ story.wordCount || 0 }}</span>
       <span class="bg-gray-100 text-gray-600 rounded-md px-2 py-1">Chapters: {{ story.chapters?.length || 0 }}</span>
-      <span class="bg-gray-100 text-gray-600 rounded-md px-2 py-1">Likes: {{ story.likes?.length || 0 }}</span>
+      <span (click)="openLikesModal(story.likes)" class="bg-gray-100 text-gray-600 rounded-md px-2 py-1 cursor-pointer">Likes: {{ story.likes?.length || 0 }}</span>
     </div>
     <div class="mt-2 flex items-center space-x-2">
       <span class="inline-block bg-gray-200 rounded-full px-2 py-1 text-xs font-semibold text-gray-700 mr-2" *ngFor="let tag of story.tags">{{ tag }}</span>
