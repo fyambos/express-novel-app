@@ -151,7 +151,9 @@ export class ChapterDetailsComponent implements OnInit {
   
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          
+          this.safeContent = this.sanitizer.bypassSecurityTrustHtml(result.content);
+          console.log("result", result);
+          this.chapter.title = result.title;
         }
       });
     }
