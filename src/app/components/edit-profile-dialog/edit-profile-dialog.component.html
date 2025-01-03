@@ -15,7 +15,7 @@
         Username cannot be more than 20 characters long
       </mat-error>
       <mat-error *ngIf="profileForm.get('username')?.hasError('pattern')">
-        Username cannot contain special characters
+        Accepted special characters are _ .
       </mat-error>
       <mat-error *ngIf="profileForm.get('username')?.hasError('usernameTaken')">
         Username is already taken
