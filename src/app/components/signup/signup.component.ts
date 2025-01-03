@@ -27,7 +27,6 @@ export class SignupComponent {
         throw new Error('User is null');
       }
     } catch (error) {
-      console.log('Error signing up:', error);
       this.signupError = (error as any).message;
     }
   }

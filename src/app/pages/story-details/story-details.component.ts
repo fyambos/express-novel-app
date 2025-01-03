@@ -89,7 +89,6 @@ export class StoryDetailsComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Story Edited:', result);
       }
     });
   }
@@ -107,7 +106,6 @@ export class StoryDetailsComponent implements OnInit {
     });
   
     dialogRef.afterClosed().subscribe(result => {
-      console.log('Dialog closed', result);
     });
   }
 
@@ -132,7 +130,6 @@ export class StoryDetailsComponent implements OnInit {
             return await this.userService.fetchUser(userId);
           })
         );
-        console.log(userProfiles)
         this.dialog.open(UsersModalComponent, {
           width: '400px',
           data: {

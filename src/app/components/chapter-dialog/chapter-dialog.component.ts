@@ -34,7 +34,6 @@ export class ChapterDialogComponent implements OnInit {
 
     if (this.data?.storyId) {
       this.storyId = this.data.storyId;
-      console.log('Story ID:', this.storyId);
     }
 
     if (this.data?._id) {
