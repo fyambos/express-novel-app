@@ -81,9 +81,8 @@
       <p class="text-gray-700 dark:text-gray-300" [innerHTML]="safeContent"></p>
     </div>
   
-    <div class="flex items-center"
-    [ngClass]="{'justify-end': isAuthor, 'justify-between': !isAuthor}">
-      <div *ngIf="!isAuthor;">
+    <div class="flex items-center justify-between">
+      <div>
         <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-4" (click)="likeChapter(chapter._id, currentUserUid)">
           {{ isLiked ? 'Liked' : 'Like' }}
         </button>
