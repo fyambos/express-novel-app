@@ -7,6 +7,7 @@ import { EditProfileDialogComponent } from 'src/app/components/edit-profile-dial
 import { BookmarkService } from 'src/app/services/bookmark.service';
 import { StoryService } from 'src/app/services/story.service';
 import { ChapterService } from 'src/app/services/chapter.service';
+import { UsersModalComponent } from 'src/app/components/users-modal/users-modal.component';
 
 @Component({
   selector: 'app-profile',
@@ -159,6 +160,26 @@ export class ProfileComponent implements OnInit {
       this.isFollowing = await this.userService.checkIfFollowed(userId, this.currentUserUid);
     } catch (error) {
       console.error('Error checking follow status:', error);
+    }
+  }
+
+  async openUserModal(userIds: string[], title: string): Promise<void> {
+    try {
+      const userIdsSet = Array.from(new Set(userIds));
+      const userProfiles = await Promise.all(
+        userIdsSet.map(async (userId) => {
+          return await this.userService.fetchUser(userId);
+        })
+      );
+      this.dialog.open(UsersModalComponent, {
+        width: '400px',
+        data: {
+          users: userProfiles,
+          title: title,
+        },
+      });
+    } catch (error) {
+      console.error('Error fetching user profiles:', error);
     }
   }
 

@@ -12,8 +12,8 @@
     <p class="text-gray-500 mb-4">{{ user.role }}</p>
     
     <div class="flex space-x-4">
-      <p class=""> {{ user.followings?.length || 0 }} Following{{ user.followings?.length > 1 ? 's' : '' }}</p>
-      <p class=""> {{ user.followers?.length || 0 }} Follower{{ user.followers?.length > 1 ? 's' : '' }}</p>
+      <p class="cursor-pointer" (click)="openUserModal(user.followings, 'Users '+user.username+' follows')"> {{ user.followings?.length || 0 }} Following{{ user.followings?.length > 1 ? 's' : '' }}</p>
+      <p class="cursor-pointer" (click)="openUserModal(user.followers, 'Users who follow ' + user.username)"> {{ user.followers?.length || 0 }} Follower{{ user.followers?.length > 1 ? 's' : '' }}</p>
     </div>
     <div class="flex space-x-4 mb-4">
       <button
