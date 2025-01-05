@@ -38,15 +38,10 @@ This project is a web application for creating and sharing stories. Users can cr
 * Node.js and npm
 * Firebase account (for authentication)
 * Firebase project with Email/Password Authentication
-    1. Go to the Firebase Console and navigate to your project.
-    2. Select the Auth panel and then click the Sign In Method tab.
-    3. Click Email/Password and turn on the Enable switch, then click Save.
-    4. Go to your project's settings.
-    5. Select create a web app.
-    6. Paste the firebase configuration into novel-app/firebase.ts
-    7. Replace getAnalytics and analytics by getAuth and auth.
 * MongoDB
-    1. Install [MongoDB & MongoDBCompass](https://www.mongodb.com/try/download/community).
+    * Install [MongoDB & MongoDBCompass](https://www.mongodb.com/try/download/community).
+    * Click on Add New Connexion
+    * Save & Connect
 
 ### 🚀 Installation
 
@@ -59,6 +54,27 @@ This project is a web application for creating and sharing stories. Users can cr
     cd novel-app
     npm install
 ```
+3. **Firebase project:**
+    * Go to the Firebase Console and navigate to your project.
+    * Select the Auth panel and then click the Sign In Method tab.
+    * Click Email/Password and turn on the Enable switch, then click Save.
+    * Go to your project's settings.
+    * Select create a web app.
+    * Create a file novel-app/environments/env.dev.ts and paste the app configuration:
+        ```typescript
+        export const environment = {
+        production: false,
+        firebase: {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID",
+            measurementId: "YOUR_MEASUREMENT_ID"
+        },
+        };
+        ```
 3. **Running the front-end application**
 ```bash
     ng serve
